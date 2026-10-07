@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>My Closet</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--bg-primary:#0d1a2f;--bg-secondary:#17364f;--accent-color:#09d8c7;--accent-secondary:#bd0927;--text-main:#f3f4f6;--border-color:rgba(9,216,199,.2)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg-primary);color:var(--text-main);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-tap-highlight-color:transparent;user-select:none}.theme-card-bg{background:var(--bg-secondary);border:1px solid var(--border-color)}.theme-accent-bg{background:var(--accent-color)}.theme-accent-text{color:var(--accent-color)}.theme-accent-border{border-color:var(--accent-color)}.no-scrollbar::-webkit-scrollbar{display:none}.drag-item{touch-action:none;cursor:grab}.drag-item.dragging{opacity:.45;transform:scale(.98);outline:2px dashed var(--accent-color)}.drag-handle{touch-action:none;cursor:grab}.no-scrollbar{scrollbar-width:none}.active-tab{color:var(--accent-color)!important;transform:scale(1.06)}.selected{border:3px solid #10b981!important;box-shadow:0 0 15px rgba(16,185,129,.35)}button:disabled{pointer-events:none}.modal-scroll{max-height:85vh;overflow:auto}.hscroll{display:flex;gap:10px;overflow-x:auto;padding:2px 2px 8px;scroll-snap-type:x proximity}.hscroll::-webkit-scrollbar{display:none}.hscroll>*{flex:0 0 118px;scroll-snap-align:start}.closet-scroller{display:grid;grid-auto-flow:column;grid-template-rows:repeat(2,minmax(0,1fr));grid-auto-columns:148px;gap:10px;overflow-x:auto;overflow-y:hidden;padding:2px 2px 8px;scroll-snap-type:x proximity}.closet-scroller::-webkit-scrollbar{display:none}.closet-scroller>.drag-item{min-width:148px;scroll-snap-align:start}.closet-scroller>.empty-cat{grid-row:1 / span 2;min-width:100%}.outfit-preview{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.outfit-card{border-radius:16px;overflow:hidden}.outfit-image{height:190px;background:rgba(0,0,0,.12)}.outfit-image img{width:100%;height:100%;object-fit:cover}.color-dot{transition:transform .15s,box-shadow .15s}.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);z-index:100;max-width:90%;padding:10px 16px;border-radius:999px;background:#111827;color:#fff;font-size:12px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.closet-row{display:grid;grid-template-rows:repeat(2,minmax(0,1fr));grid-auto-flow:column;grid-auto-columns:145px;gap:10px;overflow-x:auto;overflow-y:hidden;padding:2px 2px 10px;-webkit-overflow-scrolling:touch}.choice-row{display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;padding:2px 2px 8px;-webkit-overflow-scrolling:touch}.choice-card{flex:0 0 128px}.closet-row::-webkit-scrollbar,.choice-row::-webkit-scrollbar{height:4px}
+
+/* Completed outfit screen */
+.outfit-preview-screen{
+  min-height:calc(100vh - 180px);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:24px;
+  padding:12px 4px 28px;
+}
+.outfit-preview-items{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+  align-items:start;
+}
+.outfit-preview-item{
+  min-width:0;
+  text-align:center;
+}
+.outfit-preview-photo{
+  width:100%;
+  aspect-ratio:1/1.12;
+  border-radius:16px;
+  overflow:hidden;
+  background:var(--card-bg);
+  border:1px solid color-mix(in srgb,var(--accent-color) 22%,transparent);
+}
+.outfit-preview-photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.outfit-preview-name{
+  margin-top:8px;
+  font-weight:700;
+  font-size:14px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.outfit-preview-color{
+  margin-top:3px;
+  font-size:12px;
+  opacity:.7;
+}
+.outfit-preview-actions{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.outfit-preview-actions .btn{
+  width:100%;
+  min-height:50px;
+}
+.outfit-wear-btn{
+  font-size:16px;
+  font-weight:800;
+}
+@media(min-width:600px){
+  .outfit-preview-items{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
+}
+
+
+.home-set-card{margin-bottom:14px}
+.home-set-empty{padding:18px 8px;text-align:center;opacity:.58;font-size:13px}
+.home-set-items{display:flex;gap:10px;overflow-x:auto;padding:2px 2px 8px}
+.home-set-item{flex:0 0 105px;text-align:center;font-size:12px;font-weight:700}
+.home-set-item img{width:105px;height:120px;object-fit:cover;border-radius:14px;display:block;margin-bottom:6px}
+
+
+.cute-home-set{overflow:hidden}
+.cute-home-set-items{display:flex;gap:14px;overflow-x:auto;padding:4px 2px 12px;-webkit-overflow-scrolling:touch}
+.cute-home-set-item{flex:0 0 145px;text-align:center}
+.cute-home-set-photo{width:145px;height:175px;border-radius:18px;overflow:hidden;background:var(--card-bg);border:2px solid color-mix(in srgb,var(--accent-color) 28%,transparent);box-shadow:0 5px 16px rgba(0,0,0,.12)}
+.cute-home-set-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.cute-home-set-name{margin-top:8px;font-size:13px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cute-home-set-color{margin-top:3px;font-size:11px;opacity:.62}
+
+.day-selection-screen{padding-bottom:24px}.selection-weather-advice{line-height:1.65}.day-selection-screen .choice-card{flex:0 0 128px}</style>
+<script>
+// 保存済みテーマを「最初の描画前」に適用。読み込み中だけデフォルト色になる問題を防止。
+(()=>{const m={'night-secret':['#0D1A2F','#17364F','#09D8C7','#BD0927','#F3F4F6'],'backlight':['#E1D1CA','#AED8D6','#16939E','#FB958C','#50282C'],'glitter':['#201D39','#514575','#E58500','#FFC451','#F3F4F6'],'twilight':['#786181','#B05E76','#FB9C6C','#E97F83','#F3F4F6'],'fresh-sky':['#042C8F','#4891E7','#E8F957','#86D0FD','#FFFFFF'],'pastel-lagoon':['#E7F4EE','#F8FCF9','#59B7A6','#E77B9A','#29413D'],'crystal-shower':['#E8F1F4','#CBDDE3','#007FAF','#7189C4','#183746'],'sunset-citrus':['#0F3B59','#7D929E','#DBA12C','#3E251E','#DBD4CC']};const t=m[localStorage.getItem('my_closet_theme')]||m['sunset-citrus'];const r=document.documentElement;['--bg-primary','--bg-secondary','--accent-color','--accent-secondary','--text-main'].forEach((k,i)=>r.style.setProperty(k,t[i]));r.style.setProperty('--border-color',t[2]+'33')})();
+</script>
+
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#0D1A2F">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="My Closet">
+</head>
+<body class="min-h-screen pb-24 pt-16">
+<header class="fixed top-0 left-0 right-0 z-40 px-4 py-3 flex justify-between items-center backdrop-blur-md border-b border-white/10" style="background:var(--bg-primary)">
+<div class="flex items-center gap-2"><i class="fa-solid fa-shirt text-xl theme-accent-text"></i><h1 class="font-bold text-lg">My Closet</h1></div>
+<div class="flex gap-2"><button onclick="openFavorites()" class="w-9 h-9 rounded-full theme-card-bg text-rose-400"><i class="fa-solid fa-heart"></i></button><button onclick="openTheme()" class="px-3 py-1.5 rounded-full theme-card-bg text-xs"><i class="fa-solid fa-palette theme-accent-text mr-1"></i>テーマ</button></div>
+</header>
+<main id="app" class="px-4 max-w-md mx-auto"><div class="text-center py-10 opacity-60"><i class="fa-solid fa-spinner fa-spin text-2xl"></i><div class="mt-2 text-xs">読み込み中...</div></div></main>
+<nav class="fixed bottom-0 left-0 right-0 z-40 border-t border-white/10 backdrop-blur-lg py-2" style="background:var(--bg-primary)"><div class="max-w-md mx-auto grid grid-cols-5 text-center">
+<button id="nav-today" onclick="switchTab('today')" class="py-1 text-gray-400"><i class="fa-solid fa-cloud-sun block mb-1"></i><span class="text-[10px]">コーデ</span></button>
+<button id="nav-closet" onclick="switchTab('closet')" class="py-1 text-gray-400"><i class="fa-solid fa-door-closed block mb-1"></i><span class="text-[10px]">服一覧</span></button>
+<button id="nav-laundry" onclick="switchTab('laundry')" class="py-1 text-gray-400 relative"><i class="fa-solid fa-soap block mb-1"></i><span class="text-[10px]">洗濯</span><b id="badge" class="hidden absolute top-0 right-3 bg-red-500 text-white rounded-full text-[9px] w-4 h-4">0</b></button>
+<button id="nav-travel" onclick="switchTab('travel')" class="py-1 text-gray-400"><i class="fa-solid fa-suitcase block mb-1"></i><span class="text-[10px]">旅行</span></button>
+<button id="nav-history" onclick="switchTab('history')" class="py-1 text-gray-400"><i class="fa-solid fa-calendar-days block mb-1"></i><span class="text-[10px]">履歴</span></button>
+</div></nav>
+<div id="overlay" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-sm p-4 items-center justify-center"><div id="modal" class="theme-card-bg rounded-2xl w-full max-w-sm p-5 modal-scroll"></div></div>
+<script>
+const CATS=[
+{id:'tops',name:'トップス',icon:'fa-shirt',laundry:true},{id:'bottoms',name:'ボトムス',icon:'fa-user-nurse',laundry:true},{id:'dress',name:'ワンピース',icon:'fa-vest',laundry:true},{id:'outer',name:'ジャケット・アウター',icon:'fa-user-tie',laundry:false},{id:'socks',name:'靴下',icon:'fa-socks',laundry:true},{id:'shoes',name:'靴',icon:'fa-shoe-prints',laundry:false},{id:'acc',name:'アクセサリー',icon:'fa-gem',laundry:false}
+];
+const THEMES=[
+{id:'night-secret',name:'ホログラム・シリウス',p:'#0D1A2F',s:'#17364F',a:'#09D8C7',x:'#BD0927',t:'#F3F4F6'},
+{id:'backlight',name:'ティファニーで朝食を',p:'#E1D1CA',s:'#AED8D6',a:'#16939E',x:'#FB958C',t:'#50282C'},
+{id:'glitter',name:'ランタンと魔法',p:'#201D39',s:'#514575',a:'#E58500',x:'#FFC451',t:'#F3F4F6'},
+{id:'twilight',name:'薄明の空彩',p:'#786181',s:'#B05E76',a:'#FB9C6C',x:'#E97F83',t:'#F3F4F6'},
+{id:'fresh-sky',name:'閃光都市',p:'#042C8F',s:'#4891E7',a:'#E8F957',x:'#86D0FD',t:'#FFFFFF'},
+{id:'pastel-lagoon',name:'パステルラグーン',p:'#E7F4EE',s:'#F8FCF9',a:'#59B7A6',x:'#E77B9A',t:'#29413D'},
+{id:'crystal-shower',name:'クリスタルシャワー',p:'#E8F1F4',s:'#CBDDE3',a:'#007FAF',x:'#7189C4',t:'#183746'},
+{id:'sunset-citrus',name:'サンセットシトラス',p:'#0F3B59',s:'#7D929E',a:'#DBA12C',x:'#3E251E',t:'#DBD4CC'}];
+let db=null,dbReady=null,currentTab='today',dayOffset=0,preview=false,themeId=localStorage.getItem('my_closet_theme')||'sunset-citrus';
+const emptySel=()=>Object.fromEntries(CATS.map(c=>[c.id,[]]));
+function selArray(v){return Array.isArray(v)?v:(v?[v]:[])}
+function normalizeSelection(obj={}){return Object.fromEntries(CATS.map(c=>[c.id,selArray(obj[c.id])]))}
+const selections={0:emptySel(),1:emptySel(),2:emptySel()};
+const CLOTHING_COLORS=[
+ {id:'white',name:'白',hex:'#F3F3EE'},{id:'black',name:'黒',hex:'#222222'},{id:'gray',name:'グレー',hex:'#8C9196'},
+ {id:'beige',name:'ベージュ',hex:'#CDBB9B'},{id:'brown',name:'ブラウン',hex:'#795548'},{id:'navy',name:'ネイビー',hex:'#263B63'},
+ {id:'blue',name:'ブルー',hex:'#4A90E2'},{id:'green',name:'グリーン',hex:'#5E9B72'},{id:'yellow',name:'イエロー',hex:'#E5C94A'},
+ {id:'orange',name:'オレンジ',hex:'#E58A45'},{id:'red',name:'赤',hex:'#C95757'},{id:'pink',name:'ピンク',hex:'#D98CA0'},
+ {id:'purple',name:'パープル',hex:'#8A6FAE'},{id:'other',name:'その他',hex:'#B9A7A0'}
+];
+let closetColorFilter='all';
+const uid=()=>crypto?.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random().toString(16).slice(2);
+const esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+function currentSel(){return selections[dayOffset]}
+function dateOffset(n=0){const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()+n);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+let storageMode='indexedDB';
+const LS_PREFIX='my_closet_';
+function lsKey(store){return LS_PREFIX+store}
+function lsGet(store){try{return JSON.parse(localStorage.getItem(lsKey(store))||'[]')}catch(e){console.warn('localStorage read failed',e);return []}}
+function lsPut(store,item){const a=lsGet(store),i=a.findIndex(x=>x.id===item.id);if(i>=0)a[i]=item;else a.push(item);localStorage.setItem(lsKey(store),JSON.stringify(a))}
+function lsDel(store,id){const a=lsGet(store).filter(x=>x.id!==id);localStorage.setItem(lsKey(store),JSON.stringify(a))}
+function initDB(){return new Promise(resolve=>{try{if(!window.indexedDB)throw new Error('IndexedDB unavailable');const r=indexedDB.open('MyClosetDB_v5',1);r.onupgradeneeded=e=>{const d=e.target.result;['clothes','saved_outfits','history','travels'].forEach(s=>{if(!d.objectStoreNames.contains(s))d.createObjectStore(s,{keyPath:'id'})})};r.onsuccess=e=>{db=e.target.result;db.onversionchange=()=>db.close();storageMode='indexedDB';resolve()};r.onerror=()=>{console.warn('IndexedDB unavailable, using localStorage',r.error);storageMode='localStorage';resolve()};r.onblocked=()=>{console.warn('IndexedDB blocked, using localStorage');storageMode='localStorage';resolve()}}catch(e){console.warn('IndexedDB unavailable, using localStorage',e);storageMode='localStorage';resolve()}})}
+async function ready(){await dbReady;return db}
+async function all(store){await ready();if(storageMode==='localStorage')return lsGet(store);return new Promise((resolve,reject)=>{try{const r=db.transaction(store,'readonly').objectStore(store).getAll();r.onsuccess=()=>resolve(r.result||[]);r.onerror=()=>reject(r.error||new Error('読み込み失敗'))}catch(e){reject(e)}})}
+async function put(store,item){await ready();if(storageMode==='localStorage'){lsPut(store,item);return}return new Promise((resolve,reject)=>{try{const tx=db.transaction(store,'readwrite');tx.objectStore(store).put(item);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||new Error('保存失敗'));tx.onabort=()=>reject(tx.error||new Error('保存中断'))}catch(e){reject(e)}})}
+async function del(store,id){await ready();if(storageMode==='localStorage'){lsDel(store,id);return}return new Promise((resolve,reject)=>{try{const tx=db.transaction(store,'readwrite');tx.objectStore(store).delete(id);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error||new Error('削除失敗'))}catch(e){reject(e)}})}
+function showModal(html){
+const overlay=document.getElementById('overlay'),modal=document.getElementById('modal');
+if(!overlay||!modal)return; modal.innerHTML=html; overlay.classList.remove('hidden'); overlay.classList.add('flex');
+}
+let lastKnownAppDate=dateOffset(0);
+setInterval(async()=>{
+  const today=dateOffset(0);
+  if(today===lastKnownAppDate)return;
+  lastKnownAppDate=today;
+  try{
+    await render();
+  }catch(e){
+    console.error('date rollover failed',e);
+  }
+},60000);
+
+function closeModal(){
+const overlay=document.getElementById('overlay'),modal=document.getElementById('modal');
+if(!overlay||!modal)return; overlay.classList.add('hidden'); overlay.classList.remove('flex'); modal.innerHTML='';
+}
+function toast(msg){const x=document.createElement('div');x.className='toast';x.textContent=msg;document.body.appendChild(x);setTimeout(()=>x.remove(),2200)}
+function applyTheme(id){const t=THEMES.find(x=>x.id===id)||THEMES[0];themeId=t.id;localStorage.setItem('my_closet_theme',t.id);const r=document.documentElement;r.style.setProperty('--bg-primary',t.p);r.style.setProperty('--bg-secondary',t.s);r.style.setProperty('--accent-color',t.a);r.style.setProperty('--accent-secondary',t.x);r.style.setProperty('--text-main',t.t);r.style.setProperty('--border-color',t.a+'33')}
+function openTheme(){
+const dot=t=>`<span class="w-6 h-6 rounded-full border border-black/15 shadow-sm" style="background:${t}"></span>`;
+showModal(`<h3 class="font-bold text-lg text-center mb-1">カラーテーマ</h3><p class="text-xs opacity-60 text-center mb-4">色の組み合わせをタップして変更</p><div class="space-y-2">${THEMES.map(t=>`<button onclick="applyTheme('${t.id}');openTheme()" class="w-full p-3 rounded-xl border flex items-center gap-3 ${themeId===t.id?'theme-accent-border border-2':'border-white/10'}" style="background:${t.s}"><div class="flex gap-1.5">${dot(t.p)}${dot(t.s)}${dot(t.a)}${dot(t.x)}${dot(t.t)}</div><span class="text-xs font-bold flex-1 text-left" style="color:${t.t}">${t.name}</span>${themeId===t.id?`<span class="font-bold" style="color:${t.a}">✓</span>`:''}</button>`).join('')}</div><button onclick="closeModal()" class="w-full mt-4 py-2.5 rounded-xl bg-white/10 text-xs font-bold">閉じる</button>`)
+}
+async function switchTab(tab){currentTab=tab;document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active-tab'));document.getElementById('nav-'+tab)?.classList.add('active-tab');await render()}
+async function render(){
+  await processHomeSetDayChange();try{if(currentTab==='today')await renderToday();if(currentTab==='closet')await renderCloset();if(currentTab==='laundry')await renderLaundry();if(currentTab==='travel')await renderTravel();if(currentTab==='history')await renderHistory();await badge()}catch(e){console.error(e);document.getElementById('app').innerHTML='<div class="py-10 text-center text-sm text-red-300">表示に失敗しました。再読み込みしてください。</div>'}}
+function catName(id){return CATS.find(c=>c.id===id)?.name||''}
+function itemLocked(i){return i.status==='laundry_wait'||i.status==='in_laundry'}
+function orderedClothes(clothes,catId){return clothes.filter(x=>x.category===catId).sort((a,b)=>(a.order??999999)-(b.order??999999))}
+async function renderToday(){
+  const clothes=await all('clothes');
+
+  if(preview){
+    document.getElementById('app').innerHTML=previewHtml(clothes);
+    return;
+  }
+
+  const days=['今日','明日','明後日'];
+  const label=dayLabel(dayOffset);
+  const hasSet=homeSetIds(dayOffset).length>0;
+
+  document.getElementById('app').innerHTML=`
+    <div id="weather" class="theme-card-bg rounded-2xl p-3 mb-4 text-xs text-center opacity-80">
+      天気を取得中...
+    </div>
+
+    <div class="flex bg-black/20 rounded-xl p-1 mb-4">
+      ${days.map((x,i)=>`
+        <button
+          type="button"
+          onclick="changeDay(${i})"
+          class="flex-1 py-2 rounded-lg text-xs font-bold ${i===dayOffset?'theme-accent-bg text-black':''}"
+        >
+          ${x}<br>
+          <span class="text-[9px] opacity-60">${dateOffset(i)}</span>
+        </button>
+      `).join('')}
+    </div>
+
+    ${renderHomeSetCard(clothes)}
+
+    <button
+      type="button"
+      onclick="openDayOutfitSelection()"
+      class="w-full py-4 rounded-2xl theme-accent-bg text-black font-extrabold text-base mb-4"
+    >
+      ${hasSet ? label+'のコーデをセットしなおす' : label+'のコーデをセットする'}
+    </button>
+  `;
+
+  fetchWeather();
+}
+
+async function changeDay(offset){
+  dayOffset=offset;
+  preview=false;
+  await renderToday();
+}
+
+async function openDayOutfitSelection(){
+  preview=false;
+  const clothes=await all('clothes');
+  const saved=getHomeSet(dayOffset);
+
+  // 既にセット済みなら、その日のセット内容を最初から選択状態にする。
+  selections[dayOffset]=saved ? normalizeSelection(saved.items) : emptySel();
+
+  await renderDaySelection(clothes);
+  fetchWeatherForSelection(dayOffset);
+}
+
+async function renderDaySelection(clothes){
+  const label=dayLabel(dayOffset);
+  const app=document.getElementById('app');
+  if(!app)return;
+
+  app.innerHTML=`
+    <div class="day-selection-screen">
+      <button type="button" onclick="renderToday()" class="text-sm opacity-75 mb-3">← 戻る</button>
+
+      <div class="theme-card-bg rounded-2xl p-4 mb-4">
+        <div class="font-extrabold mb-1">${label}の天気</div>
+        <div id="selection-weather-main" class="text-sm font-bold opacity-80">天気を取得中...</div>
+        <div id="selection-weather-advice" class="mt-3 text-sm leading-relaxed font-semibold">
+          服装を考えています…
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <div class="text-lg font-extrabold">${label}のコーデを選ぶ</div>
+        <div class="text-xs opacity-60 mt-1">好きな服を選んでセットしてください</div>
+      </div>
+
+      ${selectionHtml(clothes)}
+
+      <button
+        type="button"
+        onclick="confirmPreview()"
+        class="w-full py-4 mt-4 rounded-2xl theme-accent-bg text-black font-extrabold"
+        ${hasCurrentSelection()?'':'disabled style="opacity:.4"'}
+      >選択した服を表示</button>
+    </div>
+  `;
+}
+
+function dayLabel(offset){
+  return offset===0?'今日':offset===1?'明日':'明後日';
+}
+
+function hasCurrentSelection(){
+  return Object.values(currentSel()).some(v=>selArray(v).length);
+}
+
+function selectionHtml(clothes){
+  return `<div class="space-y-5">
+    ${CATS.map(cat=>{
+      const items=orderedClothes(clothes,cat.id).filter(x=>x.status==='closet');
+      const selected=selArray(currentSel()[cat.id]);
+      if(!items.length)return '';
+
+      return `<section>
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="font-bold text-sm">${cat.name}</h3>
+          <span class="text-[9px] opacity-50">← スワイプ →</span>
+        </div>
+        <div class="choice-row">
+          ${items.map(i=>`
+            <button
+              type="button"
+              onclick="toggleSelect('${cat.id}','${i.id}')"
+              class="choice-card ${selected.includes(i.id)?'selected':''}"
+            >
+              <div class="aspect-square rounded-xl overflow-hidden bg-black/20">
+                ${i.image
+                  ? `<img src="${i.image}" alt="${esc(i.name)}" class="w-full h-full object-cover">`
+                  : `<div class="h-full flex items-center justify-center text-xs opacity-30">No Image</div>`
+                }
+              </div>
+              <div class="text-[10px] font-bold truncate mt-1.5">${esc(i.name)}</div>
+            </button>
+          `).join('')}
+        </div>
+      </section>`;
+    }).join('')}
+  </div>`;
+}
+
+async function toggleSelect(cat,id){
+  const s=currentSel();
+  const a=selArray(s[cat]);
+
+  s[cat]=a.includes(id)
+    ? a.filter(x=>x!==id)
+    : [...a,id];
+
+  const clothes=await all('clothes');
+  await renderDaySelection(clothes);
+}
+
+function confirmPreview(){
+  if(!hasCurrentSelection()){
+    toast('服を1つ以上選択してください');
+    return;
+  }
+  preview=true;
+  renderToday();
+}
+
+function homeSetKey(offset){
+  return 'my_closet_home_set_' + offset;
+}
+
+function getHomeSet(offset=dayOffset){
+  try{
+    const raw=localStorage.getItem(homeSetKey(offset));
+    return raw?JSON.parse(raw):null;
+  }catch(e){
+    return null;
+  }
+}
+
+function saveHomeSet(offset,items){
+  localStorage.setItem(homeSetKey(offset),JSON.stringify({
+    offset:offset,
+    date:dateOffset(offset),
+    items:normalizeSelection(items),
+    setAt:Date.now()
+  }));
+}
+
+function clearHomeSet(offset){
+  localStorage.removeItem(homeSetKey(offset));
+}
+
+function homeSetIds(offset=dayOffset){
+  const set=getHomeSet(offset);
+  return set && set.date===dateOffset(offset)
+    ? Object.values(set.items||{}).flatMap(selArray)
+    : [];
+}
+
+async function processHomeSetDayChange(){
+  for(let offset=0;offset<=2;offset++){
+    const set=getHomeSet(offset);
+    if(!set || set.date===dateOffset(offset))continue;
+
+    const clothes=await all('clothes');
+    const ids=Object.values(set.items||{}).flatMap(selArray);
+
+    for(const id of ids){
+      const item=clothes.find(x=>x.id===id);
+      if(!item)continue;
+
+      const cat=CATS.find(c=>c.id===item.category);
+      if(cat && cat.laundry){
+        item.status='laundry_wait';
+        item.laundryStartTime=null;
+        await put('clothes',item);
+      }
+    }
+
+    clearHomeSet(offset);
+  }
+}
+
+function renderHomeSetCard(clothes){
+  const offset=dayOffset;
+  const label=dayLabel(offset);
+  const ids=homeSetIds(offset);
+  const items=ids.map(id=>clothes.find(x=>x.id===id)).filter(Boolean);
+
+  if(!items.length){
+    return `<section class="card home-set-card">
+      <div class="section-title">${label}のセットコーデ</div>
+      <div class="home-set-empty">まだセットされていません</div>
+    </section>`;
+  }
+
+  return `<section class="card home-set-card cute-home-set">
+    <div class="section-title">${label}のセットコーデ</div>
+    <div class="cute-home-set-items">
+      ${items.map(item=>`
+        <div class="cute-home-set-item">
+          <div class="cute-home-set-photo">
+            <img src="${item.image}" alt="">
+          </div>
+          <div class="cute-home-set-name">${esc(item.name||'')}</div>
+          ${item.color?`<div class="cute-home-set-color">${esc(item.color)}</div>`:''}
+        </div>
+      `).join('')}
+    </div>
+  </section>`;
+}
+
+function previewHtml(clothes){
+  const selection=normalizeSelection(currentSel());
+  const ids=Object.values(selection).flatMap(selArray);
+  const selected=ids.map(id=>clothes.find(x=>x.id===id)).filter(Boolean);
+
+  if(!selected.length){
+    preview=false;
+    return `<div class="empty">
+      <div class="empty-icon">👕</div>
+      <div>まだ服が選択されていません</div>
+    </div>`;
+  }
+
+  return `<div class="outfit-preview-screen">
+    <div class="outfit-preview-items">
+      ${selected.map(item=>`
+        <div class="outfit-preview-item">
+          <div class="outfit-preview-photo">
+            <img src="${item.image}" alt="">
+          </div>
+          <div class="outfit-preview-name">${esc(item.name||'')}</div>
+          ${item.color?`<div class="outfit-preview-color">${esc(item.color)}</div>`:''}
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="outfit-preview-actions">
+      <button
+        type="button"
+        class="btn primary outfit-wear-btn"
+        onclick="commitWear()"
+      >このコーデをセット</button>
+
+      <button
+        type="button"
+        class="btn secondary outfit-back-btn"
+        onclick="cancelPreview()"
+      >選び直す</button>
+    </div>
+  </div>`;
+}
+
+function cancelPreview(){
+  preview=false;
+  renderDaySelectionAfterPreview();
+}
+
+async function renderDaySelectionAfterPreview(){
+  const clothes=await all('clothes');
+  await renderDaySelection(clothes);
+  fetchWeatherForSelection(dayOffset);
+}
+
+async function commitWear(){
+  try{
+    const selection=normalizeSelection(currentSel());
+    const ids=Object.values(selection).flatMap(selArray);
+
+    if(!ids.length){
+      toast('服を1つ以上選択してください');
+      return;
+    }
+
+    saveHomeSet(dayOffset,selection);
+
+    await put('history',{
+      id:uid(),
+      date:dateOffset(dayOffset),
+      items:selection,
+      type:'set'
+    });
+
+    preview=false;
+    await render();
+    toast(dayLabel(dayOffset)+'のコーデをセットしました！');
+  }catch(err){
+    console.error(err);
+    toast('コーデのセットに失敗しました');
+  }
+}
+
+function registerModal(){showModal(`<h3 class="font-bold text-base text-center mb-4">服の新規登録</h3><div class="space-y-4"><div><label class="text-xs font-bold opacity-70">写真 <span class="text-red-400">*</span></label><div class="flex gap-2 mt-1"><button onclick="document.getElementById('camera').click()" class="flex-1 py-2.5 rounded-xl theme-accent-bg text-black text-xs font-bold">📷 カメラ</button><button onclick="document.getElementById('gallery').click()" class="flex-1 py-2.5 rounded-xl bg-white/10 text-xs font-bold">🖼 写真から</button></div><input id="camera" type="file" accept="image/*" capture="environment" class="hidden"><input id="gallery" type="file" accept="image/*" class="hidden"><div id="file-name" class="text-[10px] opacity-50 mt-2">写真が選択されていません</div></div><div><label class="text-xs font-bold opacity-70">カテゴリ</label><select id="reg-cat" class="w-full mt-1 p-2.5 rounded-xl bg-black/40 border border-white/10 text-xs">${CATS.map(c=>`<option value="${c.id}">${c.name}</option>`).join('')}</select></div><div><label class="text-xs font-bold opacity-70">名前（空欄で自動命名）</label><input id="reg-name" class="w-full mt-1 p-2.5 rounded-xl bg-black/40 border border-white/10 text-xs" placeholder="例：白シャツ"></div><div><label class="text-xs font-bold opacity-70">色</label><div id="reg-color" class="flex flex-wrap gap-2 mt-2">${CLOTHING_COLORS.map(c=>`<button type="button" title="${c.name}" aria-label="${c.name}" onclick="pickColor('reg-color','${c.id}')" class="color-dot w-8 h-8 rounded-full border-2 border-black/15" style="background:${c.hex}" data-color="${c.id}"></button>`).join('')}</div></div><div class="flex gap-2"><button onclick="closeModal()" class="flex-1 py-2.5 rounded-xl bg-white/10 text-xs font-bold">キャンセル</button><button onclick="registerClothes()" class="flex-1 py-2.5 rounded-xl theme-accent-bg text-black text-xs font-bold">登録する</button></div></div>`);['camera','gallery'].forEach(id=>document.getElementById(id).addEventListener('change',e=>{const f=e.target.files[0];if(f)document.getElementById('file-name').textContent=f.name}))}
+async function compress(file){const url=URL.createObjectURL(file);try{const img=await new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=url});const max=1200,scale=Math.min(1,max/Math.max(img.naturalWidth,img.naturalHeight)),c=document.createElement('canvas');c.width=Math.round(img.naturalWidth*scale);c.height=Math.round(img.naturalHeight*scale);c.getContext('2d').drawImage(img,0,0,c.width,c.height);const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',.82));if(!blob)throw new Error('compress');return await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(blob)})}finally{URL.revokeObjectURL(url)}}
+function pickColor(groupId,colorId){const dots=document.querySelectorAll('#'+groupId+' .color-dot');dots.forEach(b=>{const on=b.dataset.color===colorId;b.classList.toggle('selected-color',on);b.style.boxShadow=on?'0 0 0 3px var(--accent-color)':'';b.style.transform=on?'scale(1.08)':''})}
+
+async function registerClothes(){const files=[document.getElementById('camera')?.files[0],document.getElementById('gallery')?.files[0]].filter(Boolean),cat=document.getElementById('reg-cat').value;let name=document.getElementById('reg-name').value.trim();if(!files[0])return toast('服の写真を選択してください');try{const clothes=await all('clothes');if(!name){const n=clothes.filter(x=>x.category===cat).length+1;name=`${catName(cat)} ${String(n).padStart(2,'0')}`}const image=await compress(files[0]);const order=(await all('clothes')).filter(x=>x.category===cat).reduce((m,x)=>Math.max(m,x.order??-1),-1)+1;const color=document.querySelector('#reg-color .selected-color')?.dataset.color||'other';await put('clothes',{id:uid(),name,category:cat,color,image,status:'closet',order,wearCount:0,lastWorn:null,laundryStartTime:null});closeModal();await switchTab('closet');toast('服を登録しました！')}catch(e){console.error(e);toast('保存できませんでした。写真を変えてもう一度お試しください')}}
+async function renderCloset(){const clothes=await all('clothes');const recent=clothes.filter(x=>!x.lastWorn&&x.status==='closet').concat(clothes.filter(x=>x.lastWorn&&x.status==='closet').sort((a,b)=>String(a.lastWorn).localeCompare(String(b.lastWorn)))).slice(0,6);const grouped=CATS.map(cat=>({cat,items:orderedClothes(clothes,cat.id).filter(i=>closetColorFilter==='all'||(i.color||'other')===closetColorFilter)}));document.getElementById('app').innerHTML=`<div class="space-y-3 mb-5"><button onclick="registerModal()" class="w-full py-3 rounded-2xl theme-accent-bg text-black font-bold text-sm">＋ 新しい服を登録する</button><div class="theme-card-bg rounded-2xl p-3"><div class="flex items-center justify-between mb-2"><span class="text-xs font-bold">🎨 色で絞り込み</span><button onclick="closetColorFilter='all';renderCloset()" class="text-[10px] opacity-60">すべて</button></div><div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">${CLOTHING_COLORS.map(c=>`<button onclick="closetColorFilter='${c.id}';renderCloset()" title="${c.name}" aria-label="${c.name}" class="relative flex-shrink-0 w-8 h-8 rounded-full border-2 ${closetColorFilter===c.id?'theme-accent-border scale-110':'border-white/20 opacity-80'}" style="background:${c.hex}">${closetColorFilter===c.id?'<span class="absolute inset-0 flex items-center justify-center text-[11px] font-bold" style="color:'+(c.id==='white'?'#333':'#fff')+'">✓</span>':''}</button>`).join('')}</div></div></div><div class="theme-card-bg rounded-2xl p-4 mb-6"><div class="flex items-center justify-between mb-3"><h3 class="text-xs font-bold">🕰 最近着ていない服</h3><span class="text-[10px] opacity-50">クローゼット内</span></div>${recent.length?`<div class="flex gap-3 overflow-x-auto no-scrollbar">${recent.map(i=>`<div class="flex-shrink-0 w-24"><div class="h-28 rounded-xl overflow-hidden bg-black/20">${i.image?`<img src="${i.image}" class="w-full h-full object-cover">`:''}</div><div class="text-[10px] font-bold truncate mt-1">${esc(i.name)}</div><div class="text-[9px] opacity-50">${i.lastWorn?'最終 '+i.lastWorn:'未着用'}</div></div>`).join('')}</div>`:'<div class="text-xs opacity-40 text-center py-3">今はありません</div>'}</div><div class="text-[10px] opacity-50 mb-4 text-center">各ジャンルを横にスワイプできます。☷ 並替から長押しドラッグで順番を変更できます。</div>${grouped.map(({cat,items})=>`<section class="mb-7"><h3 class="text-xs font-bold opacity-70 mb-2"><i class="fa-solid ${cat.icon} theme-accent-text mr-1"></i>${cat.name}<span class="float-right">${items.length}着</span></h3><div class="closet-scroller no-scrollbar" data-drag-category="${cat.id}">${items.length?items.map(i=>`<div class="drag-item theme-card-bg rounded-xl overflow-hidden relative" data-drag-id="${i.id}"><div class="h-28 relative">${i.image?`<img src="${i.image}" class="w-full h-full object-cover pointer-events-none">`:'<div class="h-full flex items-center justify-center text-xs opacity-30">No Image</div>'}<span class="absolute top-2 left-2 bg-black/60 rounded-full px-2 py-1 text-[9px]">${i.status==='in_laundry'?'洗濯中':i.status==='laundry_wait'?'洗濯待ち':'クローゼット'}</span></div><div class="p-2.5"><div class="font-bold text-xs truncate">${esc(i.name)}</div><div class="text-[10px] opacity-50 mt-1">着用 ${i.wearCount||0}回${i.lastWorn?' ・ '+i.lastWorn:''}</div><div class="flex gap-1 mt-2"><span class="drag-handle bg-white/10 rounded py-1.5 px-2 text-[10px]" onpointerdown="startClothesDrag(event,'${i.id}','${cat.id}')">☷ 並替</span><button onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();editClothes('${i.id}')" class="flex-1 bg-white/10 rounded py-1.5 text-[10px]">編集</button><button onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();deleteClothes('${i.id}')" class="bg-red-500/20 text-red-300 rounded px-2"><i class="fa-solid fa-trash text-[10px]"></i></button></div></div></div>`).join(''):'<div class="empty-cat text-center text-xs opacity-30 py-8">該当する服がありません</div>'}</div></section>`).join('')}<div class="theme-card-bg rounded-2xl p-4 mt-8"><h3 class="text-xs font-bold mb-2">💾 データ管理</h3><p class="text-[10px] opacity-50 mb-3">服の写真・コーデ・履歴・旅行データをこの端末からバックアップできます。</p><div class="flex gap-2"><button onclick="exportBackup()" class="flex-1 py-2.5 bg-white/10 rounded-xl text-xs font-bold">書き出す</button><button onclick="importBackupPrompt()" class="flex-1 py-2.5 theme-accent-bg text-black rounded-xl text-xs font-bold">復元する</button></div></div>`}let dragState=null;
+function startClothesDrag(e,id,catId){if(e.pointerType==='mouse'&&e.button!==0)return;const el=document.querySelector(`[data-drag-id="${id}"]`);if(!el)return;e.stopPropagation();dragState={id,catId,el,startX:e.clientX,startY:e.clientY,moved:false};el.setPointerCapture?.(e.pointerId);el.classList.add('dragging');window.addEventListener('pointermove',onClothesDragMove);window.addEventListener('pointerup',endClothesDrag,{once:true})}
+function onClothesDragMove(e){if(!dragState)return;const dx=e.clientX-dragState.startX,dy=e.clientY-dragState.startY;if(Math.abs(dx)+Math.abs(dy)>8)dragState.moved=true;if(!dragState.moved)return;const target=document.elementFromPoint(e.clientX,e.clientY)?.closest('[data-drag-id]');if(!target||target===dragState.el)return;if(!target.closest('[data-drag-category="'+dragState.catId+'"]'))return;const parent=target.parentElement;const rect=target.getBoundingClientRect();const before=(e.clientX<rect.left+rect.width/2)||(e.clientY<rect.top+rect.height/2&&Math.abs(dy)>Math.abs(dx));if(before)parent.insertBefore(dragState.el,target);else parent.insertBefore(dragState.el,target.nextSibling)}
+async function endClothesDrag(){window.removeEventListener('pointermove',onClothesDragMove);if(!dragState)return;const state=dragState;state.el.classList.remove('dragging');dragState=null;if(!state.moved)return;const ids=[...state.el.parentElement.querySelectorAll('[data-drag-id]')].map(x=>x.dataset.dragId);const clothes=await all('clothes');let order=0;for(const id of ids){const item=clothes.find(x=>x.id===id);if(item){item.order=order++;await put('clothes',item)}}await render();toast('並び順を保存しました！')}
+async function moveClothes(id,direction){const clothes=await all('clothes'),i=clothes.find(x=>x.id===id);if(!i)return;const same=orderedClothes(clothes,i.category);let pos=same.findIndex(x=>x.id===id);const targetPos=direction==='up'?pos-1:pos+1;if(targetPos<0||targetPos>=same.length)return;[same[pos].order,same[targetPos].order]=[same[targetPos].order??targetPos,same[pos].order??pos];await put('clothes',same[pos]);await put('clothes',same[targetPos]);await render()}
+async function editClothes(id){const clothes=await all('clothes'),i=clothes.find(x=>x.id===id);if(!i)return;const currentColor=i.color||'other';showModal(`<h3 class="font-bold text-base text-center mb-4">服を編集</h3><div class="space-y-4"><div><label class="text-xs font-bold opacity-70">写真</label><div class="flex gap-2 mt-2"><button onclick="document.getElementById('edit-camera').click()" class="flex-1 py-2.5 rounded-xl theme-accent-bg text-black text-xs font-bold">📷 カメラ</button><button onclick="document.getElementById('edit-gallery').click()" class="flex-1 py-2.5 rounded-xl bg-white/10 text-xs font-bold">🖼 写真から</button></div><input id="edit-camera" type="file" accept="image/*" capture="environment" class="hidden"><input id="edit-gallery" type="file" accept="image/*" class="hidden"><div id="edit-file-name" class="text-[10px] opacity-50 mt-2">現在の写真を使用</div><div id="edit-preview" class="mt-2 h-40 rounded-xl overflow-hidden bg-black/20">${i.image?`<img src="${i.image}" class="w-full h-full object-contain">`:'<div class="h-full flex items-center justify-center text-xs opacity-40">No Image</div>'}</div></div><div><label class="text-xs font-bold opacity-70">名前</label><input id="edit-name" value="${esc(i.name)}" class="w-full mt-1 p-2.5 rounded-xl bg-black/40 border border-white/10 text-xs"></div><div><label class="text-xs font-bold opacity-70">ジャンル</label><select id="edit-cat" class="w-full mt-1 p-2.5 rounded-xl bg-black/40 border border-white/10 text-xs">${CATS.map(c=>`<option value="${c.id}" ${c.id===i.category?'selected':''}>${c.name}</option>`).join('')}</select></div><div><label class="text-xs font-bold opacity-70">色</label><div id="edit-color" class="flex flex-wrap gap-2 mt-2">${CLOTHING_COLORS.map(c=>`<button type="button" title="${c.name}" aria-label="${c.name}" onclick="pickColor('edit-color','${c.id}')" class="color-dot w-8 h-8 rounded-full border-2 border-black/15 ${c.id===currentColor?'selected-color':''}" style="background:${c.hex};${c.id===currentColor?'box-shadow:0 0 0 3px var(--accent-color);transform:scale(1.08);':''}" data-color="${c.id}"></button>`).join('')}</div></div><div class="flex gap-2"><button onclick="closeModal()" class="flex-1 py-2.5 rounded-xl bg-white/10 text-xs font-bold">キャンセル</button><button onclick="saveEditedClothes('${id}')" class="flex-1 py-2.5 rounded-xl theme-accent-bg text-black text-xs font-bold">保存する</button></div></div>`);const handleFile=e=>{const f=e.target.files?.[0];if(!f)return;document.getElementById('edit-file-name').textContent=f.name;const reader=new FileReader();reader.onload=()=>document.getElementById('edit-preview').innerHTML=`<img src="${reader.result}" class="w-full h-full object-contain">`;reader.readAsDataURL(f)};['edit-camera','edit-gallery'].forEach(x=>document.getElementById(x).addEventListener('change',handleFile))}
+async function saveEditedClothes(id){const clothes=await all('clothes'),i=clothes.find(x=>x.id===id);if(!i)return;const name=document.getElementById('edit-name').value.trim(),category=document.getElementById('edit-cat').value,color=document.querySelector('#edit-color .selected-color')?.dataset.color||'other';if(!name)return toast('名前を入力してください');const files=[document.getElementById('edit-camera')?.files[0],document.getElementById('edit-gallery')?.files[0]].filter(Boolean);try{i.name=name;i.color=color;if(category!==i.category){i.order=clothes.filter(x=>x.category===category&&x.id!==i.id).reduce((m,x)=>Math.max(m,x.order??-1),-1)+1}i.category=category;if(files[0])i.image=await compress(files[0]);const newCat=CATS.find(c=>c.id===category);if(!newCat?.laundry&&(i.status==='laundry_wait'||i.status==='in_laundry')){i.status='closet';i.laundryStartTime=null}await put('clothes',i);closeModal();await render();toast('服を更新しました！')}catch(e){console.error(e);toast('保存できませんでした。画像を変えてもう一度お試しください')}}
+async function deleteClothes(id){if(!confirm('この服を削除しますか？'))return;await del('clothes',id);await render()}
+function remaining(ms){return Math.max(0,Math.ceil(ms/3600000))}
+async function renderLaundry(){const clothes=await all('clothes'),wait=clothes.filter(i=>i.status==='laundry_wait'),washing=clothes.filter(i=>i.status==='in_laundry');document.getElementById('app').innerHTML=`<div class="space-y-5"><div class="theme-card-bg rounded-2xl p-4"><h3 class="font-bold text-sm mb-3">🫧 洗濯待ち（${wait.length}着）</h3>${wait.length?`<div class="space-y-2">${wait.map(i=>`<label class="flex items-center gap-3 p-2.5 rounded-xl bg-black/20"><input checked type="checkbox" value="${i.id}" class="washbox w-4 h-4"><span class="text-xs flex-1">${esc(i.name)}</span><span class="text-[10px] opacity-50">${catName(i.category)}</span></label>`).join('')}</div><button onclick="startWash()" class="w-full mt-3 py-2.5 rounded-xl theme-accent-bg text-black text-xs font-bold">選択したものを洗濯する（24時間）</button>`:'<div class="text-xs opacity-40 text-center py-4">洗濯待ちの服はありません</div>'}</div><div class="theme-card-bg rounded-2xl p-4"><h3 class="font-bold text-sm mb-3">🧺 洗濯中（${washing.length}着）</h3>${washing.length?`<div class="space-y-2">${washing.map(i=>`<div class="p-3 rounded-xl bg-black/20 flex items-center gap-2"><div class="flex-1"><div class="text-xs font-bold">${esc(i.name)}</div><div class="text-[10px] text-blue-300">残り約 ${remaining(86400000-(Date.now()-i.laundryStartTime))}時間</div></div><button onclick="returnWash('${i.id}')" class="bg-white/10 rounded-lg px-3 py-1.5 text-[10px]">クローゼットに戻す</button></div>`).join('')}</div>`:'<div class="text-xs opacity-40 text-center py-4">現在洗濯中の服はありません</div>'}</div></div>`}
+async function startWash(){const ids=[...document.querySelectorAll('.washbox:checked')].map(x=>x.value);if(!ids.length)return toast('洗濯する服を選択してください');const clothes=await all('clothes'),now=Date.now();for(const id of ids){const i=clothes.find(x=>x.id===id);if(i){i.status='in_laundry';i.laundryStartTime=now;await put('clothes',i)}}await render()}
+async function returnWash(id){const clothes=await all('clothes'),i=clothes.find(x=>x.id===id);if(i){i.status='closet';i.laundryStartTime=null;await put('clothes',i);await render()}}
+async function checkLaundry(){const clothes=await all('clothes'),now=Date.now();for(const i of clothes){if(i.status==='in_laundry'&&i.laundryStartTime&&now-i.laundryStartTime>=86400000){i.status='closet';i.laundryStartTime=null;await put('clothes',i)}}if(currentTab==='laundry')await render();else await badge()}
+async function badge(){const c=await all('clothes'),n=c.filter(i=>i.status==='laundry_wait').length,b=document.getElementById('badge');if(n){b.textContent=n;b.classList.remove('hidden')}else b.classList.add('hidden')}
+async function exportBackup(){try{const data={version:2,createdAt:new Date().toISOString(),theme:localStorage.getItem('my_closet_theme')||themeId,weatherPlace:localStorage.getItem('my_closet_weather_place')||'伊勢原市',stores:{}};for(const name of ['clothes','saved_outfits','history','travels'])data.stores[name]=await all(name);const blob=new Blob([JSON.stringify(data)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`my-closet-backup-${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(url);toast('バックアップを書き出しました！')}catch(e){console.error(e);toast('バックアップの書き出しに失敗しました')}}
+function importBackupPrompt(){const input=document.createElement('input');input.type='file';input.accept='.json,application/json';input.onchange=async e=>{const file=e.target.files?.[0];if(!file)return;try{const data=JSON.parse(await file.text());if(!data?.stores?.clothes||!data?.stores?.saved_outfits||!data?.stores?.history||!data?.stores?.travels)throw new Error('invalid');if(!confirm('現在のデータにバックアップを追加・復元します。よろしいですか？'))return;for(const name of ['clothes','saved_outfits','history','travels'])for(const item of data.stores[name])await put(name,item);if(data.theme)applyTheme(data.theme);if(data.weatherPlace)localStorage.setItem('my_closet_weather_place',data.weatherPlace);toast('バックアップを復元しました！');await render()}catch(err){console.error(err);toast('バックアップファイルを読み込めませんでした')}};input.click()}
+async function openFavorites(){const saved=await all('saved_outfits'),clothes=await all('clothes');showModal(`<h3 class="font-bold text-base text-center mb-4">❤️ 保存したコーデ</h3>${saved.length?saved.map(s=>{const ids=Object.values(s.items||{}).flatMap(selArray),missing=ids.filter(id=>!clothes.some(c=>c.id===id)),locked=clothes.filter(c=>ids.includes(c.id)&&itemLocked(c));return `<div class="p-3 bg-black/20 rounded-xl mb-3"><div class="flex justify-between"><b class="text-xs">${esc(s.name)}</b><button onclick="deleteSaved('${s.id}')" class="text-xs opacity-50">🗑</button></div><div class="text-[10px] opacity-60 mt-2">${ids.map(id=>esc(clothes.find(c=>c.id===id)?.name||'削除された服')).join(' / ')}</div>${missing.length||locked.length?'<div class="text-[10px] text-red-300 mt-2">現在このコーデは着用できません</div>':`<button onclick="applySaved('${s.id}')" class="w-full mt-2 py-2 theme-accent-bg text-black rounded-lg text-xs font-bold">このコーデをセットする</button>`}</div>`}).join(''):'<div class="text-xs opacity-40 text-center py-6">保存したコーデはありません</div>'}<button onclick="closeModal()" class="w-full py-2.5 bg-white/10 rounded-xl text-xs font-bold">閉じる</button>`)}
+async function applySaved(id){const saved=(await all('saved_outfits')).find(x=>x.id===id);if(!saved)return;selections[dayOffset]=normalizeSelection(saved.items||{});preview=false;closeModal();await switchTab('today')}
+async function deleteSaved(id){if(!confirm('このコーデを削除しますか？'))return;await del('saved_outfits',id);await openFavorites()}
+async function renderTravel(){const trips=await all('travels');document.getElementById('app').innerHTML=`<button onclick="createTravelModal()" class="w-full py-3 mb-5 rounded-2xl theme-accent-bg text-black font-bold text-sm">🧳 新規旅行を作成</button>${trips.length?trips.map(t=>`<div class="theme-card-bg rounded-2xl p-4 mb-4"><div class="flex justify-between"><div><b class="text-sm">${esc(t.title)}</b><div class="text-[10px] opacity-60 mt-1">${t.start} ～ ${t.end}</div></div><button onclick="deleteTrip('${t.id}')" class="opacity-50">🗑</button></div><div class="flex gap-2 mt-3"><button onclick="travelOutfits('${t.id}')" class="flex-1 py-2 bg-white/10 rounded-xl text-xs font-bold">コーデ作成</button><button onclick="packing('${t.id}')" class="flex-1 py-2 theme-accent-bg text-black rounded-xl text-xs font-bold">🎒 持ち物</button></div><button onclick="finishTrip('${t.id}')" class="w-full mt-2 py-2 bg-red-500/20 text-red-300 rounded-xl text-xs font-bold">旅行終了</button></div>`).join(''):'<div class="text-center text-xs opacity-40 py-8">登録された旅行はありません</div>'}`}
+function createTravelModal(){showModal(`<h3 class="font-bold text-base text-center mb-4">新規旅行</h3><div class="space-y-3"><input id="trip-title" class="w-full p-2.5 rounded-xl bg-black/40 border border-white/10 text-xs" placeholder="旅行名（空欄でもOK）"><div><label class="text-xs opacity-60">開始日</label><input id="trip-start" type="date" class="w-full p-2.5 rounded-xl bg-black/40 border border-white/10 text-xs"></div><div><label class="text-xs opacity-60">終了日</label><input id="trip-end" type="date" class="w-full p-2.5 rounded-xl bg-black/40 border border-white/10 text-xs"></div><div class="flex gap-2"><button onclick="closeModal()" class="flex-1 py-2.5 bg-white/10 rounded-xl text-xs">キャンセル</button><button onclick="createTrip()" class="flex-1 py-2.5 theme-accent-bg text-black rounded-xl text-xs font-bold">作成</button></div></div>`)}
+async function createTrip(){const title=document.getElementById('trip-title').value.trim(),start=document.getElementById('trip-start').value,end=document.getElementById('trip-end').value;if(!start||!end)return toast('開始日と終了日を入力してください');if(end<start)return toast('終了日は開始日以降にしてください');await put('travels',{id:uid(),title:title||'旅行プラン',start,end,daily:{},endPromptShown:false});closeModal();await render();toast('旅行を登録しました！')}
+function dates(start,end){const a=[];let d=new Date(start+'T12:00:00'),e=new Date(end+'T12:00:00');while(d<=e){a.push(d.toISOString().slice(0,10));d.setDate(d.getDate()+1)}return a}
+async function travelOutfits(id){const t=(await all('travels')).find(x=>x.id===id),clothes=await all('clothes');if(!t)return;showModal(`<h3 class="font-bold text-base text-center mb-4">${esc(t.title)} のコーデ</h3>${dates(t.start,t.end).map((d,n)=>`<div class="p-3 rounded-xl bg-black/20 mb-3"><div class="text-xs font-bold theme-accent-text">Day ${n+1}（${d}）</div><div class="text-[10px] opacity-60 mt-1">${(t.daily[d]||[]).map(x=>esc(clothes.find(c=>c.id===x)?.name||'')).join(' / ')||'未選択'}</div><button onclick="selectTravelDay('${id}','${d}')" class="w-full mt-2 py-2 bg-white/10 rounded-lg text-xs">＋ 服を選ぶ</button></div>`).join('')}<button onclick="closeModal()" class="w-full py-2.5 theme-accent-bg text-black rounded-xl text-xs font-bold">完了</button>`)}
+async function selectTravelDay(id,day){const t=(await all('travels')).find(x=>x.id===id),clothes=await all('clothes'),sel=t?.daily?.[day]||[];const groups=CATS.map(cat=>{const items=orderedClothes(clothes,cat.id);if(!items.length)return '';return `<div class="mb-4"><div class="text-[11px] font-bold opacity-70 mb-2">${cat.name}</div><div class="hscroll">${items.map(i=>`<label class="relative block rounded-xl bg-black/20 border border-white/10 overflow-hidden cursor-pointer"><input class="tripbox absolute top-2 right-2 z-10 w-5 h-5 accent-emerald-500" type="checkbox" value="${i.id}" ${sel.includes(i.id)?'checked':''}><div class="aspect-[4/5] bg-black/20">${i.image?`<img src="${i.image}" class="w-full h-full object-cover">`:'<div class="w-full h-full flex items-center justify-center opacity-30"><i class="fa-solid fa-shirt text-3xl"></i></div>'}</div><div class="p-2"><div class="text-[11px] font-bold truncate">${esc(i.name)}</div></div></label>`).join('')}</div></div>`}).join('');showModal(`<h3 class="font-bold text-sm text-center mb-1">${day} の服を選ぶ</h3><p class="text-[10px] opacity-50 text-center mb-4">横にスワイプして服を選べます</p><div class="max-h-[65vh] overflow-y-auto">${groups||'<div class="text-xs opacity-40 text-center py-8">登録された服がありません</div>'}</div><button onclick="saveTravelDay('${id}','${day}')" class="w-full mt-4 py-2.5 theme-accent-bg text-black rounded-xl text-xs font-bold">保存する</button>`)}
+async function saveTravelDay(id,day){const t=(await all('travels')).find(x=>x.id===id);if(!t)return;t.daily[day]=[...document.querySelectorAll('.tripbox:checked')].map(x=>x.value);await put('travels',t);await travelOutfits(id)}
+async function packing(id){const t=(await all('travels')).find(x=>x.id===id),clothes=await all('clothes'),ids=new Set(Object.values(t.daily||{}).flat()),items=clothes.filter(i=>ids.has(i.id));showModal(`<h3 class="font-bold text-base text-center mb-1">🎒 持ち物リスト</h3><p class="text-[10px] opacity-50 text-center mb-4">${esc(t.title)}</p>${items.length?items.map(i=>`<div class="p-2.5 bg-black/20 rounded-xl mb-2 flex gap-2"><span>✓</span><span class="text-xs flex-1">${esc(i.name)}</span><span class="text-[10px] opacity-50">${catName(i.category)}</span></div>`).join(''):'<div class="text-xs opacity-40 text-center py-6">コーデが設定されていません</div>'}<button onclick="closeModal()" class="w-full mt-3 py-2.5 bg-white/10 rounded-xl text-xs">閉じる</button>`)}
+async function finishTrip(id){const t=(await all('travels')).find(x=>x.id===id),clothes=await all('clothes');if(!t)return;const ids=new Set(Object.values(t.daily||{}).flat()),eligible=clothes.filter(i=>ids.has(i.id)&&CATS.find(c=>c.id===i.category)?.laundry);showModal(`<h3 class="font-bold text-base text-center">🧳 旅行終了！</h3><p class="text-xs opacity-60 text-center my-3">旅行中に着用した衣類を洗濯待ちにしますか？</p>${eligible.length?eligible.map(i=>`<label class="flex gap-3 p-2.5 bg-black/20 rounded-xl mb-2"><input checked class="finishbox" type="checkbox" value="${i.id}"><span class="text-xs">${esc(i.name)}</span></label>`).join(''):'<div class="text-xs opacity-40 text-center py-4">洗濯対象の衣類はありません</div>'}<button onclick="finishTripNow('${id}')" class="w-full mt-3 py-2.5 theme-accent-bg text-black rounded-xl text-xs font-bold">選択した服を洗濯待ちにする</button>`)}
+async function finishTripNow(id){const clothes=await all('clothes');for(const x of document.querySelectorAll('.finishbox:checked')){const i=clothes.find(c=>c.id===x.value);if(i){i.status='laundry_wait';await put('clothes',i)}}await del('travels',id);closeModal();await switchTab('laundry');toast('旅行後の洗濯を登録しました！')}
+async function deleteTrip(id){if(!confirm('この旅行プランを削除しますか？'))return;await del('travels',id);await render()}
+async function renderHistory(){const hist=await all('history'),clothes=await all('clothes'),saved=await all('saved_outfits');document.getElementById('app').innerHTML=`<h2 class="font-bold text-sm mb-4">📅 着用履歴</h2>${hist.length?hist.slice().reverse().map(h=>{const ids=Object.values(h.items||{}).flatMap(selArray),fav=saved.some(s=>s.historyId===h.id||JSON.stringify(normalizeSelection(s.items))===JSON.stringify(normalizeSelection(h.items)));return `<div class="theme-card-bg rounded-2xl p-4 mb-3 flex gap-2"><div class="flex-1"><div class="theme-accent-text text-xs font-bold">${h.date}</div><div class="flex flex-wrap gap-1 mt-2">${ids.map(id=>`<span class="text-[10px] px-2 py-1 bg-black/20 rounded">${esc(clothes.find(c=>c.id===id)?.name||'削除された服')}</span>`).join('')}</div></div><button onclick="toggleFav('${h.id}')" class="text-lg ${fav?'text-rose-500':'opacity-50'}">${fav?'♥':'♡'}</button></div>`}).join(''):'<div class="text-xs opacity-40 text-center py-8">まだ着用履歴がありません</div>'}`}
+async function toggleFav(id){const h=(await all('history')).find(x=>x.id===id),saved=await all('saved_outfits'),old=saved.find(s=>s.historyId===id);if(old)await del('saved_outfits',old.id);else if(h)await put('saved_outfits',{id:uid(),historyId:id,name:`${h.date} のコーデ`,items:h.items});await render()}
+async function setWeatherPlace(){const current=localStorage.getItem('my_closet_weather_place')||'伊勢原市';const name=prompt('天気を表示する場所を入力してください（例：伊勢原市、横浜市、東京都）',current);if(name===null)return;const place=name.trim();if(!place)return toast('場所を入力してください');localStorage.setItem('my_closet_weather_place',place);await fetchWeather()}
+
+async function fetchWeatherForSelection(offset=dayOffset){
+  const main=document.getElementById('selection-weather-main');
+  const advice=document.getElementById('selection-weather-advice');
+  if(!main)return;
+
+  const place=localStorage.getItem('my_closet_weather_place')||'伊勢原市';
+  main.textContent='🌤 天気を取得中…';
+  if(advice)advice.textContent='服装を考えています…';
+
+  try{
+    const geoRes=await fetch(
+      `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(place)}&count=1&language=ja&format=json`
+    );
+    if(!geoRes.ok)throw new Error('geocoding request failed');
+
+    const geo=await geoRes.json();
+    const hit=geo.results?.[0];
+    if(!hit)throw new Error('place not found');
+
+    const url=`https://api.open-meteo.com/v1/forecast?latitude=${hit.latitude}&longitude=${hit.longitude}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_mean,weathercode&timezone=Asia%2FTokyo`;
+    const res=await fetch(url);
+    if(!res.ok)throw new Error('weather request failed');
+
+    const data=await res.json();
+    const w=data.daily;
+    if(!w || w.temperature_2m_max?.[offset]==null || w.temperature_2m_min?.[offset]==null){
+      throw new Error('weather data unavailable');
+    }
+
+    const max=Math.round(w.temperature_2m_max[offset]);
+    const min=Math.round(w.temperature_2m_min[offset]);
+    const rain=w.precipitation_probability_mean?.[offset] ?? 0;
+    const code=w.weathercode?.[offset] ?? 0;
+
+    let weatherText='晴れ';
+    if(code>=95)weatherText='雷雨';
+    else if(code>=80)weatherText='にわか雨';
+    else if(code>=71)weatherText='雪';
+    else if(code>=51)weatherText='雨';
+    else if(code>=45)weatherText='霧';
+    else if(code>=1)weatherText='曇り';
+
+    main.innerHTML=`<span>🌤 ${weatherText}</span> ・ ${max}℃ / ${min}℃ ・ 降水 ${rain}%`;
+
+    if(advice){
+      const temp=(max+min)/2;
+      let message;
+      if(temp<8){
+        message='今日はかなり寒くなるため、しっかりしたアウターを1枚もっていくといいでしょう。';
+      }else if(temp<13){
+        message='今日は肌寒い日になるため、薄めの上着を1枚もっていくといいでしょう。';
+      }else if(temp<18){
+        message='少しひんやりする日なので、軽い羽織りがあると安心です。';
+      }else if(temp<23){
+        message='朝晩は少し冷えるかもしれません。薄手の羽織りがあると安心です。';
+      }else if(temp<28){
+        message='過ごしやすい気温です。薄手で動きやすい服装がおすすめです。';
+      }else if(temp<32){
+        message='暑くなりそうなので、風通しのよい薄手の服がおすすめです。';
+      }else{
+        message='かなり暑くなりそうなので、できるだけ涼しく通気性のよい服装がおすすめです。';
+      }
+      advice.textContent=message;
+    }
+  }catch(e){
+    console.error('Selection weather error:',e);
+    main.textContent='天気を取得できませんでした';
+    if(advice)advice.textContent='天気情報を確認できないため、気温に合わせて服装を選んでください。';
+  }
+}
+
+async function fetchWeather(){const el=document.getElementById('weather');if(!el)return;const place=localStorage.getItem('my_closet_weather_place')||'伊勢原市';el.innerHTML=`<div class="flex items-center justify-between gap-3"><span>🌤 天気を取得中…</span><button onclick="setWeatherPlace()" class="px-2 py-1 rounded-lg bg-white/10 text-[10px]">${esc(place)}を変更</button></div>`;try{const geo=await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(place)}&count=1&language=ja&format=json`).then(r=>r.json());const hit=geo.results?.[0];if(!hit)throw new Error('place not found');const u=`https://api.open-meteo.com/v1/forecast?latitude=${hit.latitude}&longitude=${hit.longitude}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_mean,weathercode&timezone=Asia%2FTokyo`;const d=await fetch(u).then(r=>r.json());const w=d.daily,code=w.weathercode[dayOffset];let text=code>=51?'雨':code>=1?'曇り':'晴れ';el.innerHTML=`<div class="flex items-center justify-between gap-3"><div><div>🌤 ${text} ・ 降水 ${w.precipitation_probability_mean[dayOffset]||0}%</div><div class="text-[9px] opacity-50 mt-1">${esc(place)}</div></div><div class="text-right"><b>${Math.round(w.temperature_2m_max[dayOffset])}℃ / ${Math.round(w.temperature_2m_min[dayOffset])}℃</b><button onclick="setWeatherPlace()" class="block ml-auto mt-1 text-[9px] opacity-60">場所を変更</button></div></div>`}catch(e){el.innerHTML=`<div class="flex items-center justify-between gap-3"><span>天気を取得できませんでした</span><button onclick="setWeatherPlace()" class="px-2 py-1 rounded-lg bg-white/10 text-[10px]">場所を設定</button></div>`}}
+
+dbReady=initDB();
+window.addEventListener('DOMContentLoaded',async()=>{applyTheme(themeId);try{await dbReady;await checkLaundry();await switchTab('today')}catch(e){console.error(e);document.getElementById('app').innerHTML='<div class="text-center py-10 text-red-300 text-sm">データの読み込みに失敗しました。</div>'}setInterval(checkLaundry,60000)});
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(err => {
+      console.warn('My Closet service worker registration failed:', err);
+    });
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "name": "My Closet",
+  "short_name": "My Closet",
+  "description": "自分の服でコーデを管理するクローゼットアプリ",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0D1A2F",
+  "theme_color": "#0D1A2F",
+  "lang": "ja",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "./icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
