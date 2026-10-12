@@ -105,7 +105,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="My Closet">
 </head>
-<body class="min-h-screen pb-24 pt-16"><div class="app-version">ver.1.12.1</div>
+<body class="min-h-screen pb-24 pt-16"><div class="app-version">ver.1.13</div>
 <header class="fixed top-0 left-0 right-0 z-40 px-4 py-3 flex justify-between items-center backdrop-blur-md border-b border-white/10" style="background:var(--bg-primary)">
 <div class="flex items-center gap-2"><i class="fa-solid fa-shirt text-xl theme-accent-text"></i><h1 class="font-bold text-lg">My Closet</h1></div>
 <div class="flex gap-2"><button onclick="openFavorites()" class="w-9 h-9 rounded-full theme-card-bg text-rose-400"><i class="fa-solid fa-heart"></i></button><button onclick="openTheme()" class="px-3 py-1.5 rounded-full theme-card-bg text-xs"><i class="fa-solid fa-palette theme-accent-text mr-1"></i>テーマ</button></div>
@@ -566,12 +566,23 @@ async function commitWear(){
 
     saveHomeSet(dayOffset,selection);
 
-    await put('history',{
-      id:uid(),
-      date:dateOffset(dayOffset),
-      items:selection,
-      type:'set'
-    });
+    // Only today's outfit is reflected in wear history. Future outfits are plans,
+    // not confirmed wear records. Re-setting today's outfit replaces today's entry.
+    if(dayOffset===0){
+      const today=dateOffset(0);
+      const todaysHistory=(await all('history')).filter(h=>h.date===today);
+      if(todaysHistory.length){
+        // Keep the existing ID so an already-favorited history outfit stays linked.
+        const keep=todaysHistory[todaysHistory.length-1];
+        await put('history',{...keep,date:today,items:selection,type:'set'});
+        // Older builds could create multiple entries for one day; collapse them.
+        for(const duplicate of todaysHistory){
+          if(duplicate.id!==keep.id) await del('history',duplicate.id);
+        }
+      }else{
+        await put('history',{id:uid(),date:today,items:selection,type:'set'});
+      }
+    }
 
     preview=false;
     await render();
