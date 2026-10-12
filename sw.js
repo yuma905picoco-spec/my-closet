@@ -1,4 +1,4 @@
-const CACHE_NAME = 'my-closet-v1.14-iridescent-theme';
+const CACHE_NAME = 'my-closet-v1.15-glass-depth';
 const APP_SHELL = [
   './',
   './index.html',
