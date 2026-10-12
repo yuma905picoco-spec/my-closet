@@ -1,4 +1,4 @@
-const CACHE_NAME = 'my-closet-v1.11-navigation-network-first';
+const CACHE_NAME = 'my-closet-v1.12.1-history-analysis';
 const APP_SHELL = [
   './',
   './index.html',
