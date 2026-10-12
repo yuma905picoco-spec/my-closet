@@ -1,4 +1,4 @@
-const CACHE_NAME = 'my-closet-v1.12.1-history-analysis';
+const CACHE_NAME = 'my-closet-v1.13-sw-refresh-2';
 const APP_SHELL = [
   './',
   './index.html',
@@ -8,22 +8,28 @@ const APP_SHELL = [
 ];
 
 self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(APP_SHELL))
-      .then(() => self.skipWaiting())
-  );
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    await Promise.all(APP_SHELL.map(async path => {
+      try {
+        const response = await fetch(path, { cache: 'no-cache' });
+        if (response.ok) await cache.put(path, response.clone());
+      } catch (_) {
+        // Keep installing even if one optional shell URL is temporarily unavailable.
+      }
+    }));
+    await self.skipWaiting();
+  })());
 });
 
 self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys()
-      .then(keys => Promise.all(
-        keys.filter(key => key.startsWith('my-closet-') && key !== CACHE_NAME)
-          .map(key => caches.delete(key))
-      ))
-      .then(() => self.clients.claim())
-  );
+  event.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys
+      .filter(key => key.startsWith('my-closet-') && key !== CACHE_NAME)
+      .map(key => caches.delete(key)));
+    await self.clients.claim();
+  })());
 });
 
 self.addEventListener('fetch', event => {
@@ -31,18 +37,16 @@ self.addEventListener('fetch', event => {
   if (request.method !== 'GET') return;
 
   const url = new URL(request.url);
-
-  // Let external services/CDNs use their normal browser caching behavior.
   if (url.origin !== self.location.origin) return;
 
-  // Always try the network first for page navigations so an online launch
-  // can receive the latest index.html instead of a previously cached version.
+  // Network-first for app navigation: obtain the latest GitHub Pages HTML when online.
   if (request.mode === 'navigate') {
     event.respondWith((async () => {
       const cache = await caches.open(CACHE_NAME);
       try {
-        const response = await fetch(request, { cache: 'no-cache' });
+        const response = await fetch(request, { cache: 'no-store' });
         if (response && response.ok) {
+          await cache.put('./index.html', response.clone());
           await cache.put(request, response.clone());
         }
         return response;
@@ -55,18 +59,13 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // For same-origin assets, use the current cache first and refresh it from
-  // the network when missing. This preserves offline access to the app shell.
+  // App assets are cache-first for offline support; new cache name refreshes the shell on release.
   event.respondWith((async () => {
     const cache = await caches.open(CACHE_NAME);
     const cached = await cache.match(request);
     if (cached) return cached;
-    try {
-      const response = await fetch(request);
-      if (response && response.ok) await cache.put(request, response.clone());
-      return response;
-    } catch (error) {
-      throw error;
-    }
+    const response = await fetch(request);
+    if (response && response.ok) await cache.put(request, response.clone());
+    return response;
   })());
 });
