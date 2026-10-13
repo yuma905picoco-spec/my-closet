@@ -1,4 +1,4 @@
-const CACHE_NAME = 'my-closet-v1.15-glass-depth';
+const CACHE_NAME = 'my-closet-v1.16-outfit-advisor';
 const APP_SHELL = [
   './',
   './index.html',
