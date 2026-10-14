@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+<link rel="stylesheet" href="https://unpkg.com/font-misaki/misaki_gothic.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>My Closet</title>
@@ -143,6 +144,7 @@ button:active{transform:scale(.975);filter:saturate(1.18) brightness(1.04)}
 .theme-palette-option{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:11px;border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.08)}
 .theme-palette-option.is-current{border-color:var(--accent-color);background:color-mix(in srgb,var(--accent-color) 13%,transparent)}
 #modal .theme-studio{padding-bottom:2px}
+#modal:has(.theme-studio){padding:0;overflow-x:hidden;max-height:88dvh;max-height:88vh}#modal .theme-studio{padding:0 16px 18px}#modal .theme-studio-toolbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 -16px 14px;padding:12px 16px;background:color-mix(in srgb,var(--bg-secondary) 92%,transparent);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid color-mix(in srgb,var(--accent-color) 18%,transparent)}#modal .theme-studio-actions{display:flex;gap:8px;flex-shrink:0}#modal .theme-studio-action{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;font-size:17px;box-shadow:0 3px 10px rgba(0,0,0,.12)}#modal .theme-studio-action-close{background:rgba(127,127,127,.15);color:var(--text-main)}#modal .theme-studio-action-confirm{background:var(--accent-color);color:white}#modal .theme-studio-intro{padding-bottom:2px}
 :root[data-texture="matte"] .theme-card-bg{backdrop-filter:blur(16px) saturate(108%)!important;-webkit-backdrop-filter:blur(16px) saturate(108%)!important;background:linear-gradient(145deg,rgba(255,255,255,.36),rgba(255,255,255,.17))!important;box-shadow:0 10px 26px rgba(0,0,0,.09),inset 0 1px 0 rgba(255,255,255,.45)!important}
 :root[data-texture="metallic"] .theme-card-bg{background:linear-gradient(115deg,rgba(255,255,255,.45),rgba(135,150,165,.17) 27%,rgba(255,255,255,.30) 48%,rgba(20,30,40,.13) 72%,rgba(255,255,255,.26))!important;border-color:rgba(255,255,255,.58)!important;box-shadow:0 15px 34px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.72),inset 0 -1px 0 rgba(30,40,50,.18)!important}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
@@ -164,6 +166,12 @@ button:active{transform:scale(.975);filter:saturate(1.18) brightness(1.04)}
 :root[data-design="pixel"] .theme-card-bg,:root[data-design="pixel-soft"] .theme-card-bg{border-radius:3px!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;box-shadow:4px 4px 0 color-mix(in srgb,var(--text-main) 28%,transparent)!important;border:2px solid var(--text-main)!important;background:var(--bg-secondary)!important}
 :root[data-design="pixel"] .theme-accent-bg,:root[data-design="pixel-soft"] .theme-accent-bg{border-radius:2px!important;box-shadow:3px 3px 0 color-mix(in srgb,var(--text-main) 35%,transparent)!important}
 :root[data-design="pixel"] button,:root[data-design="pixel-soft"] button{border-radius:2px!important}
+/* Header shortcuts remain full-size and readable on Pixel Revival, like Famicom. */
+.header-actions{display:flex!important;align-items:center!important;gap:8px!important;flex-shrink:0!important;position:relative!important;z-index:5!important}
+.header-actions .header-action-fav{width:38px!important;height:38px!important;min-width:38px!important;padding:0!important;display:grid!important;place-items:center!important;font-size:16px!important;line-height:1!important;white-space:nowrap!important;overflow:visible!important}
+.header-actions .header-action-theme{min-width:76px!important;min-height:38px!important;padding:0 10px!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:3px!important;font-size:11px!important;line-height:1.1!important;white-space:nowrap!important;overflow:visible!important}
+:root[data-design="pixel-soft"] .header-actions .header-action-fav,:root[data-design="pixel-soft"] .header-actions .header-action-theme{border:2px solid var(--text-main)!important;box-shadow:3px 3px 0 color-mix(in srgb,var(--text-main) 28%,transparent)!important;background:var(--bg-secondary)!important}
+
 :root[data-design="glass"] .theme-card-bg{backdrop-filter:blur(24px) saturate(145%)!important;-webkit-backdrop-filter:blur(24px) saturate(145%)!important}
 
 
@@ -260,10 +268,287 @@ button:active{transform:scale(.975);filter:saturate(1.18) brightness(1.04)}
 :root[data-family="famicom"] .theme-accent-bg,
 :root[data-family="pixelrevival"] .theme-accent-bg{background:var(--accent-color)!important}
 
+
+
+/* ver.1.21: world-theme redesigns */
+/* NOTHING — monochrome tiles, bold contrast, restrained deep-red accents */
+:root[data-family="nothing"] body{
+  background-image:none!important; letter-spacing:0!important;
+}
+:root[data-family="nothing"] .theme-card-bg,
+:root[data-family="nothing"] .bg-white,
+:root[data-family="nothing"] [class*="bg-white/"],
+:root[data-family="nothing"] .weather-card,
+:root[data-family="nothing"] .clothing-card{
+  border:0!important; outline:0!important; box-shadow:none!important;
+}
+:root[data-family="nothing"][data-finish="flat"] body{background:#F0F0ED!important;color:#171717!important}
+:root[data-family="nothing"] .theme-card-bg{background:#FFFFFF!important;color:#171717!important;border-radius:20px!important}
+:root[data-family="nothing"] .theme-accent-bg{background:#191A19!important;color:#FFFFFF!important;border-radius:999px!important;box-shadow:none!important}
+:root[data-family="nothing"] .theme-accent-text{color:#8E2026!important}
+:root[data-family="nothing"] .active-tab,
+:root[data-family="nothing"] .selected,
+:root[data-family="nothing"] [aria-current="date"]{background:#8E2026!important;color:#FFFFFF!important}
+:root[data-family="nothing"] .theme-preset-art:after{background:#8E2026!important}
+:root[data-family="nothing"] nav button{border-radius:999px!important}
+:root[data-family="nothing"] button{box-shadow:none!important}
+:root[data-family="nothing-black"] body{background:#101110!important;color:#F4F4EF!important}
+:root[data-family="nothing"] [class*="rounded-full"]{border-radius:999px}
+
+/* FAMICOM — deliberately coarse 8-bit look; readability is secondary */
+:root[data-family="famicom"] body,
+:root[data-family="famicom"] button,
+:root[data-family="famicom"] input,
+:root[data-family="famicom"] select,
+:root[data-family="famicom"] textarea{
+  font-family:"misaki_gothic", "DotGothic16", monospace!important;
+  letter-spacing:0!important; font-weight:400!important;
+  -webkit-font-smoothing:none!important; text-rendering:optimizeSpeed!important;
+}
+:root[data-family="famicom"] .theme-card-bg,
+:root[data-family="famicom"] .theme-family-section,
+:root[data-family="famicom"] .theme-preset-card,
+:root[data-family="famicom"] button,
+:root[data-family="famicom"] input,
+:root[data-family="famicom"] select{
+  border-radius:0!important; border:2px solid var(--text-main)!important;
+  box-shadow:3px 3px 0 rgba(0,0,0,.3)!important; backdrop-filter:none!important;
+}
+:root[data-family="famicom"] .theme-card-bg{background:var(--bg-secondary)!important}
+:root[data-family="famicom"] .theme-accent-bg{border-radius:0!important;box-shadow:3px 3px 0 rgba(0,0,0,.4)!important}
+:root[data-family="famicom"] .theme-preset-art:before{border-radius:0!important;box-shadow:3px 3px 0 rgba(0,0,0,.25)!important}
+:root[data-family="famicom"] .theme-preset-art:after{border-radius:0!important}
+:root[data-family="famicom"] nav{border-radius:0!important;border-top:3px solid var(--text-main)!important}
+:root[data-family="famicom"] .active-tab:before{content:"▶";margin-right:5px}
+
+/* PIXEL REVIVAL — 90s desktop UI, pastel windows and title bars */
+:root[data-family="pixelrevival"] body,
+:root[data-family="pixelrevival"] button,
+:root[data-family="pixelrevival"] input,
+:root[data-family="pixelrevival"] select,
+:root[data-family="pixelrevival"] textarea{
+  font-family:"DotGothic16",ui-monospace,monospace!important;letter-spacing:0!important;
+}
+:root[data-family="pixelrevival"] .theme-card-bg,
+:root[data-family="pixelrevival"] .theme-family-section,
+:root[data-family="pixelrevival"] .theme-preset-card{
+  border:2px solid #423650!important;border-radius:2px!important;
+  box-shadow:4px 4px 0 rgba(66,54,80,.22)!important;backdrop-filter:none!important;
+}
+:root[data-family="pixelrevival"] .theme-card-bg{background:#FFF8E8!important;position:relative;padding-top:22px!important}
+:root[data-family="pixelrevival"] .theme-card-bg:before{
+  content:"MY CLOSET  ▪  ▪  ▪";display:block;position:absolute;left:0;right:0;top:0;
+  min-height:18px;padding:2px 7px;background:#C8B7E6;color:#30263D;
+  font-size:10px;line-height:14px;border-bottom:2px solid #423650;
+}
+:root[data-family="pixelrevival"] .theme-family-section{background:#F7E3EA!important}
+:root[data-family="pixelrevival"] .theme-preset-card{background:#E2F2EA!important}
+:root[data-family="pixelrevival"] .theme-accent-bg{border-radius:2px!important;box-shadow:3px 3px 0 rgba(66,54,80,.22)!important}
+:root[data-family="pixelrevival"] nav{border-radius:0!important;border-top:2px solid #423650!important;background:#F8EEDC!important}
+:root[data-family="pixelrevival"] button{box-shadow:none}
+
+/* TERRACOTTA / CRAYON — remove glow; keep tactile shadows, no borders */
+:root[data-family="terracotta"] .theme-card-bg,
+:root[data-family="terracotta"] .theme-accent-bg{
+  border:0!important;outline:0!important;
+  box-shadow:0 10px 0 rgba(67,45,32,.13),0 16px 22px rgba(67,45,32,.12)!important;
+  filter:none!important;
+}
+:root[data-family="crayon"] .theme-card-bg,
+:root[data-family="crayon"] .theme-accent-bg{
+  border:0!important;outline:0!important;
+  box-shadow:0 4px 0 rgba(67,55,65,.08),0 7px 13px rgba(67,55,65,.07)!important;
+  filter:none!important;
+}
+:root[data-family="terracotta"] .theme-card-bg:before,
+:root[data-family="terracotta"] .theme-card-bg:after,
+:root[data-family="crayon"] .theme-card-bg:before,
+:root[data-family="crayon"] .theme-card-bg:after{filter:none!important;text-shadow:none!important}
+
+/* Theme selector controls remain pinned above the scrolling list */
+#modal .theme-studio-toolbar{position:sticky!important;top:0!important;z-index:60!important}
+
+
+/* ver.1.26: pixel header controls, favorites close, modal contrast */
+/* NOTHING BLACK: pure black canvas; former white surfaces become charcoal, dark surfaces become white. */
+:root[data-theme="nothing-black"] body{background:#000!important;background-image:none!important;color:#F7F7F7!important}
+:root[data-theme="nothing-black"] .theme-card-bg,
+:root[data-theme="nothing-black"] #modal,
+:root[data-theme="nothing-black"] .weather-card,
+:root[data-theme="nothing-black"] .clothing-card{background:#242424!important;color:#F7F7F7!important;border:0!important;box-shadow:none!important}
+:root[data-theme="nothing-black"] header,
+:root[data-theme="nothing-black"] nav{background:#000!important;color:#fff!important;border-color:#222!important}
+:root[data-theme="nothing-black"] .theme-accent-bg{background:#fff!important;color:#080808!important}
+:root[data-theme="nothing-black"] .active-tab,
+:root[data-theme="nothing-black"] .selected,
+:root[data-theme="nothing-black"] [aria-current="date"]{background:#fff!important;color:#000!important}
+:root[data-theme="nothing-black"] .theme-accent-text{color:#E53935!important}
+:root[data-theme="nothing-black"] .text-gray-400{color:#bdbdbd!important}
+/* Pixel Revival keeps the retro desktop-window styling without hiding app shortcuts. */
+/* soft, blurred drop shadows rather than hard-edged shadow bands */
+:root[data-family="terracotta"] .theme-card-bg,
+:root[data-family="terracotta"] .theme-accent-bg{
+ box-shadow:0 7px 12px rgba(67,45,32,.10),0 16px 28px rgba(67,45,32,.13)!important;
+}
+:root[data-family="crayon"] .theme-card-bg,
+:root[data-family="crayon"] .theme-accent-bg{
+ box-shadow:0 3px 8px rgba(67,55,65,.07),0 8px 18px rgba(67,55,65,.08)!important;
+}
+/* Pixel Dream: purple base with mint and coral accents */
+:root[data-theme="pixel-dream"]{--accent-color:#E66D8D!important;--accent-secondary:#76CFC1!important}
+:root[data-theme="pixel-dream"] .theme-accent-bg{background:#E66D8D!important;color:#fff!important}
+:root[data-theme="pixel-dream"] .theme-accent-text{color:#E66D8D!important}
+:root[data-theme="pixel-dream"] .active-tab{transform:none!important;box-shadow:none!important}
+:root[data-theme="pixel-dream"] .selected{background:#E66D8D!important;color:#fff!important}
+:root[data-theme="pixel-dream"] .theme-card-bg{box-shadow:4px 4px 0 rgba(65,54,80,.18)!important}
+:root[data-theme="pixel-dream"] .saved-outfits-modal,
+:root[data-theme="pixel-dream"] .saved-outfits-modal .saved-outfit-row,
+:root[data-theme="pixel-dream"] .saved-outfits-modal .saved-outfit-row *{color:#fff!important;opacity:1!important}
+:root[data-theme="pixel-dream"] .saved-outfits-modal .saved-outfit-row{background:rgba(30,25,48,.9)!important}
+/* Keep mint/green accent text on ivory surfaces; use white on dark modal surfaces. */
+:root[data-theme="pixel-dream"] #modal .theme-accent-text,:root[data-theme="pixel-dream"] #modal .saved-outfits-modal .saved-outfit-row *{color:#fff!important;opacity:1!important}
+:root[data-theme="pixel-dream"] #modal .saved-outfits-modal .saved-outfit-row{background:rgba(30,25,48,.94)!important}
+:root[data-theme="pixel-dream"] #modal .saved-outfits-toolbar{position:sticky;top:0;z-index:20;background:rgba(30,25,48,.96);padding:8px 0 12px;margin-bottom:12px}
+:root[data-theme="pixel-dream"] #modal .saved-outfits-close{width:38px;height:38px;display:grid;place-items:center;border-radius:3px!important;background:#E66D8D!important;color:#fff!important;border:2px solid #413650;box-shadow:3px 3px 0 rgba(65,54,80,.4)}
+
+
+
+/* ver.1.25: keep header shortcuts simple like FAMICOM; no desktop-tab decoration. */
+:root[data-family="pixelrevival"] .header-actions .header-action-fav,
+:root[data-family="pixelrevival"] .header-actions .header-action-theme,
+:root[data-family="famicom"] .header-actions .header-action-fav,
+:root[data-family="famicom"] .header-actions .header-action-theme{
+  position:relative!important; display:inline-flex!important; align-items:center!important; justify-content:center!important;
+  flex-shrink:0!important; min-width:40px!important; width:auto!important; min-height:38px!important; height:38px!important;
+  padding:0 10px!important; border:2px solid var(--text-main)!important; border-radius:0!important;
+  box-shadow:2px 2px 0 rgba(0,0,0,.22)!important; background:var(--bg-secondary)!important;
+  color:var(--text-main)!important; overflow:visible!important; white-space:nowrap!important;
+}
+:root[data-family="pixelrevival"] .header-actions .header-action-fav,
+:root[data-family="famicom"] .header-actions .header-action-fav{width:40px!important;padding:0!important;color:#F06D8B!important}
+:root[data-family="pixelrevival"] .header-actions .header-action-fav:before,
+:root[data-family="pixelrevival"] .header-actions .header-action-fav:after,
+:root[data-family="pixelrevival"] .header-actions .header-action-theme:before,
+:root[data-family="pixelrevival"] .header-actions .header-action-theme:after,
+:root[data-family="famicom"] .header-actions .header-action-fav:before,
+:root[data-family="famicom"] .header-actions .header-action-fav:after,
+:root[data-family="famicom"] .header-actions .header-action-theme:before,
+:root[data-family="famicom"] .header-actions .header-action-theme:after{content:none!important;display:none!important}
+:root[data-family="pixelrevival"] .header-actions .header-action-theme .theme-accent-text{color:inherit!important}
+/* Favorites are displayed on a translucent dark modal in every theme: ensure readable white copy. */
+#modal .saved-outfits-modal .saved-outfit-row{background:rgba(18,18,24,.88)!important;color:#fff!important}
+#modal .saved-outfits-modal .saved-outfit-row b,
+#modal .saved-outfits-modal .saved-outfit-row div,
+#modal .saved-outfits-modal .saved-outfit-row span{color:#fff!important;opacity:1!important;text-shadow:0 1px 2px rgba(0,0,0,.25)}
+#modal .saved-outfits-modal .saved-outfits-toolbar{position:sticky;top:0;z-index:40;padding:8px 0 12px;background:rgba(20,20,25,.94);color:#fff!important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+#modal .saved-outfits-modal .saved-outfits-toolbar h3{color:#fff!important}
+#modal .saved-outfits-modal .saved-outfits-close{flex:0 0 40px;width:40px!important;height:40px!important;min-width:40px;display:grid;place-items:center;background:#fff!important;color:#222!important;border:2px solid #222!important;border-radius:4px!important;box-shadow:2px 2px 0 rgba(0,0,0,.25)!important}
+
+
+/* ver.1.26 contrast system: dark editing surfaces use light copy; light panels use dark ink. */
+#modal:has(#fav-name), #modal:has(#fav-comment){
+  background:#24212b!important;color:#F8F7FC!important;
+  border:1px solid rgba(255,255,255,.28)!important;
+  box-shadow:0 24px 70px rgba(0,0,0,.58)!important;
+  backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+}
+#modal:has(#fav-name) h3,
+#modal:has(#fav-name) label,
+#modal:has(#fav-name) p,
+#modal:has(#fav-name) .text-xs,
+#modal:has(#fav-name) .text-sm,
+#modal:has(#fav-name) .text-\[10px\],
+#modal:has(#fav-name) .text-\[11px\],
+#modal:has(#fav-name) .text-\[9px\]{color:#F8F7FC!important;opacity:1!important}
+#modal:has(#fav-name) input:not([type=checkbox]),
+#modal:has(#fav-name) textarea,
+#modal:has(#fav-name) select{background:#393541!important;color:#FFFFFF!important;border-color:#AAA4B8!important}
+#modal:has(#fav-name) input::placeholder,
+#modal:has(#fav-name) textarea::placeholder{color:#D0CBD8!important;opacity:1!important}
+#modal:has(#fav-name) .bg-white\/10{background:rgba(255,255,255,.14)!important;color:#FFFFFF!important}
+#modal:has(#fav-name) .theme-accent-bg{color:#FFFFFF!important}
+/* Pixel Revival uses dark ink on ivory/pastel windows, never low-contrast white text. */
+:root[data-family="pixelrevival"] .theme-card-bg,
+:root[data-family="pixelrevival"] .theme-family-section,
+:root[data-family="pixelrevival"] .theme-preset-card,
+:root[data-family="pixelrevival"] .theme-card-bg *:not(.theme-accent-bg),
+:root[data-family="pixelrevival"] .theme-family-section *{
+  color:#30263D!important;
+}
+:root[data-family="pixelrevival"] .theme-card-bg:before{color:#30263D!important}
+:root[data-family="pixelrevival"] .theme-accent-bg{color:#FFFFFF!important}
+:root[data-family="pixelrevival"] nav button{color:#30263D!important}
+/* NOTHING BLACK: clear white copy on charcoal panels and black ink on white tiles. */
+:root[data-theme="nothing-black"] body{color:#F4F4EF!important}
+:root[data-theme="nothing-black"] .theme-card-bg,
+:root[data-theme="nothing-black"] .theme-family-section{color:#F4F4EF!important}
+:root[data-theme="nothing-black"] .theme-card-bg :not(.theme-accent-bg),
+:root[data-theme="nothing-black"] .theme-family-section *{color:#F4F4EF!important}
+:root[data-theme="nothing-black"] .theme-card-bg[style*="background: rgb(255"],
+:root[data-theme="nothing-black"] .theme-card-bg .bg-white,
+:root[data-theme="nothing-black"] .theme-card-bg .bg-\[\#fff\"]{color:#171717!important}
+:root[data-theme="nothing-black"] nav{background:#191B1A!important;color:#FFFFFF!important}
+:root[data-theme="nothing-black"] nav button{color:#FFFFFF!important}
+/* Any saved-outfit dialog keeps a strong contrast regardless of the selected theme. */
+#modal .saved-outfits-modal .saved-outfit-row b,
+#modal .saved-outfits-modal .saved-outfit-row div,
+#modal .saved-outfits-modal .saved-outfit-row span{color:#FFFFFF!important;opacity:1!important}
+
+
+
+/* ver.1.29: PIXEL REVIVAL clothing-status labels — force readable white text */
+:root[data-family="pixelrevival"] .status-pill,
+:root[data-theme="mint-desktop"] .status-pill,
+:root[data-theme="pixel-dream"] .status-pill,
+:root[data-design="pixel-soft"] .status-pill{
+  color:#FFFFFF!important;
+  -webkit-text-fill-color:#FFFFFF!important;
+  opacity:1!important;
+  background:rgba(48,38,61,.96)!important;
+  text-shadow:none!important;
+  border:1px solid rgba(255,255,255,.82)!important;
+}
+:root[data-family="pixelrevival"] nav button > span{
+  color:#30263D!important;
+  opacity:1!important;
+}
+
+/* ver.1.30: clothing edit modal uses ivory copy on its dark translucent surface */
+#modal:has(#edit-name){
+  color:#F8F3E5!important;
+}
+#modal:has(#edit-name) h3,
+#modal:has(#edit-name) label,
+#modal:has(#edit-name) p,
+#modal:has(#edit-name) .text-xs,
+#modal:has(#edit-name) .text-\[10px\],
+#modal:has(#edit-name) .text-\[11px\],
+#modal:has(#edit-name) .text-\[9px\],
+#modal:has(#edit-name) .text-sm,
+#modal:has(#edit-name) .font-bold{
+  color:#F8F3E5!important;
+  opacity:1!important;
+}
+#modal:has(#edit-name) input:not([type=checkbox]),
+#modal:has(#edit-name) textarea,
+#modal:has(#edit-name) select{
+  background:rgba(24,22,30,.92)!important;
+  color:#FFFDF5!important;
+  -webkit-text-fill-color:#FFFDF5!important;
+  border-color:rgba(248,243,229,.7)!important;
+}
+#modal:has(#edit-name) input::placeholder,
+#modal:has(#edit-name) textarea::placeholder{
+  color:#D8D1C2!important;
+  -webkit-text-fill-color:#D8D1C2!important;
+  opacity:1!important;
+}
+#modal:has(#edit-name) .bg-white\/10{color:#F8F3E5!important}
+
 </style>
 <script>
 // 保存済みテーマを「最初の描画前」に適用。読み込み中だけデフォルト色になる問題を防止。
-(()=>{const m={'night-secret':['#0D1A2F','#17364F','#09D8C7','#BD0927','#F3F4F6'],'backlight':['#E1D1CA','#AED8D6','#16939E','#FB958C','#50282C'],'glitter':['#201D39','#514575','#E58500','#FFC451','#F3F4F6'],'twilight':['#786181','#B05E76','#FB9C6C','#E97F83','#F3F4F6'],'fresh-sky':['#042C8F','#4891E7','#E8F957','#86D0FD','#FFFFFF'],'pastel-lagoon':['#E7F4EE','#F8FCF9','#59B7A6','#E77B9A','#29413D'],'crystal-shower':['#E8F1F4','#CBDDE3','#007FAF','#7189C4','#183746'],'sunset-citrus':['#0F3B59','#7D929E','#DBA12C','#3E251E','#DBD4CC'],'iridescent-lavender':['#B7A0D4','#F8F4FC','#8D62E8','#F09BD9','#35284A'],'iridescent-ocean':['#8EBAD4','#F1FAFC','#4B8FD8','#83DCD0','#243C54'],'iridescent-peach':['#E8B7C8','#FFF7F1','#E783B7','#F4C36B','#57364D'],'iridescent-mint':['#A5D5C9','#F3FBF8','#54AE9A','#B8A0EA','#294B49'],'iridescent-midnight':['#302747','#51416E','#B59AF7','#ED91D3','#FBF7FF'],'nothing-white':['#F4F4EF','#FFFFFF','#E53935','#B7B7AE','#171717'],'nothing-black':['#111312','#242725','#E53935','#777D76','#F3F3EE'],'famicom-classic':['#6C6B4D','#D8D5AD','#A64B3D','#34382A','#22251B'],'8bit-green':['#263B2B','#526B45','#B8C96D','#D9D2A0','#E5E8C8'],'dot-sunset':['#653D37','#D9B98B','#D56C45','#394D59','#F7E7C5'],'cherry-pixel':['#F2A0A7','#C0E0C8','#D86E83','#F8E9C7','#314B49'],'mint-desktop':['#A8D8C8','#F3EFD6','#477D7C','#E99AA4','#304846'],'pixel-dream':['#C9B5E8','#F8E4E6','#8A7FC0','#8DCBCB','#413650']};const id=localStorage.getItem('my_closet_theme')||'sunset-citrus';const t=m[id]||m['sunset-citrus'];const r=document.documentElement;const texture={'sunset-citrus':'metallic','night-secret':'glass','backlight':'matte','glitter':'glass','twilight':'glass','fresh-sky':'metallic','pastel-lagoon':'matte','crystal-shower':'glass','iridescent-lavender':'glass','iridescent-ocean':'glass','iridescent-peach':'matte','iridescent-mint':'matte','iridescent-midnight':'glass'}[id]||'glass';r.dataset.texture=texture;r.dataset.design=({'nothing-white':'mono','nothing-black':'mono','famicom-classic':'pixel','8bit-green':'pixel','dot-sunset':'pixel','cherry-pixel':'pixel-soft','mint-desktop':'pixel-soft','pixel-dream':'pixel-soft','sunset-citrus':'sculptural','glitter':'sculptural','pastel-lagoon':'sculptural','iridescent-mint':'sculptural','backlight':'soft','twilight':'soft','iridescent-peach':'soft'}[id]||'glass');r.dataset.finish=({'sunset-citrus':'chrome','night-secret':'liquid','backlight':'soft','glitter':'crystal','twilight':'frost','fresh-sky':'chrome','pastel-lagoon':'soft','crystal-shower':'ice','iridescent-lavender':'frost','iridescent-ocean':'crystal','iridescent-peach':'soft','iridescent-mint':'soft','iridescent-midnight':'liquid'}[id]||'frost');['--bg-primary','--bg-secondary','--accent-color','--accent-secondary','--text-main'].forEach((k,i)=>r.style.setProperty(k,t[i]));r.style.setProperty('--border-color',t[2]+'33')})();
+(()=>{const m={'night-secret':['#0D1A2F','#17364F','#09D8C7','#BD0927','#F3F4F6'],'backlight':['#E1D1CA','#AED8D6','#16939E','#FB958C','#50282C'],'glitter':['#201D39','#514575','#E58500','#FFC451','#F3F4F6'],'twilight':['#786181','#B05E76','#FB9C6C','#E97F83','#F3F4F6'],'fresh-sky':['#042C8F','#4891E7','#E8F957','#86D0FD','#FFFFFF'],'pastel-lagoon':['#E7F4EE','#F8FCF9','#59B7A6','#E77B9A','#29413D'],'crystal-shower':['#E8F1F4','#CBDDE3','#007FAF','#7189C4','#183746'],'sunset-citrus':['#0F3B59','#7D929E','#DBA12C','#3E251E','#DBD4CC'],'iridescent-lavender':['#B7A0D4','#F8F4FC','#8D62E8','#F09BD9','#35284A'],'iridescent-ocean':['#8EBAD4','#F1FAFC','#4B8FD8','#83DCD0','#243C54'],'iridescent-peach':['#E8B7C8','#FFF7F1','#E783B7','#F4C36B','#57364D'],'iridescent-mint':['#A5D5C9','#F3FBF8','#54AE9A','#B8A0EA','#294B49'],'iridescent-midnight':['#302747','#51416E','#B59AF7','#ED91D3','#FBF7FF'],'nothing-white':['#F4F4EF','#FFFFFF','#E53935','#B7B7AE','#171717'],'nothing-black':['#111312','#242725','#E53935','#777D76','#F3F3EE'],'famicom-classic':['#6C6B4D','#D8D5AD','#A64B3D','#34382A','#22251B'],'8bit-green':['#263B2B','#526B45','#B8C96D','#D9D2A0','#E5E8C8'],'dot-sunset':['#653D37','#D9B98B','#D56C45','#394D59','#F7E7C5'],'cherry-pixel':['#F2A0A7','#C0E0C8','#D86E83','#F8E9C7','#314B49'],'mint-desktop':['#A8D8C8','#F3EFD6','#477D7C','#E99AA4','#304846'],'pixel-dream':['#C9B5E8','#F8E4E6','#8A7FC0','#8DCBCB','#413650']};const id=localStorage.getItem('my_closet_theme')||'sunset-citrus';const t=m[id]||m['sunset-citrus'];const r=document.documentElement;r.dataset.theme=id;const texture={'sunset-citrus':'metallic','night-secret':'glass','backlight':'matte','glitter':'glass','twilight':'glass','fresh-sky':'metallic','pastel-lagoon':'matte','crystal-shower':'glass','iridescent-lavender':'glass','iridescent-ocean':'glass','iridescent-peach':'matte','iridescent-mint':'matte','iridescent-midnight':'glass'}[id]||'glass';r.dataset.texture=texture;r.dataset.design=({'nothing-white':'mono','nothing-black':'mono','famicom-classic':'pixel','8bit-green':'pixel','dot-sunset':'pixel','cherry-pixel':'pixel-soft','mint-desktop':'pixel-soft','pixel-dream':'pixel-soft','sunset-citrus':'sculptural','glitter':'sculptural','pastel-lagoon':'sculptural','iridescent-mint':'sculptural','backlight':'soft','twilight':'soft','iridescent-peach':'soft'}[id]||'glass');r.dataset.finish=({'sunset-citrus':'chrome','night-secret':'liquid','backlight':'soft','glitter':'crystal','twilight':'frost','fresh-sky':'chrome','pastel-lagoon':'soft','crystal-shower':'ice','iridescent-lavender':'frost','iridescent-ocean':'crystal','iridescent-peach':'soft','iridescent-mint':'soft','iridescent-midnight':'liquid'}[id]||'frost');['--bg-primary','--bg-secondary','--accent-color','--accent-secondary','--text-main'].forEach((k,i)=>r.style.setProperty(k,t[i]));r.style.setProperty('--border-color',t[2]+'33')})();
 </script>
 
 <link rel="manifest" href="./manifest.webmanifest">
@@ -273,10 +558,10 @@ button:active{transform:scale(.975);filter:saturate(1.18) brightness(1.04)}
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="My Closet">
 </head>
-<body class="min-h-screen pb-24 pt-16"><div class="app-version">ver.1.19</div>
+<body class="min-h-screen pb-24 pt-16"><div class="app-version">ver.1.31</div>
 <header class="fixed top-0 left-0 right-0 z-40 px-4 py-3 flex justify-between items-center backdrop-blur-md border-b border-white/10" style="background:var(--bg-primary)">
-<div class="flex items-center gap-2"><i class="fa-solid fa-shirt text-xl theme-accent-text"></i><h1 class="font-bold text-lg">My Closet</h1></div>
-<div class="flex gap-2"><button onclick="openFavorites()" class="w-9 h-9 rounded-full theme-card-bg text-rose-400"><i class="fa-solid fa-heart"></i></button><button onclick="openTheme()" class="px-3 py-1.5 rounded-full theme-card-bg text-xs"><i class="fa-solid fa-palette theme-accent-text mr-1"></i>テーマ</button></div>
+<div class="flex items-center gap-2"><i class="fa-solid fa-shirt text-xl theme-accent-text"></i><h1 id="app-title" class="font-bold text-lg">My Closet</h1></div>
+<div class="header-actions flex gap-2"><button type="button" onclick="openFavorites()" aria-label="保存したコーデ" title="保存したコーデ" class="header-action-fav w-9 h-9 rounded-full theme-card-bg text-rose-400"><i class="fa-solid fa-heart"></i></button><button type="button" onclick="openTheme()" aria-label="テーマ" title="テーマ" class="header-action-theme px-3 py-1.5 rounded-full theme-card-bg text-xs"><i class="fa-solid fa-palette theme-accent-text mr-1"></i>テーマ</button></div>
 </header>
 <main id="app" class="px-4 max-w-md mx-auto"><div class="text-center py-10 opacity-60"><i class="fa-solid fa-spinner fa-spin text-2xl"></i><div class="mt-2 text-xs">読み込み中...</div></div></main>
 <nav class="fixed bottom-0 left-0 right-0 z-40 border-t border-white/10 backdrop-blur-lg py-2" style="background:var(--bg-primary)"><div class="max-w-md mx-auto grid grid-cols-5 text-center">
@@ -313,7 +598,7 @@ const THEMES=[
 {id:'cherry-pixel',texture:'pixel',finish:'pixel-soft',family:'pixelrevival',design:'pixel-soft',name:'チェリー・ピクセル',p:'#F2A0A7',s:'#C0E0C8',a:'#D86E83',x:'#F8E9C7',t:'#314B49'},
 {id:'mint-desktop',texture:'pixel',finish:'pixel-soft',family:'pixelrevival',design:'pixel-soft',name:'ミント・デスクトップ',p:'#A8D8C8',s:'#F3EFD6',a:'#477D7C',x:'#E99AA4',t:'#304846'},
 {id:'pixel-dream',texture:'pixel',finish:'pixel-soft',family:'pixelrevival',design:'pixel-soft',name:'ピクセル・ドリーム',p:'#C9B5E8',s:'#F8E4E6',a:'#8A7FC0',x:'#8DCBCB',t:'#413650'}];
-let db=null,dbReady=null,currentTab='today',dayOffset=0,preview=false,themeId=localStorage.getItem('my_closet_theme')||'sunset-citrus';
+let db=null,dbReady=null,currentTab='today',dayOffset=0,preview=false,themeId=localStorage.getItem('my_closet_theme')||'sunset-citrus',draftThemeId=themeId;
 let historyView='history', analysisPeriod='month', analysisCategory='tops';
 const emptySel=()=>Object.fromEntries(CATS.map(c=>[c.id,[]]));
 function selArray(v){return Array.isArray(v)?v:(v?[v]:[])}
@@ -373,7 +658,10 @@ const overlay=document.getElementById('overlay'),modal=document.getElementById('
 if(!overlay||!modal)return; overlay.classList.add('hidden'); overlay.classList.remove('flex'); modal.innerHTML='';
 }
 function toast(msg){const x=document.createElement('div');x.className='toast';x.textContent=msg;document.body.appendChild(x);setTimeout(()=>x.remove(),2200)}
-function applyTheme(id){const t=THEMES.find(x=>x.id===id)||THEMES[0];themeId=t.id;localStorage.setItem('my_closet_theme',t.id);const r=document.documentElement;r.dataset.texture=t.texture||'glass';r.dataset.finish=t.finish||'frost';r.dataset.design=t.design||'glass';r.dataset.family=t.family||'glass';r.style.setProperty('--bg-primary',t.p);r.style.setProperty('--bg-secondary',t.s);r.style.setProperty('--accent-color',t.a);r.style.setProperty('--accent-secondary',t.x);r.style.setProperty('--text-main',t.t);r.style.setProperty('--border-color',t.a+'33')}
+function applyTheme(id){const t=THEMES.find(x=>x.id===id)||THEMES[0];themeId=t.id;localStorage.setItem('my_closet_theme',t.id);const r=document.documentElement;r.dataset.theme=t.id;r.dataset.texture=t.texture||'glass';r.dataset.finish=t.finish||'frost';r.dataset.design=t.design||'glass';r.dataset.family=t.family||'glass';r.style.setProperty('--bg-primary',t.p);r.style.setProperty('--bg-secondary',t.s);r.style.setProperty('--accent-color',t.a);r.style.setProperty('--accent-secondary',t.x);r.style.setProperty('--text-main',t.t);r.style.setProperty('--border-color',t.a+'33')}
+function getOwnerName(){return (localStorage.getItem('my_closet_owner_name')||'').replace(/[^a-zA-Z]/g,'').slice(0,24)}
+function updateAppTitle(){const name=getOwnerName();const title=name?`${name}'s Closet`:'My Closet';const h=document.getElementById('app-title');if(h)h.textContent=title;document.title=title;const appTitle=document.querySelector('meta[name="apple-mobile-web-app-title"]');if(appTitle)appTitle.setAttribute('content',title)}
+function saveOwnerName(){const input=document.getElementById('closet-owner-name');if(!input)return;const name=input.value.replace(/[^a-zA-Z]/g,'').slice(0,24);if(name)localStorage.setItem('my_closet_owner_name',name);else localStorage.removeItem('my_closet_owner_name');input.value=name;updateAppTitle();toast(name?`表示名を${name}に変更しました`:'表示名をMy Closetに戻しました')}
 function openTheme(){
  const families=[
  {id:'glass',name:'01 / GLASS',jp:'光・透明感・奥行き',desc:'透ける層、反射、液体のような艶',ids:THEMES.filter(t=>t.family==='glass')},
@@ -383,11 +671,14 @@ function openTheme(){
  {id:'famicom',name:'05 / FAMICOM',jp:'8-bit・クラシックゲーム',desc:'限られた色数と角ばったピクセル',ids:THEMES.filter(t=>t.family==='famicom')},
  {id:'pixelrevival',name:'06 / PIXEL REVIVAL',jp:'レトロPC・現代的ドット',desc:'ウィンドウ、格子、パステルカラー',ids:THEMES.filter(t=>t.family==='pixelrevival')}];
  const dot=c=>`<span class="w-5 h-5 rounded-full border border-black/15 shadow-sm" style="background:${c}"></span>`;
- const current=THEMES.find(t=>t.id===themeId)||THEMES[0];
+ const current=THEMES.find(t=>t.id===draftThemeId)||THEMES.find(t=>t.id===themeId)||THEMES[0];
  const art=t=>`<div class="theme-preset-art art-${t.design}" style="--swatch-a:${t.p};--swatch-b:${t.s};--swatch-c:${t.a};--swatch-d:${t.x}"><span></span><span></span><span></span><b>MY CLOSET</b></div>`;
- const familyCards=families.map(f=>`<section class="theme-family-section theme-group-${f.id}"><div class="flex items-start justify-between mb-3"><div><div class="font-bold text-sm">${f.name}</div><div class="text-[10px] opacity-75 mt-1">${f.jp}</div><div class="text-[10px] opacity-55 mt-1">${f.desc}</div></div><span class="text-xs opacity-50">${String(f.ids.length).padStart(2,'0')} THEMES</span></div><div class="theme-preset-grid">${f.ids.map(t=>`<button onclick="applyTheme('${t.id}');openTheme()" class="theme-preset-card ${themeId===t.id?'theme-preset-selected':''}">${art(t)}<div class="p-2 text-left"><div class="text-[11px] font-bold leading-snug">${t.name}</div><div class="flex gap-1 mt-2">${dot(t.p)}${dot(t.s)}${dot(t.a)}${dot(t.x)}</div></div>${themeId===t.id?'<span class="theme-preset-check">✓</span>':''}</button>`).join('')}</div></section>`).join('');
- showModal(`<div class="theme-studio"><div class="flex items-start justify-between mb-2"><div><div class="text-[10px] tracking-[.22em] opacity-55">MY CLOSET / THEME COLLECTIONS</div><h3 class="font-bold text-xl mt-1">テーマコレクション</h3></div><span class="text-[10px] rounded-full px-2 py-1 theme-card-bg">選択中：${current.name}</span></div><p class="text-xs opacity-65 mb-4 leading-relaxed">色見本ではなく、完成した世界観から選ぶ。シリーズごとに質感・カード・ボタンの表情が変わります。</p><div class="space-y-4">${familyCards}</div><p class="text-[10px] opacity-50 mt-4 leading-relaxed">テーマを変更しても、登録した服・コーデ・着用履歴はそのまま保存されます。</p><button onclick="closeModal()" class="w-full mt-4 py-3 rounded-xl theme-accent-bg text-black text-xs font-bold">完了</button></div>`);
+ const familyCards=families.map(f=>`<section class="theme-family-section theme-group-${f.id}"><div class="flex items-start justify-between mb-3"><div><div class="font-bold text-sm">${f.name}</div><div class="text-[10px] opacity-75 mt-1">${f.jp}</div><div class="text-[10px] opacity-55 mt-1">${f.desc}</div></div><span class="text-xs opacity-50">${String(f.ids.length).padStart(2,'0')} THEMES</span></div><div class="theme-preset-grid">${f.ids.map(t=>`<button type="button" onclick="selectDraftTheme('${t.id}')" class="theme-preset-card ${draftThemeId===t.id?'theme-preset-selected':''}">${art(t)}<div class="p-2 text-left"><div class="text-[11px] font-bold leading-snug">${t.name}</div><div class="flex gap-1 mt-2">${dot(t.p)}${dot(t.s)}${dot(t.a)}${dot(t.x)}</div></div>${draftThemeId===t.id?'<span class="theme-preset-check">✓</span>':''}</button>`).join('')}</div></section>`).join('');
+ showModal(`<div class="theme-studio"><div class="theme-studio-toolbar"><div><div class="text-[10px] tracking-[.18em] opacity-55">MY CLOSET / THEMES</div><h3 class="font-bold text-lg mt-1">テーマを選択</h3></div><div class="theme-studio-actions"><button type="button" class="theme-studio-action theme-studio-action-close" onclick="cancelThemeSelection()" aria-label="閉じる" title="閉じる"><i class="fa-solid fa-xmark"></i></button><button type="button" class="theme-studio-action theme-studio-action-confirm" onclick="confirmThemeSelection()" aria-label="決定" title="決定"><i class="fa-solid fa-check"></i></button></div></div><div class="theme-studio-intro"><div class="text-[10px] rounded-full px-2 py-1 theme-card-bg inline-flex mb-2">選択中：<span id="theme-draft-name" class="font-bold ml-1">${current.name}</span></div><p class="text-xs opacity-65 mb-4 leading-relaxed">好きな世界観を選んで、右上の ✓ で決定。テーマを変更しても登録データはそのまま保存されます。</p></div><section class="theme-card-bg rounded-xl p-3 mb-4"><label for="closet-owner-name" class="block text-sm font-bold mb-1">表示する名前</label><p class="text-xs opacity-70 mb-2">上のバーを「名前's Closet」に変更できます（ローマ字 A〜Z のみ）。</p><div class="flex gap-2"><input id="closet-owner-name" type="text" value="${esc(getOwnerName())}" maxlength="24" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="例：Namae" class="min-w-0 flex-1 rounded-lg px-3 py-2 text-sm border bg-black/10" oninput="this.value=this.value.replace(/[^a-zA-Z]/g,'')"><button type="button" onclick="saveOwnerName()" class="theme-accent-bg rounded-lg px-4 py-2 text-sm font-bold">保存</button></div><p class="text-[10px] opacity-60 mt-2">空欄にすると「My Closet」に戻ります。</p></section><div class="space-y-4">${familyCards}</div></div>`);
 }
+function selectDraftTheme(id){draftThemeId=id;openTheme()}
+function confirmThemeSelection(){applyTheme(draftThemeId);closeModal();toast('テーマを変更しました')}
+function cancelThemeSelection(){draftThemeId=themeId;closeModal()}
 async function switchTab(tab){currentTab=tab;document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active-tab'));document.getElementById('nav-'+tab)?.classList.add('active-tab');await render()}
 async function render(){
   await processHomeSetDayChange();try{if(currentTab==='today')await renderToday();if(currentTab==='closet')await renderCloset();if(currentTab==='laundry')await renderLaundry();if(currentTab==='travel')await renderTravel();if(currentTab==='history')await renderHistory();await badge()}catch(e){console.error(e);document.getElementById('app').innerHTML='<div class="py-10 text-center text-sm text-red-300">表示に失敗しました。再読み込みしてください。</div>'}}
@@ -939,21 +1230,56 @@ async function editClothes(id){const clothes=await all('clothes'),i=clothes.find
 async function saveEditedClothes(id){const clothes=await all('clothes'),i=clothes.find(x=>x.id===id);if(!i)return;const name=document.getElementById('edit-name').value.trim(),category=document.getElementById('edit-cat').value,colors=selectedColors('edit-color');if(!name)return toast('名前を入力してください');if(!colors.length)return toast('色を1つ以上選択してください');const files=[document.getElementById('edit-camera')?.files[0],document.getElementById('edit-gallery')?.files[0]].filter(Boolean);try{i.name=name;i.color=colors;i.description=document.getElementById('edit-description')?.value.trim()||'';if(category!==i.category){i.order=clothes.filter(x=>x.category===category&&x.id!==i.id).reduce((m,x)=>Math.max(m,x.order??-1),-1)+1}i.category=category;if(files[0])i.image=await compress(files[0]);const newCat=CATS.find(c=>c.id===category);if(!newCat?.laundry&&(i.status==='laundry_wait'||i.status==='in_laundry')){i.status='closet';i.laundryStartTime=null}await put('clothes',i);closeModal();await render();toast('服を更新しました！')}catch(e){console.error(e);toast('保存できませんでした。画像を変えてもう一度お試しください')}}
 async function deleteClothes(id){if(!confirm('この服を削除しますか？'))return;await del('clothes',id);await render()}
 function remaining(ms){return Math.max(0,Math.ceil(ms/3600000))}
-async function renderLaundry(){const clothes=await all('clothes'),wait=clothes.filter(i=>i.status==='laundry_wait'),washing=clothes.filter(i=>i.status==='in_laundry');document.getElementById('app').innerHTML=`<div class="space-y-5"><div class="theme-card-bg rounded-2xl p-4"><h3 class="font-bold text-sm mb-3">🫧 洗濯待ち（${wait.length}着）</h3>${wait.length?`<div class="space-y-2">${wait.map(i=>`<label class="flex items-center gap-3 p-2.5 rounded-xl bg-black/20"><input checked type="checkbox" value="${i.id}" class="washbox w-4 h-4"><div class="w-14 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-black/20">${i.image?`<img src="${i.image}" class="w-full h-full object-cover">`:`<div class="w-full h-full flex items-center justify-center opacity-40">👕</div>`}</div><span class="text-xs flex-1">${esc(i.name)}</span><span class="text-[10px] opacity-70">${catName(i.category)}</span></label>`).join('')}</div><button onclick="startWash()" class="w-full mt-3 py-2.5 rounded-xl theme-accent-bg text-black text-xs font-bold">選択したものを洗濯する（24時間）</button>`:'<div class="text-xs opacity-40 text-center py-4">洗濯待ちの服はありません</div>'}</div><div class="theme-card-bg rounded-2xl p-4"><h3 class="font-bold text-sm mb-3">🧺 洗濯中（${washing.length}着）</h3>${washing.length?`<div class="space-y-2">${washing.map(i=>`<div class="p-3 rounded-xl bg-black/20 flex items-center gap-3"><div class="w-14 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-black/20">${i.image?`<img src="${i.image}" class="w-full h-full object-cover">`:`<div class="w-full h-full flex items-center justify-center opacity-40">👕</div>`}</div><div class="flex-1"><div class="text-xs font-bold">${esc(i.name)}</div><div class="text-[10px] text-blue-300">残り約 ${remaining(86400000-(Date.now()-i.laundryStartTime))}時間</div></div><button onclick="returnWash('${i.id}')" class="bg-white/10 rounded-lg px-3 py-1.5 text-[10px]">クローゼットに戻す</button></div>`).join('')}</div>`:'<div class="text-xs opacity-40 text-center py-4">現在洗濯中の服はありません</div>'}</div></div>`}
+async function renderLaundry(){const clothes=await all('clothes'),wait=clothes.filter(i=>i.status==='laundry_wait'),washing=clothes.filter(i=>i.status==='in_laundry');document.getElementById('app').innerHTML=`<div class="space-y-5"><div id="laundry-weather-advice" class="theme-card-bg rounded-2xl p-4"><div class="flex items-center justify-between gap-2 mb-2"><h3 class="font-bold text-sm">☀️ 今日の洗濯日和</h3><button onclick="setWeatherPlace()" class="text-[10px] opacity-60">場所を変更</button></div><p class="text-xs opacity-70">天気を確認しています…</p></div><div class="theme-card-bg rounded-2xl p-4"><h3 class="font-bold text-sm mb-3">🫧 洗濯待ち（${wait.length}着）</h3>${wait.length?`<div class="space-y-2">${wait.map(i=>`<label class="flex items-center gap-3 p-2.5 rounded-xl bg-black/20"><input checked type="checkbox" value="${i.id}" class="washbox w-4 h-4"><div class="w-14 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-black/20">${i.image?`<img src="${i.image}" class="w-full h-full object-cover">`:`<div class="w-full h-full flex items-center justify-center opacity-40">👕</div>`}</div><span class="text-xs flex-1">${esc(i.name)}</span><span class="text-[10px] opacity-70">${catName(i.category)}</span></label>`).join('')}</div><button onclick="startWash()" class="w-full mt-3 py-2.5 rounded-xl theme-accent-bg text-black text-xs font-bold">選択したものを洗濯する（24時間）</button>`:'<div class="text-xs opacity-40 text-center py-4">洗濯待ちの服はありません</div>'}</div><div class="theme-card-bg rounded-2xl p-4"><h3 class="font-bold text-sm mb-3">🧺 洗濯中（${washing.length}着）</h3>${washing.length?`<div class="space-y-2">${washing.map(i=>`<div class="p-3 rounded-xl bg-black/20 flex items-center gap-3"><div class="w-14 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-black/20">${i.image?`<img src="${i.image}" class="w-full h-full object-cover">`:`<div class="w-full h-full flex items-center justify-center opacity-40">👕</div>`}</div><div class="flex-1"><div class="text-xs font-bold">${esc(i.name)}</div><div class="text-[10px] text-blue-300">残り約 ${remaining(86400000-(Date.now()-i.laundryStartTime))}時間</div></div><button onclick="returnWash('${i.id}')" class="bg-white/10 rounded-lg px-3 py-1.5 text-[10px]">クローゼットに戻す</button></div>`).join('')}</div>`:'<div class="text-xs opacity-40 text-center py-4">現在洗濯中の服はありません</div>'}</div></div>`;fetchLaundryWeather()}
+async function fetchLaundryWeather(){
+ const el=document.getElementById('laundry-weather-advice');if(!el)return;
+ const place=localStorage.getItem('my_closet_weather_place')||'東京都';
+ const header=`<div class="flex items-center justify-between gap-2 mb-2"><h3 class="font-bold text-sm">☀️ 洗濯日和ガイド</h3><button onclick="setWeatherPlace()" class="text-[10px] opacity-60">場所を変更</button></div>`;
+ el.innerHTML=header+`<p class="text-xs opacity-70">${esc(place)}の天気を確認しています…</p>`;
+ try{
+  const geoRes=await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(place)}&count=1&language=ja&format=json`);
+  if(!geoRes.ok)throw new Error('geocoding failed');
+  const geo=await geoRes.json(),hit=geo.results?.[0];if(!hit)throw new Error('place not found');
+  const url=`https://api.open-meteo.com/v1/forecast?latitude=${hit.latitude}&longitude=${hit.longitude}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_mean,weather_code,sunshine_duration,wind_speed_10m_max&hourly=relative_humidity_2m&forecast_days=16&timezone=Asia%2FTokyo`;
+  const res=await fetch(url);if(!res.ok)throw new Error('weather failed');
+  const data=await res.json(),d=data.daily,h=data.hourly;
+  if(!d?.time?.length||d.temperature_2m_max?.[0]==null)throw new Error('no daily forecast');
+  const dayData=d.time.map((date,i)=>{
+   const hours=(h?.time||[]).map((t,j)=>t.startsWith(date)?h.relative_humidity_2m?.[j]:null).filter(v=>v!=null);
+   const humidity=hours.length?hours.reduce((a,b)=>a+b,0)/hours.length:null;
+   const max=d.temperature_2m_max[i],rain=d.precipitation_probability_mean?.[i]??0,sun=(d.sunshine_duration?.[i]??0)/3600;
+   const windKmh=d.wind_speed_10m_max?.[i]??0,wind=windKmh/3.6,code=d.weather_code?.[i]??0;
+   const tempScore=max>=20&&max<=30?20:max>=15&&max<20?15:max>30&&max<=34?14:max>=10&&max<15?9:max>34?8:4;
+   const rainScore=Math.max(0,30-rain*.3),sunScore=Math.min(25,sun/8*25);
+   const windScore=wind>=1&&wind<=5?15:wind>5&&wind<=7?10:wind>7&&wind<10?4:wind<1?8:0;
+   const humidityScore=humidity==null?5:humidity<=55?10:humidity<=65?8:humidity<=75?5:humidity<=85?2:0;
+   const score=Math.round(Math.max(0,Math.min(100,rainScore+sunScore+tempScore+windScore+humidityScore)));
+   const good=score>=65&&rain<=35&&sun>=2.5&&wind<10&&code<51;
+   return {date,max,min:d.temperature_2m_min?.[i],rain,sun,wind,humidity,code,score,good};
+  });
+  const today=dayData[0],next=dayData.slice(1).find(x=>x.good),fmt=date=>{const dt=new Date(date+'T12:00:00+09:00');return `${dt.getMonth()+1}月${dt.getDate()}日（${['日','月','火','水','木','金','土'][dt.getDay()]}）`};
+  const summary=x=>{if(x.score>=80)return {icon:'☀️',label:'絶好の洗濯日和',message:'日差しや気温などの条件がよさそう。外干しの有力候補だよ！'};if(x.score>=65)return {icon:'🌤️',label:'洗濯日和',message:'外干しに向いていそう。風や空模様を見ながら干してね。'};if(x.score>=45)return {icon:'🌥️',label:'まずまず。乾きに注意',message:'乾くまで時間がかかるかも。長めに干すか、風通しを確保してね。'};return {icon:'🌧️',label:'部屋干しがおすすめ',message:'外干しにはあまり向かなそう。室内干しや乾燥機も検討してね。'};};
+  const cur=summary(today);
+  let nextHtml='';
+  if(next){const days=dayData.findIndex(x=>x.date===next.date);nextHtml=`<div class="mt-4 rounded-xl bg-black/15 p-3"><div class="text-[10px] opacity-60 mb-1">🔮 次の洗濯日和</div><div class="font-extrabold text-sm">${days===1?'明日':`あと${days}日`}・${fmt(next.date)}</div><div class="text-[10px] opacity-70 mt-1">予想スコア ${next.score}点 ／ 最高 ${Math.round(next.max)}℃ ／ 降水 ${next.rain}%</div></div>`;}
+  else{nextHtml=`<div class="mt-4 rounded-xl bg-black/15 p-3"><div class="font-bold text-sm mb-1">🌧️ しばらく洗濯日和が見つからないみたい…</div><p class="text-xs leading-relaxed opacity-80">今後16日間の予報では、外干しにおすすめできる日が見つからなかったよ。天気予報は変わることもあるので、数日後にもう一度確認してね。しばらくは部屋干し＋サーキュレーターや除湿機を活用するのがおすすめ！</p></div>`;}
+  el.innerHTML=header+`<div class="flex items-start gap-3"><div class="text-3xl">${cur.icon}</div><div class="min-w-0 flex-1"><div class="text-sm font-extrabold mb-1">今日：${cur.label}</div><p class="text-xs leading-relaxed opacity-80">${cur.message}</p><div class="mt-2"><span class="text-xl font-black">${today.score}</span><span class="text-[10px] opacity-60"> / 100点</span><div class="h-1.5 rounded-full bg-black/20 mt-1 overflow-hidden"><div class="h-full rounded-full theme-accent-bg" style="width:${today.score}%"></div></div></div></div></div><div class="grid grid-cols-2 gap-2 mt-3"><div class="rounded-lg bg-black/10 p-2"><div class="text-[9px] opacity-55">🌡️ 気温</div><div class="text-xs font-bold">${Math.round(today.max)}℃ / ${Math.round(today.min)}℃</div></div><div class="rounded-lg bg-black/10 p-2"><div class="text-[9px] opacity-55">🌧️ 降水確率</div><div class="text-xs font-bold">${today.rain}%</div></div><div class="rounded-lg bg-black/10 p-2"><div class="text-[9px] opacity-55">💨 最大風速</div><div class="text-xs font-bold">${today.wind.toFixed(1)} m/s</div></div><div class="rounded-lg bg-black/10 p-2"><div class="text-[9px] opacity-55">☀️ 日照時間 / 湿度</div><div class="text-xs font-bold">${today.sun.toFixed(1)}時間 / ${today.humidity==null?'—':Math.round(today.humidity)+'%'}</div></div></div>${nextHtml}<p class="text-[9px] opacity-45 mt-3">${esc(place)} · Open-Meteoの予報をもとにした独自スコアです。実際の乾きやすさは衣類の素材・干す場所などでも変わります。遠い日の予報は変わることがあります。</p>`;
+ }catch(e){console.warn('Laundry weather unavailable',e);el.innerHTML=header+`<p class="text-xs opacity-70">天気情報を取得できませんでした。通信状況や設定した場所を確認してね。</p>`;}
+}
 async function startWash(){const ids=[...document.querySelectorAll('.washbox:checked')].map(x=>x.value);if(!ids.length)return toast('洗濯する服を選択してください');const clothes=await all('clothes'),now=Date.now();for(const id of ids){const i=clothes.find(x=>x.id===id);if(i){i.status='in_laundry';i.laundryStartTime=now;await put('clothes',i)}}await render()}
 async function returnWash(id){const clothes=await all('clothes'),i=clothes.find(x=>x.id===id);if(i){i.status='closet';i.laundryStartTime=null;await put('clothes',i);await render()}}
 async function checkLaundry(){const clothes=await all('clothes'),now=Date.now();for(const i of clothes){if(i.status==='in_laundry'&&i.laundryStartTime&&now-i.laundryStartTime>=86400000){i.status='closet';i.laundryStartTime=null;await put('clothes',i)}}if(currentTab==='laundry')await render();else await badge()}
 async function badge(){const c=await all('clothes'),n=c.filter(i=>i.status==='laundry_wait').length,b=document.getElementById('badge');if(n){b.textContent=n;b.classList.remove('hidden')}else b.classList.add('hidden')}
-async function exportBackup(){try{const data={version:2,createdAt:new Date().toISOString(),theme:localStorage.getItem('my_closet_theme')||themeId,weatherPlace:localStorage.getItem('my_closet_weather_place')||'伊勢原市',stores:{}};for(const name of ['clothes','saved_outfits','history','travels'])data.stores[name]=await all(name);const blob=new Blob([JSON.stringify(data)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`my-closet-backup-${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(url);toast('バックアップを書き出しました！')}catch(e){console.error(e);toast('バックアップの書き出しに失敗しました')}}
+async function exportBackup(){try{const data={version:2,createdAt:new Date().toISOString(),theme:localStorage.getItem('my_closet_theme')||themeId,weatherPlace:localStorage.getItem('my_closet_weather_place')||'東京都',stores:{}};for(const name of ['clothes','saved_outfits','history','travels'])data.stores[name]=await all(name);const blob=new Blob([JSON.stringify(data)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`my-closet-backup-${new Date().toISOString().slice(0,10)}.json`;a.click();URL.revokeObjectURL(url);toast('バックアップを書き出しました！')}catch(e){console.error(e);toast('バックアップの書き出しに失敗しました')}}
 function importBackupPrompt(){const input=document.createElement('input');input.type='file';input.accept='.json,application/json';input.onchange=async e=>{const file=e.target.files?.[0];if(!file)return;try{const data=JSON.parse(await file.text());if(!data?.stores?.clothes||!data?.stores?.saved_outfits||!data?.stores?.history||!data?.stores?.travels)throw new Error('invalid');if(!confirm('現在のデータにバックアップを追加・復元します。よろしいですか？'))return;for(const name of ['clothes','saved_outfits','history','travels'])for(const item of data.stores[name])await put(name,item);if(data.theme)applyTheme(data.theme);if(data.weatherPlace)localStorage.setItem('my_closet_weather_place',data.weatherPlace);toast('バックアップを復元しました！');await render()}catch(err){console.error(err);toast('バックアップファイルを読み込めませんでした')}};input.click()}
 async function openFavorites(){
  const saved=await all('saved_outfits'),clothes=await all('clothes');
- showModal(`<h3 class="font-bold text-base text-center mb-4">❤️ 保存したコーデ</h3>${saved.length?saved.map(s=>{const ids=Object.values(s.items||{}).flatMap(selArray);return `<button onclick="favoriteDetail('${s.id}')" class="w-full text-left p-3 bg-black/20 rounded-xl mb-3 flex gap-3 items-center">${s.thumbnail?`<img src="${s.thumbnail}" class="w-20 h-20 object-cover rounded-lg">`:`<div class="w-20 h-20 rounded-lg bg-white/10 flex items-center justify-center text-2xl">👗</div>`}<div class="min-w-0 flex-1"><b class="text-xs">${esc(s.name||'お気に入りのコーデ')}</b><div class="text-[10px] opacity-60 mt-1 line-clamp-2">${esc(s.comment||'コメントなし')}</div><div class="text-[9px] opacity-50 mt-1">${ids.length}点のアイテム</div></div><span>›</span></button>`}).join(''):'<div class="text-xs opacity-40 text-center py-6">保存したコーデはありません</div>'}<button onclick="closeModal()" class="w-full py-2.5 bg-white/10 rounded-xl text-xs font-bold">閉じる</button>`)
+ showModal(`<div class="saved-outfits-modal"><div class="saved-outfits-toolbar flex items-center justify-between gap-3"><h3 class="font-bold text-base">❤️ 保存したコーデ</h3><button type="button" class="saved-outfits-close" onclick="closeModal()" aria-label="閉じる" title="閉じる"><i class="fa-solid fa-xmark"></i></button></div>${saved.length?saved.map(s=>{const ids=Object.values(s.items||{}).flatMap(selArray);return `<button onclick="favoriteDetail('${s.id}')" class="saved-outfit-row w-full text-left p-3 bg-black/20 rounded-xl mb-3 flex gap-3 items-center">${s.thumbnail?`<img src="${s.thumbnail}" class="w-20 h-20 object-cover rounded-lg">`:`<div class="w-20 h-20 rounded-lg bg-white/10 flex items-center justify-center text-2xl">👗</div>`}<div class="min-w-0 flex-1"><b class="text-xs">${esc(s.name||'お気に入りのコーデ')}</b><div class="text-[10px] opacity-60 mt-1 line-clamp-2">${esc(s.comment||'コメントなし')}</div><div class="text-[9px] opacity-50 mt-1">${ids.length}点のアイテム</div></div><span>›</span></button>`}).join(''):'<div class="text-xs opacity-40 text-center py-6">保存したコーデはありません</div>'}<button onclick="closeModal()" class="w-full py-2.5 bg-white/10 rounded-xl text-xs font-bold">閉じる</button></div>`)
 }
 async function favoriteDetail(id){
  const s=(await all('saved_outfits')).find(x=>x.id===id);if(!s)return;const clothes=await all('clothes');
  const ids=Object.values(s.items||{}).flatMap(selArray);
- showModal(`<div class="flex items-center justify-between mb-3"><button onclick="openFavorites()" class="text-xs opacity-70">← 一覧</button><div class="flex gap-2"><button onclick="editFavorite('${id}')" class="text-xs px-3 py-2 rounded-lg bg-white/10">✏️ 編集</button><button onclick="deleteSaved('${id}')" class="text-xs px-2 rounded-lg bg-red-500/20 text-red-200">削除</button></div></div>
+ showModal(`<div class="saved-outfits-toolbar flex items-center justify-between gap-2 mb-3"><button onclick="openFavorites()" class="text-xs opacity-70">← 一覧</button><div class="flex gap-2 items-center"><button onclick="editFavorite('${id}')" class="text-xs px-3 py-2 rounded-lg bg-white/10">✏️ 編集</button><button onclick="deleteSaved('${id}')" class="text-xs px-2 rounded-lg bg-red-500/20 text-red-200">削除</button><button type="button" class="saved-outfits-close" onclick="closeModal()" aria-label="閉じる" title="閉じる"><i class="fa-solid fa-xmark"></i></button></div></div>
  <div class="rounded-xl overflow-hidden bg-black/20 mb-3">${s.thumbnail?`<img src="${s.thumbnail}" class="w-full max-h-64 object-contain">`:`<div class="h-32 flex items-center justify-center text-xs opacity-50">サムネイル未設定</div>`}</div><h3 class="font-bold text-lg">${esc(s.name||'お気に入りのコーデ')}</h3><p class="text-xs opacity-70 mt-2 whitespace-pre-wrap">${esc(s.comment||'コメントはありません')}</p><h4 class="font-bold text-xs mt-5 mb-2">コーデのアイテム</h4><div class="grid grid-cols-3 gap-2">${ids.map(x=>{const i=clothes.find(c=>c.id===x);return `<div class="min-w-0"><div class="aspect-[4/5] rounded-lg overflow-hidden bg-black/20">${i?.image?`<img src="${i.image}" class="w-full h-full object-cover">`:`<div class="w-full h-full flex items-center justify-center opacity-40">👕</div>`}</div><div class="text-[10px] mt-1 truncate">${esc(i?.name||'削除された服')}</div></div>`}).join('')}</div>`)
 }
 async function editFavorite(id){
@@ -1065,7 +1391,7 @@ async function openOutfitAdvisor(){
 }
 async function runOutfitAdvisor(){
  const style=document.getElementById('advisor-style')?.value||'きれいめ',focus=document.getElementById('advisor-focus')?.value||'指定なし';
- const clothes=await all('clothes');let weather=null;const place=localStorage.getItem('my_closet_weather_place')||'伊勢原市';
+ const clothes=await all('clothes');let weather=null;const place=localStorage.getItem('my_closet_weather_place')||'東京都';
  try{const geo=await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(place)}&count=1&language=ja&format=json`).then(r=>r.json());const hit=geo.results?.[0];if(hit){const d=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${hit.latitude}&longitude=${hit.longitude}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_mean&timezone=Asia%2FTokyo`).then(r=>r.json());weather={max:d.daily.temperature_2m_max[dayOffset],min:d.daily.temperature_2m_min[dayOffset],rain:d.daily.precipitation_probability_mean[dayOffset]||0};}}catch(e){console.info('Weather unavailable for adviser',e)}
  const suggestions=buildOutfitSuggestions(clothes,style,focus,weather);
  if(!suggestions.length){showModal(`<h3 class="font-bold text-base mb-3">コーデ提案</h3><p class="text-xs opacity-70">組み合わせを作るには、クローゼット内にあるトップスとボトムス、またはワンピースを登録してください。</p><button onclick="closeModal()" class="w-full mt-4 py-2.5 rounded-xl bg-white/10 text-xs">閉じる</button>`);return}
@@ -1088,14 +1414,14 @@ function makeStylingAdvice(items,style,weather){
  return notes.slice(0,3).join('。')+'。';
 }
 
-async function setWeatherPlace(){const current=localStorage.getItem('my_closet_weather_place')||'伊勢原市';const name=prompt('天気を表示する場所を入力してください（例：伊勢原市、横浜市、東京都）',current);if(name===null)return;const place=name.trim();if(!place)return toast('場所を入力してください');localStorage.setItem('my_closet_weather_place',place);await fetchWeather()}
+async function setWeatherPlace(){const current=localStorage.getItem('my_closet_weather_place')||'東京都';const name=prompt('天気を表示する場所を入力してください（例：東京都、横浜市、大阪市）',current);if(name===null)return;const place=name.trim();if(!place)return toast('場所を入力してください');localStorage.setItem('my_closet_weather_place',place);await fetchWeather();if(currentTab==='laundry')await fetchLaundryWeather()}
 
 async function fetchWeatherForSelection(offset=dayOffset){
   const main=document.getElementById('selection-weather-main');
   const advice=document.getElementById('selection-weather-advice');
   if(!main)return;
 
-  const place=localStorage.getItem('my_closet_weather_place')||'伊勢原市';
+  const place=localStorage.getItem('my_closet_weather_place')||'東京都';
   main.textContent='🌤 天気を取得中…';
   if(advice)advice.textContent='服装を考えています…';
 
@@ -1161,13 +1487,15 @@ async function fetchWeatherForSelection(offset=dayOffset){
   }
 }
 
-async function fetchWeather(){const el=document.getElementById('weather');if(!el)return;const place=localStorage.getItem('my_closet_weather_place')||'伊勢原市';el.innerHTML=`<div class="flex items-center justify-between gap-3"><span>🌤 天気を取得中…</span><button onclick="setWeatherPlace()" class="px-2 py-1 rounded-lg bg-white/10 text-[10px]">${esc(place)}を変更</button></div>`;try{const geo=await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(place)}&count=1&language=ja&format=json`).then(r=>r.json());const hit=geo.results?.[0];if(!hit)throw new Error('place not found');const u=`https://api.open-meteo.com/v1/forecast?latitude=${hit.latitude}&longitude=${hit.longitude}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_mean,weathercode&timezone=Asia%2FTokyo`;const d=await fetch(u).then(r=>r.json());const w=d.daily,code=w.weathercode[dayOffset];let text=code>=51?'雨':code>=1?'曇り':'晴れ';el.innerHTML=`<div class="flex items-center justify-between gap-3"><div><div>🌤 ${text} ・ 降水 ${w.precipitation_probability_mean[dayOffset]||0}%</div><div class="text-[9px] opacity-50 mt-1">${esc(place)}</div></div><div class="text-right"><b>${Math.round(w.temperature_2m_max[dayOffset])}℃ / ${Math.round(w.temperature_2m_min[dayOffset])}℃</b><button onclick="setWeatherPlace()" class="block ml-auto mt-1 text-[9px] opacity-60">場所を変更</button></div></div>`}catch(e){el.innerHTML=`<div class="flex items-center justify-between gap-3"><span>天気を取得できませんでした</span><button onclick="setWeatherPlace()" class="px-2 py-1 rounded-lg bg-white/10 text-[10px]">場所を設定</button></div>`}}
+async function fetchWeather(){const el=document.getElementById('weather');if(!el)return;const place=localStorage.getItem('my_closet_weather_place')||'東京都';el.innerHTML=`<div class="flex items-center justify-between gap-3"><span>🌤 天気を取得中…</span><button onclick="setWeatherPlace()" class="px-2 py-1 rounded-lg bg-white/10 text-[10px]">${esc(place)}を変更</button></div>`;try{const geo=await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(place)}&count=1&language=ja&format=json`).then(r=>r.json());const hit=geo.results?.[0];if(!hit)throw new Error('place not found');const u=`https://api.open-meteo.com/v1/forecast?latitude=${hit.latitude}&longitude=${hit.longitude}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_mean,weathercode&timezone=Asia%2FTokyo`;const d=await fetch(u).then(r=>r.json());const w=d.daily,code=w.weathercode[dayOffset];let text=code>=51?'雨':code>=1?'曇り':'晴れ';el.innerHTML=`<div class="flex items-center justify-between gap-3"><div><div>🌤 ${text} ・ 降水 ${w.precipitation_probability_mean[dayOffset]||0}%</div><div class="text-[9px] opacity-50 mt-1">${esc(place)}</div></div><div class="text-right"><b>${Math.round(w.temperature_2m_max[dayOffset])}℃ / ${Math.round(w.temperature_2m_min[dayOffset])}℃</b><button onclick="setWeatherPlace()" class="block ml-auto mt-1 text-[9px] opacity-60">場所を変更</button></div></div>`}catch(e){el.innerHTML=`<div class="flex items-center justify-between gap-3"><span>天気を取得できませんでした</span><button onclick="setWeatherPlace()" class="px-2 py-1 rounded-lg bg-white/10 text-[10px]">場所を設定</button></div>`}}
 
 dbReady=initDB();
 window.addEventListener('DOMContentLoaded',async()=>{applyTheme(themeId);try{await dbReady;await checkLaundry();await switchTab('today')}catch(e){console.error(e);document.getElementById('app').innerHTML='<div class="text-center py-10 text-red-300 text-sm">データの読み込みに失敗しました。</div>'}setInterval(checkLaundry,60000)});
 </script>
 
 <script>
+window.addEventListener('DOMContentLoaded', updateAppTitle);
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js').catch(err => {

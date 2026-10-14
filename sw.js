@@ -1,4 +1,4 @@
-const CACHE_NAME = 'my-closet-v1.19-dot-font-themes';
+const CACHE_NAME = 'my-closet-v1.33-laundry-forecast-score';
 const APP_SHELL = [
   './',
   './index.html',
