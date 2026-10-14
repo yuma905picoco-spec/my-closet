@@ -6,6 +6,9 @@
 <title>My Closet</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Doto:ROND,wght@0..100,100..900&family=DotGothic16&display=swap" rel="stylesheet">
 <style>
 :root{--bg-primary:#B7A0D4;--bg-secondary:#F8F4FC;--accent-color:#8D62E8;--accent-secondary:#F09BD9;--text-main:#35284A;--border-color:rgba(141,98,232,.22);--glass-highlight:rgba(255,255,255,.72);--glass-shadow:rgba(77,42,124,.18)}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 8% 5%,color-mix(in srgb,var(--accent-secondary) 42%,transparent),transparent 38%),radial-gradient(ellipse at 92% 22%,color-mix(in srgb,var(--accent-color) 30%,transparent),transparent 42%),linear-gradient(145deg,var(--bg-primary),color-mix(in srgb,var(--bg-primary) 68%,var(--bg-secondary)) 52%,color-mix(in srgb,var(--accent-secondary) 28%,var(--bg-primary)));background-attachment:fixed;color:var(--text-main);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-tap-highlight-color:transparent;user-select:none}.theme-card-bg{background:color-mix(in srgb,var(--bg-secondary) 80%,white 20%);border:1px solid color-mix(in srgb,var(--accent-color) 20%,white 45%);box-shadow:0 8px 24px var(--glass-shadow),inset 0 1px 0 rgba(255,255,255,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}.theme-accent-bg{background:linear-gradient(125deg,var(--accent-color),color-mix(in srgb,var(--accent-color) 50%,var(--accent-secondary)),var(--accent-secondary));box-shadow:0 5px 16px color-mix(in srgb,var(--accent-color) 24%,transparent),inset 0 1px 0 rgba(255,255,255,.35)}.theme-accent-text{color:var(--accent-color)}.theme-accent-border{border-color:var(--accent-color)}.no-scrollbar::-webkit-scrollbar{display:none}.drag-item{touch-action:auto;cursor:default;transition:transform .15s,box-shadow .15s,opacity .15s}.drag-item.longpress-pending{transform:scale(.99)}.drag-item.dragging{opacity:.92;transform:scale(1.035) translateY(-4px);outline:2px solid var(--accent-color);box-shadow:0 14px 32px rgba(0,0,0,.38),0 0 0 4px rgba(9,216,199,.18);z-index:20}.drag-placeholder{border:2px dashed color-mix(in srgb,var(--accent-color) 75%,transparent);border-radius:12px;background:color-mix(in srgb,var(--accent-color) 10%,transparent);box-sizing:border-box;pointer-events:none;min-width:148px}.drag-item.dragging{will-change:transform,left,top;pointer-events:none}.drag-item.dragging::after{content:"移動中";position:absolute;top:8px;right:8px;background:var(--accent-color);color:#07151f;border-radius:999px;padding:4px 7px;font-size:9px;font-weight:800;pointer-events:none}.drag-handle{touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;display:inline-flex;align-items:center;justify-content:center;min-width:74px;min-height:34px}.closet-scroller.is-auto-scrolling{scroll-behavior:auto;scroll-snap-type:none!important;overscroll-behavior-x:contain}.color-filter-scroller{overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scroll-behavior:auto;touch-action:pan-x}.drag-handle-active{transform:scale(1.04);background:var(--accent-color)!important;color:#07151f}.no-scrollbar{scrollbar-width:none}.active-tab{color:var(--accent-color)!important;transform:scale(1.06)}.selected{border:3px solid #10b981!important;box-shadow:0 0 15px rgba(16,185,129,.35)}button:disabled{pointer-events:none}.modal-scroll{max-height:85vh;overflow:auto}.hscroll{display:flex;gap:10px;overflow-x:auto;padding:2px 2px 8px;scroll-snap-type:x proximity}.hscroll::-webkit-scrollbar{display:none}.hscroll>*{flex:0 0 118px;scroll-snap-align:start}.closet-scroller{touch-action:pan-x pan-y;overscroll-behavior-x:contain;display:grid;grid-auto-flow:column;grid-template-rows:repeat(2,minmax(0,1fr));grid-auto-columns:148px;gap:10px;overflow-x:auto;overflow-y:hidden;padding:2px 2px 8px;scroll-snap-type:x proximity}.closet-scroller::-webkit-scrollbar{height:4px}.closet-scroller::-webkit-scrollbar-thumb{background:var(--accent-color);border-radius:999px}.closet-scroller>.drag-item{min-width:148px;scroll-snap-align:start}.closet-scroller>.empty-cat{grid-row:1 / span 2;min-width:100%}.outfit-preview{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.outfit-card{border-radius:16px;overflow:hidden}.outfit-image{height:190px;background:rgba(0,0,0,.12)}.outfit-image img{width:100%;height:100%;object-fit:cover}.color-dot{transition:transform .15s,box-shadow .15s}.app-version{position:fixed;right:8px;bottom:72px;z-index:35;font-size:9px;line-height:1;padding:4px 6px;border-radius:999px;background:rgba(0,0,0,.24);color:rgba(255,255,255,.38);pointer-events:none;letter-spacing:.02em;backdrop-filter:blur(4px)}.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);z-index:100;max-width:90%;padding:10px 16px;border-radius:999px;background:#111827;color:#fff;font-size:12px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
@@ -109,11 +112,158 @@ button:active{transform:scale(.975);filter:saturate(1.18) brightness(1.04)}
 .app-version{background:rgba(12,10,22,.58)!important;color:#fff!important;border:1px solid rgba(255,255,255,.25)!important;box-shadow:0 6px 20px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.15);backdrop-filter:blur(14px)!important;-webkit-backdrop-filter:blur(14px)!important}
 /* Dark translucent status badges remain readable over every theme. */
 #badge{border:1px solid rgba(255,255,255,.48);box-shadow:0 3px 12px rgba(0,0,0,.25)}
+
+/* ver.1.16 Theme Studio: curated presets plus texture families */
+.theme-preset-art.finish-liquid:before{inset:9px 18px 11px 13px;border-radius:24px 14px 28px 12px;background:linear-gradient(135deg,rgba(255,255,255,.75),rgba(255,255,255,.06) 38%,color-mix(in srgb,var(--swatch-c) 32%,transparent));box-shadow:0 10px 20px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.8)}
+.theme-preset-art.finish-crystal:before{inset:12px 20px 14px 15px;background:linear-gradient(130deg,rgba(255,255,255,.72),rgba(255,255,255,.08) 35%,rgba(255,255,255,.42) 54%,rgba(255,255,255,.08));clip-path:polygon(0 0,90% 0,100% 24%,92% 100%,5% 100%)}
+.theme-preset-art.finish-ice:before{background:linear-gradient(135deg,rgba(240,252,255,.76),rgba(130,205,235,.2) 45%,rgba(255,255,255,.52));box-shadow:0 7px 18px rgba(55,150,200,.22),inset 0 0 16px rgba(255,255,255,.38)}
+.theme-preset-art.finish-chrome:before{background:linear-gradient(110deg,rgba(255,255,255,.86),rgba(110,125,145,.22) 22%,rgba(255,255,255,.78) 43%,rgba(55,65,80,.25) 60%,rgba(255,255,255,.74));border-color:rgba(255,255,255,.82)}
+.theme-preset-art.finish-soft:before{background:rgba(255,255,255,.2);backdrop-filter:none;box-shadow:0 7px 15px rgba(0,0,0,.07);border-color:rgba(255,255,255,.38)}
+:root[data-finish="liquid"] .theme-card-bg{background:linear-gradient(135deg,rgba(255,255,255,.48),rgba(255,255,255,.08) 35%,color-mix(in srgb,var(--accent-color) 15%,transparent) 52%,rgba(255,255,255,.20))!important;border-radius:20px!important;box-shadow:0 20px 45px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.72),inset 0 -1px 0 rgba(255,255,255,.18)!important}
+:root[data-finish="crystal"] .theme-card-bg{background:linear-gradient(130deg,rgba(255,255,255,.50),rgba(255,255,255,.12) 36%,rgba(255,255,255,.35) 52%,rgba(255,255,255,.10))!important;border-color:rgba(255,255,255,.64)!important}
+:root[data-finish="ice"] .theme-card-bg{background:linear-gradient(135deg,rgba(238,251,255,.46),rgba(160,220,245,.17),rgba(255,255,255,.22))!important;border-color:rgba(230,250,255,.68)!important;box-shadow:0 14px 32px rgba(40,130,180,.16),inset 0 1px 0 rgba(255,255,255,.8)!important}
+:root[data-finish="soft"] .theme-card-bg{background:linear-gradient(145deg,rgba(255,255,255,.32),rgba(255,255,255,.13))!important;box-shadow:0 10px 24px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.42)!important}
+
+.theme-preset-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.theme-preset-card{position:relative;overflow:hidden;border-radius:16px;text-align:left;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);min-width:0}
+.theme-preset-card.theme-preset-selected{outline:2px solid var(--accent-color);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent-color) 18%,transparent)}
+.theme-preset-art{height:86px;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--swatch-a),var(--swatch-b) 55%,var(--swatch-d))}
+.theme-preset-art:before,.theme-preset-art:after,.theme-preset-art span{content:'';position:absolute;display:block;border-radius:18px;}
+.theme-preset-art:before{inset:13px 22px 15px 15px;background:linear-gradient(135deg,rgba(255,255,255,.65),rgba(255,255,255,.12));border:1px solid rgba(255,255,255,.68);box-shadow:0 8px 18px rgba(0,0,0,.15),inset 0 1px 0 rgba(255,255,255,.75);backdrop-filter:blur(8px)}
+.theme-preset-art:after{width:60px;height:60px;right:-7px;top:-13px;background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.85),color-mix(in srgb,var(--swatch-c) 65%,transparent) 48%,transparent 72%)}
+.theme-preset-art span:nth-child(1){width:34px;height:34px;right:19px;bottom:9px;background:linear-gradient(135deg,var(--swatch-c),var(--swatch-d));border:1px solid rgba(255,255,255,.55);box-shadow:0 5px 15px rgba(0,0,0,.18)}
+.theme-preset-art span:nth-child(2){width:52px;height:13px;left:25px;top:27px;background:rgba(255,255,255,.48);border-radius:99px}
+.theme-preset-art span:nth-child(3){width:25px;height:5px;left:25px;top:46px;background:rgba(255,255,255,.34);border-radius:99px}
+.texture-matte{filter:saturate(.84)}.texture-matte:before{backdrop-filter:none;background:rgba(255,255,255,.22);box-shadow:0 7px 15px rgba(0,0,0,.09)}
+.texture-metallic:before{background:linear-gradient(115deg,rgba(255,255,255,.78),rgba(130,145,160,.2) 30%,rgba(255,255,255,.6) 48%,rgba(20,30,40,.18) 65%,rgba(255,255,255,.45));border-color:rgba(255,255,255,.7)}
+.theme-preset-check{position:absolute;top:7px;right:7px;background:rgba(8,10,20,.75);color:#fff;border:1px solid rgba(255,255,255,.55);width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px}
+.theme-studio-section-title{font-size:11px;font-weight:800;letter-spacing:.08em;opacity:.72;margin-bottom:9px}
+.theme-family-section{padding:12px;border:1px solid rgba(255,255,255,.17);border-radius:16px;background:rgba(255,255,255,.055)}
+.theme-palette-list{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.theme-palette-option{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:11px;border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.08)}
+.theme-palette-option.is-current{border-color:var(--accent-color);background:color-mix(in srgb,var(--accent-color) 13%,transparent)}
+#modal .theme-studio{padding-bottom:2px}
+:root[data-texture="matte"] .theme-card-bg{backdrop-filter:blur(16px) saturate(108%)!important;-webkit-backdrop-filter:blur(16px) saturate(108%)!important;background:linear-gradient(145deg,rgba(255,255,255,.36),rgba(255,255,255,.17))!important;box-shadow:0 10px 26px rgba(0,0,0,.09),inset 0 1px 0 rgba(255,255,255,.45)!important}
+:root[data-texture="metallic"] .theme-card-bg{background:linear-gradient(115deg,rgba(255,255,255,.45),rgba(135,150,165,.17) 27%,rgba(255,255,255,.30) 48%,rgba(20,30,40,.13) 72%,rgba(255,255,255,.26))!important;border-color:rgba(255,255,255,.58)!important;box-shadow:0 15px 34px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.72),inset 0 -1px 0 rgba(30,40,50,.18)!important}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
+
+/* Theme collections: distinct design languages while preserving app functions */
+.theme-family-section{padding:13px;border:1px solid color-mix(in srgb,var(--accent-color) 18%,transparent);border-radius:18px;background:color-mix(in srgb,var(--bg-secondary) 68%,transparent)}
+.theme-preset-art{height:94px;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--swatch-a),var(--swatch-b) 58%,var(--swatch-d));}
+.theme-preset-art:before{content:'';position:absolute;inset:13px 18px 15px 14px;border-radius:13px;background:linear-gradient(135deg,rgba(255,255,255,.52),rgba(255,255,255,.08));border:1px solid rgba(255,255,255,.5);box-shadow:0 7px 16px rgba(0,0,0,.15)}
+.theme-preset-art:after{content:'';position:absolute;width:42px;height:42px;right:8px;bottom:5px;border-radius:50%;background:var(--swatch-c);box-shadow:0 4px 9px rgba(0,0,0,.16)}
+.theme-preset-art span{position:absolute;z-index:1;height:5px;left:25px;top:28px;width:45%;background:var(--swatch-d);border-radius:4px}.theme-preset-art span:nth-child(2){top:40px;width:30%;opacity:.8}.theme-preset-art span:nth-child(3){top:52px;width:38%;opacity:.55}.theme-preset-art b{position:absolute;z-index:2;bottom:6px;left:9px;font-size:7px;letter-spacing:.12em;color:var(--swatch-a);opacity:.8}
+.art-sculptural:before{border-radius:24px 12px 24px 12px;inset:15px 18px 9px 13px;box-shadow:0 9px 0 rgba(0,0,0,.08),0 12px 18px rgba(0,0,0,.12)}
+.art-soft:before{border-radius:18px;background:rgba(255,255,255,.35);box-shadow:0 6px 14px rgba(0,0,0,.06)}
+.art-mono:before{border-radius:2px;background:var(--swatch-b);border:1px solid var(--swatch-c);box-shadow:none}.art-mono span{border-radius:0;height:2px;background:var(--swatch-c)}.art-mono:after{border-radius:0;width:26px;height:26px;border:2px dotted var(--swatch-c);background:transparent;box-shadow:none}
+.art-pixel:before,.art-pixel-soft:before{border-radius:0;border:3px solid var(--swatch-d);background:var(--swatch-b);box-shadow:5px 5px 0 rgba(0,0,0,.22);inset:12px 17px 13px 12px}.art-pixel:after,.art-pixel-soft:after{border-radius:0;width:26px;height:26px;right:12px;bottom:8px;box-shadow:4px 4px 0 rgba(0,0,0,.2)}.art-pixel span,.art-pixel-soft span{border-radius:0;height:5px}
+:root[data-design="mono"] body{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+:root[data-design="mono"] .theme-card-bg{border-radius:4px!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;box-shadow:none!important;border:1px solid var(--accent-color)!important;background:var(--bg-secondary)!important}
+:root[data-design="mono"] .theme-accent-bg{border-radius:3px!important;box-shadow:none!important;background:var(--accent-color)!important;color:var(--bg-primary)!important}
+:root[data-design="pixel"] body,:root[data-design="pixel-soft"] body{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;image-rendering:pixelated}
+:root[data-design="pixel"] .theme-card-bg,:root[data-design="pixel-soft"] .theme-card-bg{border-radius:3px!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;box-shadow:4px 4px 0 color-mix(in srgb,var(--text-main) 28%,transparent)!important;border:2px solid var(--text-main)!important;background:var(--bg-secondary)!important}
+:root[data-design="pixel"] .theme-accent-bg,:root[data-design="pixel-soft"] .theme-accent-bg{border-radius:2px!important;box-shadow:3px 3px 0 color-mix(in srgb,var(--text-main) 35%,transparent)!important}
+:root[data-design="pixel"] button,:root[data-design="pixel-soft"] button{border-radius:2px!important}
+:root[data-design="glass"] .theme-card-bg{backdrop-filter:blur(24px) saturate(145%)!important;-webkit-backdrop-filter:blur(24px) saturate(145%)!important}
+
+
+/* v1.18 material rules: gradients only for Glass, Terracotta and Crayon */
+:root[data-family="glass"] .theme-card-bg,:root[data-family="terracotta"] .theme-card-bg,:root[data-family="crayon"] .theme-card-bg{border:0!important;outline:0!important}
+:root[data-family="glass"] .theme-card-bg{background:linear-gradient(135deg,color-mix(in srgb,var(--bg-secondary) 78%,white 22%),color-mix(in srgb,var(--bg-secondary) 88%,transparent))!important;box-shadow:0 12px 28px color-mix(in srgb,var(--accent-color) 14%,transparent),inset 0 1px 0 rgba(255,255,255,.36)!important}
+:root[data-family="terracotta"] .theme-card-bg{background:linear-gradient(145deg,color-mix(in srgb,var(--bg-secondary) 92%,white 8%),var(--bg-secondary))!important;box-shadow:0 9px 22px rgba(0,0,0,.09),inset 0 1px 0 rgba(255,255,255,.22)!important}
+:root[data-family="crayon"] .theme-card-bg{background:linear-gradient(145deg,color-mix(in srgb,var(--bg-secondary) 92%,white 8%),color-mix(in srgb,var(--bg-secondary) 94%,var(--accent-secondary) 6%))!important;box-shadow:0 8px 20px rgba(0,0,0,.055)!important}
+:root[data-family="nothing"] body{font-family:Arial,Helvetica,sans-serif;letter-spacing:.015em}
+:root[data-family="nothing"] .theme-card-bg{border:0!important;outline:0!important;box-shadow:none!important;background:var(--bg-secondary)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border-radius:10px!important}
+:root[data-family="nothing"] .theme-accent-text{color:#E53935!important}
+:root[data-family="nothing"] .theme-accent-bg{background:#E53935!important;color:#fff!important;border:0!important;box-shadow:none!important}
+:root[data-family="nothing"] .theme-preset-art{background:var(--swatch-a)!important}
+:root[data-family="nothing"] .theme-preset-art:before{border:0!important;box-shadow:none!important;background:var(--swatch-b)!important;border-radius:2px!important}
+:root[data-family="nothing"] .theme-preset-art:after{border-radius:0!important;background:#E53935!important;box-shadow:none!important}
+:root[data-family="famicom"] body{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+:root[data-family="famicom"] .theme-card-bg{background:var(--bg-secondary)!important;border:2px solid var(--text-main)!important;border-radius:2px!important;box-shadow:4px 4px 0 color-mix(in srgb,var(--text-main) 25%,transparent)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+:root[data-family="pixelrevival"] body{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+:root[data-family="pixelrevival"] .theme-card-bg{background:var(--bg-secondary)!important;border:2px solid var(--accent-color)!important;border-radius:4px!important;box-shadow:3px 3px 0 color-mix(in srgb,var(--text-main) 18%,transparent)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+:root[data-family="famicom"] .theme-accent-bg,:root[data-family="pixelrevival"] .theme-accent-bg{background:var(--accent-color)!important;border-radius:2px!important;box-shadow:none!important}
+:root[data-family="famicom"] .theme-preset-art,:root[data-family="pixelrevival"] .theme-preset-art{background:var(--swatch-a)!important}
+:root[data-family="famicom"] .theme-preset-art:before,:root[data-family="pixelrevival"] .theme-preset-art:before{border:2px solid var(--swatch-d)!important;border-radius:0!important;box-shadow:3px 3px 0 rgba(0,0,0,.2)!important;background:var(--swatch-b)!important}
+:root[data-family="famicom"] .theme-preset-art:after,:root[data-family="pixelrevival"] .theme-preset-art:after{border-radius:0!important;box-shadow:none!important}
+
+
+/* ver.1.19 dot typography and world-specific material rules */
+:root[data-family="nothing"] body,
+:root[data-family="nothing"] button,
+:root[data-family="nothing"] input,
+:root[data-family="nothing"] select,
+:root[data-family="nothing"] textarea{
+  font-family:"Doto","DotGothic16",ui-monospace,monospace!important;
+  font-variation-settings:"ROND" 100,"wght" 650;
+  letter-spacing:.035em;
+}
+:root[data-family="nothing"] body{
+  background:var(--bg-primary)!important;
+  background-image:none!important;
+}
+:root[data-family="nothing"] .theme-card-bg,
+:root[data-family="nothing"] #modal,
+:root[data-family="nothing"] header,
+:root[data-family="nothing"] nav,
+:root[data-family="nothing"] .theme-accent-bg,
+:root[data-family="nothing"] .status-pill,
+:root[data-family="nothing"] .app-version{
+  background-image:none!important;
+  border:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+:root[data-family="nothing"] *{border-color:transparent!important}
+:root[data-family="nothing"] .theme-card-bg{background:var(--bg-secondary)!important;border-radius:8px!important}
+:root[data-family="nothing"] .theme-accent-bg{background:#E53935!important;color:#fff!important}
+:root[data-family="nothing"] .theme-accent-text{color:#E53935!important}
+:root[data-family="nothing"] .app-version{background:var(--bg-secondary)!important;color:var(--text-main)!important}
+
+:root[data-family="famicom"] body,
+:root[data-family="famicom"] button,
+:root[data-family="famicom"] input,
+:root[data-family="famicom"] select,
+:root[data-family="famicom"] textarea,
+:root[data-family="pixelrevival"] body,
+:root[data-family="pixelrevival"] button,
+:root[data-family="pixelrevival"] input,
+:root[data-family="pixelrevival"] select,
+:root[data-family="pixelrevival"] textarea{
+  font-family:"DotGothic16",ui-monospace,SFMono-Regular,Menlo,monospace!important;
+  letter-spacing:.015em;
+}
+:root[data-family="famicom"] body,
+:root[data-family="pixelrevival"] body{
+  background:var(--bg-primary)!important;
+  background-image:none!important;
+}
+:root[data-family="famicom"] .theme-card-bg,
+:root[data-family="pixelrevival"] .theme-card-bg,
+:root[data-family="famicom"] #modal,
+:root[data-family="pixelrevival"] #modal,
+:root[data-family="famicom"] header,
+:root[data-family="pixelrevival"] header,
+:root[data-family="famicom"] nav,
+:root[data-family="pixelrevival"] nav,
+:root[data-family="famicom"] .theme-accent-bg,
+:root[data-family="pixelrevival"] .theme-accent-bg{
+  background-image:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+:root[data-family="famicom"] .theme-card-bg{background:var(--bg-secondary)!important;border:2px solid var(--text-main)!important;border-radius:2px!important;box-shadow:4px 4px 0 color-mix(in srgb,var(--text-main) 25%,transparent)!important}
+:root[data-family="pixelrevival"] .theme-card-bg{background:var(--bg-secondary)!important;border:2px solid var(--accent-color)!important;border-radius:4px!important;box-shadow:3px 3px 0 color-mix(in srgb,var(--text-main) 18%,transparent)!important}
+:root[data-family="famicom"] .theme-accent-bg,
+:root[data-family="pixelrevival"] .theme-accent-bg{background:var(--accent-color)!important}
+
 </style>
 <script>
 // 保存済みテーマを「最初の描画前」に適用。読み込み中だけデフォルト色になる問題を防止。
-(()=>{const m={'night-secret':['#0D1A2F','#17364F','#09D8C7','#BD0927','#F3F4F6'],'backlight':['#E1D1CA','#AED8D6','#16939E','#FB958C','#50282C'],'glitter':['#201D39','#514575','#E58500','#FFC451','#F3F4F6'],'twilight':['#786181','#B05E76','#FB9C6C','#E97F83','#F3F4F6'],'fresh-sky':['#042C8F','#4891E7','#E8F957','#86D0FD','#FFFFFF'],'pastel-lagoon':['#E7F4EE','#F8FCF9','#59B7A6','#E77B9A','#29413D'],'crystal-shower':['#E8F1F4','#CBDDE3','#007FAF','#7189C4','#183746'],'sunset-citrus':['#0F3B59','#7D929E','#DBA12C','#3E251E','#DBD4CC'],'iridescent-lavender':['#B7A0D4','#F8F4FC','#8D62E8','#F09BD9','#35284A'],'iridescent-ocean':['#8EBAD4','#F1FAFC','#4B8FD8','#83DCD0','#243C54'],'iridescent-peach':['#E8B7C8','#FFF7F1','#E783B7','#F4C36B','#57364D'],'iridescent-mint':['#A5D5C9','#F3FBF8','#54AE9A','#B8A0EA','#294B49'],'iridescent-midnight':['#302747','#51416E','#B59AF7','#ED91D3','#FBF7FF']};const t=m[localStorage.getItem('my_closet_theme')]||m['sunset-citrus'];const r=document.documentElement;['--bg-primary','--bg-secondary','--accent-color','--accent-secondary','--text-main'].forEach((k,i)=>r.style.setProperty(k,t[i]));r.style.setProperty('--border-color',t[2]+'33')})();
+(()=>{const m={'night-secret':['#0D1A2F','#17364F','#09D8C7','#BD0927','#F3F4F6'],'backlight':['#E1D1CA','#AED8D6','#16939E','#FB958C','#50282C'],'glitter':['#201D39','#514575','#E58500','#FFC451','#F3F4F6'],'twilight':['#786181','#B05E76','#FB9C6C','#E97F83','#F3F4F6'],'fresh-sky':['#042C8F','#4891E7','#E8F957','#86D0FD','#FFFFFF'],'pastel-lagoon':['#E7F4EE','#F8FCF9','#59B7A6','#E77B9A','#29413D'],'crystal-shower':['#E8F1F4','#CBDDE3','#007FAF','#7189C4','#183746'],'sunset-citrus':['#0F3B59','#7D929E','#DBA12C','#3E251E','#DBD4CC'],'iridescent-lavender':['#B7A0D4','#F8F4FC','#8D62E8','#F09BD9','#35284A'],'iridescent-ocean':['#8EBAD4','#F1FAFC','#4B8FD8','#83DCD0','#243C54'],'iridescent-peach':['#E8B7C8','#FFF7F1','#E783B7','#F4C36B','#57364D'],'iridescent-mint':['#A5D5C9','#F3FBF8','#54AE9A','#B8A0EA','#294B49'],'iridescent-midnight':['#302747','#51416E','#B59AF7','#ED91D3','#FBF7FF'],'nothing-white':['#F4F4EF','#FFFFFF','#E53935','#B7B7AE','#171717'],'nothing-black':['#111312','#242725','#E53935','#777D76','#F3F3EE'],'famicom-classic':['#6C6B4D','#D8D5AD','#A64B3D','#34382A','#22251B'],'8bit-green':['#263B2B','#526B45','#B8C96D','#D9D2A0','#E5E8C8'],'dot-sunset':['#653D37','#D9B98B','#D56C45','#394D59','#F7E7C5'],'cherry-pixel':['#F2A0A7','#C0E0C8','#D86E83','#F8E9C7','#314B49'],'mint-desktop':['#A8D8C8','#F3EFD6','#477D7C','#E99AA4','#304846'],'pixel-dream':['#C9B5E8','#F8E4E6','#8A7FC0','#8DCBCB','#413650']};const id=localStorage.getItem('my_closet_theme')||'sunset-citrus';const t=m[id]||m['sunset-citrus'];const r=document.documentElement;const texture={'sunset-citrus':'metallic','night-secret':'glass','backlight':'matte','glitter':'glass','twilight':'glass','fresh-sky':'metallic','pastel-lagoon':'matte','crystal-shower':'glass','iridescent-lavender':'glass','iridescent-ocean':'glass','iridescent-peach':'matte','iridescent-mint':'matte','iridescent-midnight':'glass'}[id]||'glass';r.dataset.texture=texture;r.dataset.design=({'nothing-white':'mono','nothing-black':'mono','famicom-classic':'pixel','8bit-green':'pixel','dot-sunset':'pixel','cherry-pixel':'pixel-soft','mint-desktop':'pixel-soft','pixel-dream':'pixel-soft','sunset-citrus':'sculptural','glitter':'sculptural','pastel-lagoon':'sculptural','iridescent-mint':'sculptural','backlight':'soft','twilight':'soft','iridescent-peach':'soft'}[id]||'glass');r.dataset.finish=({'sunset-citrus':'chrome','night-secret':'liquid','backlight':'soft','glitter':'crystal','twilight':'frost','fresh-sky':'chrome','pastel-lagoon':'soft','crystal-shower':'ice','iridescent-lavender':'frost','iridescent-ocean':'crystal','iridescent-peach':'soft','iridescent-mint':'soft','iridescent-midnight':'liquid'}[id]||'frost');['--bg-primary','--bg-secondary','--accent-color','--accent-secondary','--text-main'].forEach((k,i)=>r.style.setProperty(k,t[i]));r.style.setProperty('--border-color',t[2]+'33')})();
 </script>
 
 <link rel="manifest" href="./manifest.webmanifest">
@@ -123,7 +273,7 @@ button:active{transform:scale(.975);filter:saturate(1.18) brightness(1.04)}
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="My Closet">
 </head>
-<body class="min-h-screen pb-24 pt-16"><div class="app-version">ver.1.16</div>
+<body class="min-h-screen pb-24 pt-16"><div class="app-version">ver.1.19</div>
 <header class="fixed top-0 left-0 right-0 z-40 px-4 py-3 flex justify-between items-center backdrop-blur-md border-b border-white/10" style="background:var(--bg-primary)">
 <div class="flex items-center gap-2"><i class="fa-solid fa-shirt text-xl theme-accent-text"></i><h1 class="font-bold text-lg">My Closet</h1></div>
 <div class="flex gap-2"><button onclick="openFavorites()" class="w-9 h-9 rounded-full theme-card-bg text-rose-400"><i class="fa-solid fa-heart"></i></button><button onclick="openTheme()" class="px-3 py-1.5 rounded-full theme-card-bg text-xs"><i class="fa-solid fa-palette theme-accent-text mr-1"></i>テーマ</button></div>
@@ -142,19 +292,27 @@ const CATS=[
 {id:'tops',name:'トップス',icon:'fa-shirt',laundry:true},{id:'bottoms',name:'ボトムス',icon:'fa-user-nurse',laundry:true},{id:'dress',name:'ワンピース',icon:'fa-vest',laundry:true},{id:'outer',name:'ジャケット・アウター',icon:'fa-user-tie',laundry:false},{id:'socks',name:'靴下',icon:'fa-socks',laundry:true},{id:'shoes',name:'靴',icon:'fa-shoe-prints',laundry:false},{id:'acc',name:'アクセサリー',icon:'fa-gem',laundry:false}
 ];
 const THEMES=[
-{id:'sunset-citrus',name:'サンセットシトラス',p:'#0F3B59',s:'#7D929E',a:'#DBA12C',x:'#3E251E',t:'#DBD4CC'},
-{id:'night-secret',name:'ホログラム・シリウス',p:'#0D1A2F',s:'#17364F',a:'#09D8C7',x:'#BD0927',t:'#F3F4F6'},
-{id:'backlight',name:'ティファニーで朝食を',p:'#E1D1CA',s:'#AED8D6',a:'#16939E',x:'#FB958C',t:'#50282C'},
-{id:'glitter',name:'ランタンと魔法',p:'#201D39',s:'#514575',a:'#E58500',x:'#FFC451',t:'#F3F4F6'},
-{id:'twilight',name:'薄明の空彩',p:'#786181',s:'#B05E76',a:'#FB9C6C',x:'#E97F83',t:'#F3F4F6'},
-{id:'fresh-sky',name:'閃光都市',p:'#042C8F',s:'#4891E7',a:'#E8F957',x:'#86D0FD',t:'#FFFFFF'},
-{id:'pastel-lagoon',name:'パステルラグーン',p:'#E7F4EE',s:'#F8FCF9',a:'#59B7A6',x:'#E77B9A',t:'#29413D'},
-{id:'crystal-shower',name:'クリスタルシャワー',p:'#E8F1F4',s:'#CBDDE3',a:'#007FAF',x:'#7189C4',t:'#183746'},
-{id:'iridescent-lavender',name:'イリディセント・ラベンダー',p:'#B7A0D4',s:'#F8F4FC',a:'#8D62E8',x:'#F09BD9',t:'#35284A'},
-{id:'iridescent-ocean',name:'イリディセント・オーシャン',p:'#8EBAD4',s:'#F1FAFC',a:'#4B8FD8',x:'#83DCD0',t:'#243C54'},
-{id:'iridescent-peach',name:'イリディセント・ピーチ',p:'#E8B7C8',s:'#FFF7F1',a:'#E783B7',x:'#F4C36B',t:'#57364D'},
-{id:'iridescent-mint',name:'イリディセント・ミント',p:'#A5D5C9',s:'#F3FBF8',a:'#54AE9A',x:'#B8A0EA',t:'#294B49'},
-{id:'iridescent-midnight',name:'イリディセント・ミッドナイト',p:'#302747',s:'#51416E',a:'#B59AF7',x:'#ED91D3',t:'#FBF7FF'}];
+{id:'sunset-citrus',texture:'terracotta',finish:'matte',family:'terracotta',design:'sculptural',name:'サンセット・テラコッタ',p:'#D9C3A5',s:'#F4E9D8',a:'#C8794B',x:'#8DA79A',t:'#43352C'},
+{id:'night-secret',texture:'glass',finish:'liquid',family:'glass',design:'glass',name:'ホログラム・グラス',p:'#0D1A2F',s:'#17364F',a:'#09D8C7',x:'#BD0927',t:'#F3F4F6'},
+{id:'backlight',texture:'crayon',finish:'soft',family:'crayon',design:'soft',name:'ティファニー・クレヨン',p:'#E1D1CA',s:'#FFF8EC',a:'#6BA9A7',x:'#F4A69B',t:'#423A39'},
+{id:'glitter',texture:'terracotta',finish:'matte',family:'terracotta',design:'sculptural',name:'ランタン・テラコッタ',p:'#E9C48D',s:'#F8EAD0',a:'#B96B36',x:'#6C503B',t:'#392B25'},
+{id:'twilight',texture:'crayon',finish:'soft',family:'crayon',design:'soft',name:'薄明・クレヨン',p:'#E7D5DD',s:'#FFF7F0',a:'#B88BA8',x:'#F1A18B',t:'#4D3B4B'},
+{id:'fresh-sky',texture:'glass',finish:'chrome',family:'glass',design:'glass',name:'閃光都市・グラス',p:'#071A2A',s:'#173D59',a:'#B6F04A',x:'#72D9F2',t:'#F4FAFF'},
+{id:'pastel-lagoon',texture:'terracotta',finish:'matte',family:'terracotta',design:'sculptural',name:'セージ・テラコッタ',p:'#C9D6C7',s:'#F3F0E6',a:'#719B8A',x:'#D9A078',t:'#33463D'},
+{id:'crystal-shower',texture:'glass',finish:'ice',family:'glass',design:'glass',name:'オーシャン・グラス',p:'#B8DDE5',s:'#F1FAFC',a:'#2586A4',x:'#7ED8D0',t:'#183746'},
+{id:'iridescent-lavender',texture:'glass',finish:'frost',family:'glass',design:'glass',name:'イリディセント・グラス',p:'#B7A0D4',s:'#F8F4FC',a:'#8D62E8',x:'#F09BD9',t:'#35284A'},
+{id:'iridescent-ocean',texture:'glass',finish:'crystal',family:'glass',design:'glass',name:'オーシャン・クリスタル・グラス',p:'#8EBAD4',s:'#F1FAFC',a:'#4B8FD8',x:'#83DCD0',t:'#243C54'},
+{id:'iridescent-peach',texture:'crayon',finish:'soft',family:'crayon',design:'soft',name:'ピーチ・クレヨン',p:'#E8B7C8',s:'#FFF7F1',a:'#E783B7',x:'#F4C36B',t:'#57364D'},
+{id:'iridescent-mint',texture:'terracotta',finish:'matte',family:'terracotta',design:'sculptural',name:'ミント・テラコッタ',p:'#A5D5C9',s:'#F3FBF8',a:'#54AE9A',x:'#B8A0EA',t:'#294B49'},
+{id:'iridescent-midnight',texture:'glass',finish:'liquid',family:'glass',design:'glass',name:'ミッドナイト・グラス',p:'#302747',s:'#51416E',a:'#B59AF7',x:'#ED91D3',t:'#FBF7FF'},
+{id:'nothing-white',texture:'mono',finish:'flat',family:'nothing',design:'mono',name:'NOTHING / WHITE',p:'#F4F4EF',s:'#FFFFFF',a:'#181818',x:'#B7B7AE',t:'#171717'},
+{id:'nothing-black',texture:'mono',finish:'flat',family:'nothing',design:'mono',name:'NOTHING / BLACK',p:'#111312',s:'#242725',a:'#F3F3EE',x:'#777D76',t:'#F3F3EE'},
+{id:'famicom-classic',texture:'pixel',finish:'pixel',family:'famicom',design:'pixel',name:'ファミコン・クラシック',p:'#6C6B4D',s:'#D8D5AD',a:'#A64B3D',x:'#34382A',t:'#22251B'},
+{id:'8bit-green',texture:'pixel',finish:'pixel',family:'famicom',design:'pixel',name:'8BIT・グリーン',p:'#263B2B',s:'#526B45',a:'#B8C96D',x:'#D9D2A0',t:'#E5E8C8'},
+{id:'dot-sunset',texture:'pixel',finish:'pixel',family:'famicom',design:'pixel',name:'ドット・サンセット',p:'#653D37',s:'#D9B98B',a:'#D56C45',x:'#394D59',t:'#F7E7C5'},
+{id:'cherry-pixel',texture:'pixel',finish:'pixel-soft',family:'pixelrevival',design:'pixel-soft',name:'チェリー・ピクセル',p:'#F2A0A7',s:'#C0E0C8',a:'#D86E83',x:'#F8E9C7',t:'#314B49'},
+{id:'mint-desktop',texture:'pixel',finish:'pixel-soft',family:'pixelrevival',design:'pixel-soft',name:'ミント・デスクトップ',p:'#A8D8C8',s:'#F3EFD6',a:'#477D7C',x:'#E99AA4',t:'#304846'},
+{id:'pixel-dream',texture:'pixel',finish:'pixel-soft',family:'pixelrevival',design:'pixel-soft',name:'ピクセル・ドリーム',p:'#C9B5E8',s:'#F8E4E6',a:'#8A7FC0',x:'#8DCBCB',t:'#413650'}];
 let db=null,dbReady=null,currentTab='today',dayOffset=0,preview=false,themeId=localStorage.getItem('my_closet_theme')||'sunset-citrus';
 let historyView='history', analysisPeriod='month', analysisCategory='tops';
 const emptySel=()=>Object.fromEntries(CATS.map(c=>[c.id,[]]));
@@ -215,10 +373,20 @@ const overlay=document.getElementById('overlay'),modal=document.getElementById('
 if(!overlay||!modal)return; overlay.classList.add('hidden'); overlay.classList.remove('flex'); modal.innerHTML='';
 }
 function toast(msg){const x=document.createElement('div');x.className='toast';x.textContent=msg;document.body.appendChild(x);setTimeout(()=>x.remove(),2200)}
-function applyTheme(id){const t=THEMES.find(x=>x.id===id)||THEMES[0];themeId=t.id;localStorage.setItem('my_closet_theme',t.id);const r=document.documentElement;r.style.setProperty('--bg-primary',t.p);r.style.setProperty('--bg-secondary',t.s);r.style.setProperty('--accent-color',t.a);r.style.setProperty('--accent-secondary',t.x);r.style.setProperty('--text-main',t.t);r.style.setProperty('--border-color',t.a+'33')}
+function applyTheme(id){const t=THEMES.find(x=>x.id===id)||THEMES[0];themeId=t.id;localStorage.setItem('my_closet_theme',t.id);const r=document.documentElement;r.dataset.texture=t.texture||'glass';r.dataset.finish=t.finish||'frost';r.dataset.design=t.design||'glass';r.dataset.family=t.family||'glass';r.style.setProperty('--bg-primary',t.p);r.style.setProperty('--bg-secondary',t.s);r.style.setProperty('--accent-color',t.a);r.style.setProperty('--accent-secondary',t.x);r.style.setProperty('--text-main',t.t);r.style.setProperty('--border-color',t.a+'33')}
 function openTheme(){
-const dot=t=>`<span class="w-6 h-6 rounded-full border border-black/15 shadow-sm" style="background:${t}"></span>`;
-showModal(`<h3 class="font-bold text-lg text-center mb-1">カラーテーマ</h3><p class="text-xs opacity-60 text-center mb-4">色の組み合わせをタップして変更</p><div class="space-y-2">${THEMES.map(t=>`<button onclick="applyTheme('${t.id}');openTheme()" class="w-full p-3 rounded-xl border flex items-center gap-3 ${themeId===t.id?'theme-accent-border border-2':'border-white/10'}" style="background:${t.s}"><div class="flex gap-1.5">${dot(t.p)}${dot(t.s)}${dot(t.a)}${dot(t.x)}${dot(t.t)}</div><span class="text-xs font-bold flex-1 text-left" style="color:${t.t}">${t.name}</span>${themeId===t.id?`<span class="font-bold" style="color:${t.a}">✓</span>`:''}</button>`).join('')}</div><button onclick="closeModal()" class="w-full mt-4 py-2.5 rounded-xl bg-white/10 text-xs font-bold">閉じる</button>`)
+ const families=[
+ {id:'glass',name:'01 / GLASS',jp:'光・透明感・奥行き',desc:'透ける層、反射、液体のような艶',ids:THEMES.filter(t=>t.family==='glass')},
+ {id:'terracotta',name:'02 / TERRACOTTA',jp:'マット・彫刻的',desc:'陶器のような表面、柔らかな影、立体感',ids:THEMES.filter(t=>t.family==='terracotta')},
+ {id:'crayon',name:'03 / CRAYON',jp:'温かさ・パステル',desc:'柔らかな紙やクレヨンを思わせる色彩',ids:THEMES.filter(t=>t.family==='crayon')},
+ {id:'nothing',name:'04 / NOTHING',jp:'モノクロ・機能美',desc:'白黒、ドット、罫線を活かしたミニマルUI',ids:THEMES.filter(t=>t.family==='nothing')},
+ {id:'famicom',name:'05 / FAMICOM',jp:'8-bit・クラシックゲーム',desc:'限られた色数と角ばったピクセル',ids:THEMES.filter(t=>t.family==='famicom')},
+ {id:'pixelrevival',name:'06 / PIXEL REVIVAL',jp:'レトロPC・現代的ドット',desc:'ウィンドウ、格子、パステルカラー',ids:THEMES.filter(t=>t.family==='pixelrevival')}];
+ const dot=c=>`<span class="w-5 h-5 rounded-full border border-black/15 shadow-sm" style="background:${c}"></span>`;
+ const current=THEMES.find(t=>t.id===themeId)||THEMES[0];
+ const art=t=>`<div class="theme-preset-art art-${t.design}" style="--swatch-a:${t.p};--swatch-b:${t.s};--swatch-c:${t.a};--swatch-d:${t.x}"><span></span><span></span><span></span><b>MY CLOSET</b></div>`;
+ const familyCards=families.map(f=>`<section class="theme-family-section theme-group-${f.id}"><div class="flex items-start justify-between mb-3"><div><div class="font-bold text-sm">${f.name}</div><div class="text-[10px] opacity-75 mt-1">${f.jp}</div><div class="text-[10px] opacity-55 mt-1">${f.desc}</div></div><span class="text-xs opacity-50">${String(f.ids.length).padStart(2,'0')} THEMES</span></div><div class="theme-preset-grid">${f.ids.map(t=>`<button onclick="applyTheme('${t.id}');openTheme()" class="theme-preset-card ${themeId===t.id?'theme-preset-selected':''}">${art(t)}<div class="p-2 text-left"><div class="text-[11px] font-bold leading-snug">${t.name}</div><div class="flex gap-1 mt-2">${dot(t.p)}${dot(t.s)}${dot(t.a)}${dot(t.x)}</div></div>${themeId===t.id?'<span class="theme-preset-check">✓</span>':''}</button>`).join('')}</div></section>`).join('');
+ showModal(`<div class="theme-studio"><div class="flex items-start justify-between mb-2"><div><div class="text-[10px] tracking-[.22em] opacity-55">MY CLOSET / THEME COLLECTIONS</div><h3 class="font-bold text-xl mt-1">テーマコレクション</h3></div><span class="text-[10px] rounded-full px-2 py-1 theme-card-bg">選択中：${current.name}</span></div><p class="text-xs opacity-65 mb-4 leading-relaxed">色見本ではなく、完成した世界観から選ぶ。シリーズごとに質感・カード・ボタンの表情が変わります。</p><div class="space-y-4">${familyCards}</div><p class="text-[10px] opacity-50 mt-4 leading-relaxed">テーマを変更しても、登録した服・コーデ・着用履歴はそのまま保存されます。</p><button onclick="closeModal()" class="w-full mt-4 py-3 rounded-xl theme-accent-bg text-black text-xs font-bold">完了</button></div>`);
 }
 async function switchTab(tab){currentTab=tab;document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active-tab'));document.getElementById('nav-'+tab)?.classList.add('active-tab');await render()}
 async function render(){

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'my-closet-v1.16-outfit-advisor';
+const CACHE_NAME = 'my-closet-v1.19-dot-font-themes';
 const APP_SHELL = [
   './',
   './index.html',
