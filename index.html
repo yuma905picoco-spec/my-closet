@@ -932,26 +932,44 @@ function homeSetIds(offset=dayOffset){
 }
 
 async function processHomeSetDayChange(){
+  // Home-set keys are relative offsets (today/tomorrow/day after tomorrow),
+  // but the saved date is absolute. After midnight, shift still-valid plans
+  // to their new offsets and only send genuinely past outfits to laundry.
+  const today=dateOffset(0);
+  const sets=[];
   for(let offset=0;offset<=2;offset++){
     const set=getHomeSet(offset);
-    if(!set || set.date===dateOffset(offset))continue;
+    if(set && set.date && set.items) sets.push({...set, previousOffset:offset});
+  }
+  if(!sets.length)return;
 
-    const clothes=await all('clothes');
-    const ids=Object.values(set.items||{}).flatMap(selArray);
+  const expired=sets.filter(set=>set.date<today);
+  const active=sets.filter(set=>set.date>=today && set.date<=dateOffset(2));
+  const activeIds=new Set(active.flatMap(set=>Object.values(set.items||{}).flatMap(selArray)));
 
-    for(const id of ids){
-      const item=clothes.find(x=>x.id===id);
-      if(!item)continue;
+  // First clear the old relative keys, then restore valid plans using the
+  // number of calendar days between their saved date and today.
+  for(let offset=0;offset<=2;offset++) clearHomeSet(offset);
 
-      const cat=CATS.find(c=>c.id===item.category);
-      if(cat && cat.laundry){
-        item.status='laundry_wait';
-        item.laundryStartTime=null;
-        await put('clothes',item);
-      }
+  const clothes=await all('clothes');
+  const expiredIds=new Set(expired.flatMap(set=>Object.values(set.items||{}).flatMap(selArray)));
+  for(const id of expiredIds){
+    // If an item is planned for today or a future day, keep it available.
+    if(activeIds.has(id))continue;
+    const item=clothes.find(x=>x.id===id);
+    if(!item)continue;
+    const cat=CATS.find(c=>c.id===item.category);
+    if(cat && cat.laundry){
+      item.status='laundry_wait';
+      item.laundryStartTime=null;
+      await put('clothes',item);
     }
+  }
 
-    clearHomeSet(offset);
+  for(const set of active){
+    const diff=Math.round((new Date(set.date+'T12:00:00')-new Date(today+'T12:00:00'))/86400000);
+    if(diff<0 || diff>2)continue;
+    localStorage.setItem(homeSetKey(diff),JSON.stringify({offset:diff,date:set.date,items:normalizeSelection(set.items),setAt:set.setAt||Date.now()}));
   }
 }
 

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'my-closet-v1.33-laundry-forecast-score';
+const CACHE_NAME = 'my-closet-v1.34-midnight-outfit-fix';
 const APP_SHELL = [
   './',
   './index.html',
