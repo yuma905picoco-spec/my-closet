@@ -601,6 +601,48 @@ button:active{transform:scale(.975);filter:saturate(1.18) brightness(1.04)}
 :root[data-family="pixelrevival"] #modal:has(#trip-title) option{background:#211E29!important;color:#FFFDF5!important}
 
 
+/* ver.1.40: Pixel Revival clothing registration modal contrast fix. */
+:root[data-family="pixelrevival"] #modal:has(#reg-cat){
+  color:#F8F3E5!important;
+  background:rgba(35,31,43,.97)!important;
+  border:2px solid rgba(248,243,229,.78)!important;
+  box-shadow:5px 5px 0 rgba(35,31,43,.45)!important;
+  backdrop-filter:blur(12px)!important;
+  -webkit-backdrop-filter:blur(12px)!important;
+}
+:root[data-family="pixelrevival"] #modal:has(#reg-cat) h3,
+:root[data-family="pixelrevival"] #modal:has(#reg-cat) label,
+:root[data-family="pixelrevival"] #modal:has(#reg-cat) p,
+:root[data-family="pixelrevival"] #modal:has(#reg-cat) #file-name,
+:root[data-family="pixelrevival"] #modal:has(#reg-cat) .text-xs,
+:root[data-family="pixelrevival"] #modal:has(#reg-cat) .text-sm,
+:root[data-family="pixelrevival"] #modal:has(#reg-cat) .text-\[10px\]{
+  color:#F8F3E5!important;
+  opacity:1!important;
+}
+:root[data-family="pixelrevival"] #modal:has(#reg-cat) input:not([type=file]):not([type=checkbox]),
+:root[data-family="pixelrevival"] #modal:has(#reg-cat) textarea,
+:root[data-family="pixelrevival"] #modal:has(#reg-cat) select{
+  background:#211E29!important;
+  color:#FFFDF5!important;
+  -webkit-text-fill-color:#FFFDF5!important;
+  border:1px solid #C9C2D2!important;
+}
+:root[data-family="pixelrevival"] #modal:has(#reg-cat) input::placeholder,
+:root[data-family="pixelrevival"] #modal:has(#reg-cat) textarea::placeholder{
+  color:#D8D1C2!important;
+  -webkit-text-fill-color:#D8D1C2!important;
+  opacity:1!important;
+}
+:root[data-family="pixelrevival"] #modal:has(#reg-cat) .bg-white\/10{
+  background:#514858!important;color:#FFFDF5!important;border:1px solid #C9C2D2!important;
+}
+:root[data-family="pixelrevival"] #modal:has(#reg-cat) .theme-accent-bg{
+  color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important;
+  border:2px solid #FFF4E8!important;
+}
+:root[data-family="pixelrevival"] #modal:has(#reg-cat) option{background:#211E29!important;color:#FFFDF5!important}
+
 /* ver.1.37: clearer close action, favorite-set selection state, and square images in Famicom theme only. */
 .advisor-close-button{flex-shrink:0;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.10);color:inherit;min-height:34px}
 .favorite-set-choice{position:relative;transition:transform .16s ease,filter .16s ease}
@@ -731,7 +773,7 @@ button:active{transform:scale(.975);filter:saturate(1.18) brightness(1.04)}
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="My Closet">
 </head>
-<body class="min-h-screen pb-24 pt-16"><div class="app-version">ver.1.39</div>
+<body class="min-h-screen pb-24 pt-16"><div class="app-version">ver.1.40</div>
 <header class="fixed top-0 left-0 right-0 z-40 px-4 py-3 flex justify-between items-center backdrop-blur-md border-b border-white/10" style="background:var(--bg-primary)">
 <div class="flex items-center gap-2"><i class="fa-solid fa-shirt text-xl theme-accent-text"></i><h1 id="app-title" class="font-bold text-lg">My Closet</h1></div>
 <div class="header-actions flex gap-2"><button type="button" onclick="openFavorites()" aria-label="保存したコーデ" title="保存したコーデ" class="header-action-fav w-9 h-9 rounded-full theme-card-bg text-rose-400"><i class="fa-solid fa-heart"></i></button><button type="button" onclick="openTheme()" aria-label="テーマ" title="テーマ" class="header-action-theme px-3 py-1.5 rounded-full theme-card-bg text-xs"><i class="fa-solid fa-palette theme-accent-text mr-1"></i>テーマ</button></div>

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'my-closet-v1.39-item-selection-toggle';
+const CACHE_NAME = 'my-closet-v1.40-registration-contrast';
 const APP_SHELL = [
   './',
   './index.html',
