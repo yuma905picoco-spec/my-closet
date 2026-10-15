@@ -545,6 +545,179 @@ button:active{transform:scale(.975);filter:saturate(1.18) brightness(1.04)}
 }
 #modal:has(#edit-name) .bg-white\/10{color:#F8F3E5!important}
 
+
+
+/* ver.1.36: Pixel Revival modal contrast fixes for outfit advisor and new trip forms.
+   Use an opaque dark surface like the clothing editor, with ivory copy and readable controls. */
+:root[data-family="pixelrevival"] #modal:has(#advisor-style),
+:root[data-family="pixelrevival"] #modal:has(#trip-title){
+  color:#F8F3E5!important;
+  background:rgba(35,31,43,.97)!important;
+  border:2px solid rgba(248,243,229,.78)!important;
+  box-shadow:5px 5px 0 rgba(35,31,43,.45)!important;
+  backdrop-filter:blur(12px)!important;
+  -webkit-backdrop-filter:blur(12px)!important;
+}
+:root[data-family="pixelrevival"] #modal:has(#advisor-style) h3,
+:root[data-family="pixelrevival"] #modal:has(#advisor-style) label,
+:root[data-family="pixelrevival"] #modal:has(#advisor-style) p,
+:root[data-family="pixelrevival"] #modal:has(#advisor-style) .text-xs,
+:root[data-family="pixelrevival"] #modal:has(#advisor-style) .text-sm,
+:root[data-family="pixelrevival"] #modal:has(#trip-title) h3,
+:root[data-family="pixelrevival"] #modal:has(#trip-title) label,
+:root[data-family="pixelrevival"] #modal:has(#trip-title) p,
+:root[data-family="pixelrevival"] #modal:has(#trip-title) .text-xs,
+:root[data-family="pixelrevival"] #modal:has(#trip-title) .text-sm{
+  color:#F8F3E5!important;
+  opacity:1!important;
+}
+:root[data-family="pixelrevival"] #modal:has(#advisor-style) input,
+:root[data-family="pixelrevival"] #modal:has(#advisor-style) textarea,
+:root[data-family="pixelrevival"] #modal:has(#advisor-style) select,
+:root[data-family="pixelrevival"] #modal:has(#trip-title) input,
+:root[data-family="pixelrevival"] #modal:has(#trip-title) textarea,
+:root[data-family="pixelrevival"] #modal:has(#trip-title) select{
+  background:#211E29!important;
+  color:#FFFDF5!important;
+  -webkit-text-fill-color:#FFFDF5!important;
+  border:1px solid #C9C2D2!important;
+}
+:root[data-family="pixelrevival"] #modal:has(#advisor-style) input::placeholder,
+:root[data-family="pixelrevival"] #modal:has(#trip-title) input::placeholder{
+  color:#D8D1C2!important;
+  -webkit-text-fill-color:#D8D1C2!important;
+  opacity:1!important;
+}
+:root[data-family="pixelrevival"] #modal:has(#advisor-style) .bg-white\/10,
+:root[data-family="pixelrevival"] #modal:has(#trip-title) .bg-white\/10{
+  background:#514858!important;color:#FFFDF5!important;border:1px solid #C9C2D2!important;
+}
+:root[data-family="pixelrevival"] #modal:has(#advisor-style) .theme-accent-bg,
+:root[data-family="pixelrevival"] #modal:has(#trip-title) .theme-accent-bg{
+  color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important;
+  border:2px solid #FFF4E8!important;
+}
+:root[data-family="pixelrevival"] #modal:has(#advisor-style) option,
+:root[data-family="pixelrevival"] #modal:has(#trip-title) option{background:#211E29!important;color:#FFFDF5!important}
+
+
+/* ver.1.37: clearer close action, favorite-set selection state, and square images in Famicom theme only. */
+.advisor-close-button{flex-shrink:0;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.10);color:inherit;min-height:34px}
+.favorite-set-choice{position:relative;transition:transform .16s ease,filter .16s ease}
+.favorite-set-choice .favorite-set-card-inner{transition:border-color .16s ease,background-color .16s ease,box-shadow .16s ease}
+.favorite-set-choice.is-selected{transform:scale(1.035);z-index:2;outline:2px solid var(--accent-color);outline-offset:1px;box-shadow:0 0 0 3px color-mix(in srgb,var(--accent-color) 35%,transparent),0 6px 16px rgba(0,0,0,.22)}
+.favorite-set-choice.is-selected .favorite-set-card-inner{border-color:var(--accent-color)!important;background:color-mix(in srgb,var(--accent-color) 18%,var(--bg-secondary))!important;box-shadow:inset 0 0 0 1px var(--accent-color)}
+.favorite-set-choice.is-selected .favorite-set-card-inner:after{content:"✓ 選択中";display:block;margin-top:8px;padding:4px 5px;text-align:center;font-size:10px;font-weight:900;background:var(--accent-color);color:var(--bg-primary);border:1px solid currentColor}
+:root[data-family="famicom"] .home-set-item img,
+:root[data-family="famicom"] .choice-card img,
+:root[data-family="famicom"] .drag-item img,
+:root[data-family="famicom"] .hscroll img,
+:root[data-family="famicom"] .outfit-image img,
+:root[data-family="famicom"] #modal img{border-radius:0!important}
+:root[data-family="famicom"] .home-set-item,
+:root[data-family="famicom"] .choice-card,
+:root[data-family="famicom"] .drag-item,
+:root[data-family="famicom"] .hscroll>label{border-radius:0!important}
+
+
+/* ver.1.39: make Famicom saved-set selection unmistakable and square item photos. */
+:root[data-family="famicom"] .day-selection-screen .favorite-set-choice{
+  position:relative!important;
+  border:2px solid #D8D5AD!important;
+  background:#263B2B!important;
+  color:#E5E8C8!important;
+  border-radius:0!important;
+  box-shadow:3px 3px 0 rgba(0,0,0,.32)!important;
+  transform:none!important;
+  transition:transform .14s ease,background-color .14s ease,border-color .14s ease,box-shadow .14s ease!important;
+}
+:root[data-family="famicom"] .day-selection-screen .favorite-set-choice .favorite-set-card-inner{
+  border:1px solid rgba(216,213,173,.48)!important;
+  border-radius:0!important;
+  background:#34382A!important;
+  color:#E5E8C8!important;
+}
+:root[data-family="famicom"] .day-selection-screen .favorite-set-choice.is-selected{
+  border:3px solid #B8C96D!important;
+  background:#526B45!important;
+  outline:3px solid #B8C96D!important;
+  outline-offset:2px!important;
+  box-shadow:4px 4px 0 rgba(0,0,0,.45),0 0 0 5px rgba(184,201,109,.24)!important;
+  transform:scale(1.025)!important;
+  z-index:3!important;
+}
+:root[data-family="famicom"] .day-selection-screen .favorite-set-choice.is-selected .favorite-set-card-inner{
+  border:2px solid #D8D5AD!important;
+  background:#526B45!important;
+  box-shadow:inset 0 0 0 2px #B8C96D!important;
+}
+:root[data-family="famicom"] .day-selection-screen .favorite-set-choice.is-selected .favorite-set-card-inner:after{
+  content:"✓ 選択中"!important;
+  display:block!important;
+  margin-top:8px!important;
+  padding:6px 4px!important;
+  text-align:center!important;
+  font-size:11px!important;
+  font-weight:900!important;
+  letter-spacing:.04em!important;
+  color:#22251B!important;
+  background:#B8C96D!important;
+  border:2px solid #D8D5AD!important;
+  border-radius:0!important;
+}
+:root[data-family="famicom"] .day-selection-screen .favorite-set-choice:not(.is-selected) .favorite-set-card-inner:after{content:none!important}
+:root[data-family="famicom"] .day-selection-screen .favorite-set-choice:focus-visible{outline:3px dashed #B8C96D!important;outline-offset:4px!important}
+/* Square off both the clothing photo and its immediate clipping wrapper in Famicom only. */
+:root[data-family="famicom"] .day-selection-screen .choice-card .aspect-square,
+:root[data-family="famicom"] .day-selection-screen .choice-card img,
+:root[data-family="famicom"] .day-selection-screen .favorite-set-choice img,
+:root[data-family="famicom"] .day-selection-screen .favorite-set-card-inner,
+:root[data-family="famicom"] .drag-item > div:first-child,
+:root[data-family="famicom"] .drag-item img,
+:root[data-family="famicom"] .cute-home-set-photo,
+:root[data-family="famicom"] .cute-home-set-photo img,
+:root[data-family="famicom"] .home-set-item img,
+:root[data-family="famicom"] .hscroll label,
+:root[data-family="famicom"] .hscroll label > div,
+:root[data-family="famicom"] .hscroll img,
+:root[data-family="famicom"] .choice-card img,
+:root[data-family="famicom"] #modal .aspect-\[4\/5\],
+:root[data-family="famicom"] #modal img{
+  border-radius:0!important;
+}
+
+
+/* ver.1.39: explicit Famicom item-card selection + saved-set toggle-off. */
+:root[data-family="famicom"] .day-selection-screen .choice-card{
+  border:2px solid #D8D5AD!important;
+  border-radius:0!important;
+  background:#263B2B!important;
+  color:#E5E8C8!important;
+  box-shadow:3px 3px 0 rgba(0,0,0,.32)!important;
+  transform:none!important;
+  transition:background-color .14s ease,border-color .14s ease,box-shadow .14s ease,transform .14s ease!important;
+}
+:root[data-family="famicom"] .day-selection-screen .choice-card.selected{
+  border:4px solid #B8C96D!important;
+  background:#526B45!important;
+  color:#FFF9D8!important;
+  outline:3px solid #B8C96D!important;
+  outline-offset:1px!important;
+  box-shadow:4px 4px 0 rgba(0,0,0,.45),0 0 0 5px rgba(184,201,109,.28)!important;
+  transform:scale(1.035)!important;
+  z-index:2!important;
+}
+:root[data-family="famicom"] .day-selection-screen .choice-card.selected .aspect-square{
+  box-shadow:inset 0 0 0 3px #B8C96D!important;
+}
+:root[data-family="famicom"] .day-selection-screen .choice-card.selected .aspect-square:after{
+  content:"✓";position:absolute;top:5px;right:5px;display:flex;align-items:center;justify-content:center;
+  width:24px;height:24px;background:#B8C96D;color:#22251B;border:2px solid #D8D5AD;
+  font-weight:900;font-size:15px;z-index:4;
+}
+:root[data-family="famicom"] .day-selection-screen .choice-card .aspect-square{position:relative;border-radius:0!important}
+:root[data-family="famicom"] .day-selection-screen .choice-card img{border-radius:0!important}
+
 </style>
 <script>
 // 保存済みテーマを「最初の描画前」に適用。読み込み中だけデフォルト色になる問題を防止。
@@ -558,7 +731,7 @@ button:active{transform:scale(.975);filter:saturate(1.18) brightness(1.04)}
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="My Closet">
 </head>
-<body class="min-h-screen pb-24 pt-16"><div class="app-version">ver.1.35</div>
+<body class="min-h-screen pb-24 pt-16"><div class="app-version">ver.1.39</div>
 <header class="fixed top-0 left-0 right-0 z-40 px-4 py-3 flex justify-between items-center backdrop-blur-md border-b border-white/10" style="background:var(--bg-primary)">
 <div class="flex items-center gap-2"><i class="fa-solid fa-shirt text-xl theme-accent-text"></i><h1 id="app-title" class="font-bold text-lg">My Closet</h1></div>
 <div class="header-actions flex gap-2"><button type="button" onclick="openFavorites()" aria-label="保存したコーデ" title="保存したコーデ" class="header-action-fav w-9 h-9 rounded-full theme-card-bg text-rose-400"><i class="fa-solid fa-heart"></i></button><button type="button" onclick="openTheme()" aria-label="テーマ" title="テーマ" class="header-action-theme px-3 py-1.5 rounded-full theme-card-bg text-xs"><i class="fa-solid fa-palette theme-accent-text mr-1"></i>テーマ</button></div>
@@ -820,8 +993,15 @@ async function favoriteSetSelectionHtml(clothes){
         const missing=ids.some(id=>!clothes.some(c=>c.id===id));
         const locked=ids.some(id=>{const c=clothes.find(x=>x.id===id);return c&&itemLocked(c)});
         const disabled=missing||locked;
-        return `<button type="button" onclick="selectSavedForDay('${s.id}')" class="choice-card text-left ${disabled?'opacity-45':''}" ${disabled?'disabled':''}>
-          <div class="rounded-xl bg-black/20 border border-white/10 p-3 h-full">
+        const selectedNow=normalizeSelection(currentSel()||{});
+        const selectedSaved=normalizeSelection(s.items||{});
+        const isSelected=CATS.every(cat=>{
+          const a=selArray(selectedNow[cat.id]).map(String).sort();
+          const b=selArray(selectedSaved[cat.id]).map(String).sort();
+          return a.length===b.length&&a.every((id,index)=>id===b[index]);
+        });
+        return `<button type="button" aria-pressed="${isSelected}" onclick="selectSavedForDay('${s.id}')" class="choice-card favorite-set-choice text-left ${disabled?'opacity-45':''} ${isSelected?'is-selected':''}" ${disabled?'disabled':''}>
+          <div class="favorite-set-card-inner rounded-xl bg-black/20 border border-white/10 p-3 h-full">
             ${s.thumbnail?`<img src="${s.thumbnail}" class="w-full h-20 object-cover rounded-lg mb-2">`:''}<div class="text-[11px] font-extrabold truncate">${esc(s.name||'お気に入りのコーデ')}</div><div class="text-[9px] opacity-60 mt-1 line-clamp-2">${esc(s.comment||'')}</div>
             <div class="text-[9px] opacity-55 mt-1">${ids.map(id=>esc(clothes.find(c=>c.id===id)?.name||'削除された服')).join(' / ')}</div>
             <div class="mt-3 text-[10px] font-bold theme-accent-text">${disabled?'現在選択できません':'このセットを選ぶ'}</div>
@@ -841,9 +1021,22 @@ async function selectSavedForDay(id){
     toast('このコーデは現在選択できません');
     return;
   }
-  selections[dayOffset]=normalizeSelection(saved.items||{});
-  await renderDaySelection(clothes);
-  toast('お気に入りのセットを選びました！');
+  const current=normalizeSelection(currentSel()||{});
+  const candidate=normalizeSelection(saved.items||{});
+  const sameSelection=CATS.every(cat=>{
+    const a=selArray(current[cat.id]).map(String).sort();
+    const b=selArray(candidate[cat.id]).map(String).sort();
+    return a.length===b.length&&a.every((value,index)=>value===b[index]);
+  });
+  if(sameSelection){
+    selections[dayOffset]=emptySel();
+    await renderDaySelection(clothes);
+    toast('お気に入りセットの選択を解除しました');
+  }else{
+    selections[dayOffset]=candidate;
+    await renderDaySelection(clothes);
+    toast('お気に入りのセットを選びました！');
+  }
 }
 
 function selectionHtml(clothes){
@@ -863,7 +1056,7 @@ function selectionHtml(clothes){
             <button
               type="button"
               onclick="toggleSelect('${cat.id}','${i.id}')"
-              class="choice-card ${selected.includes(i.id)?'selected':''}"
+              class="choice-card ${selected.some(selectedId=>String(selectedId)===String(i.id))?'selected':''}" aria-pressed="${selected.some(selectedId=>String(selectedId)===String(i.id))}"
             >
               <div class="aspect-square rounded-xl overflow-hidden bg-black/20">
                 ${i.image
@@ -884,7 +1077,8 @@ function selectionHtml(clothes){
 async function toggleSelect(cat,id){
   const s=currentSel();
   const a=selArray(s[cat]);
-  s[cat]=a.includes(id)?a.filter(x=>x!==id):[...a,id];
+  const alreadySelected=a.some(x=>String(x)===String(id));
+  s[cat]=alreadySelected?a.filter(x=>String(x)!==String(id)):[...a,id];
   const clothes=await all('clothes');
   await renderDaySelection(clothes);
 }
@@ -1405,7 +1599,7 @@ function buildOutfitSuggestions(clothes,style,focus,weather){
 async function openOutfitAdvisor(){
  const clothes=await all('clothes');
  if(!clothes.some(i=>i.category==='tops'&&i.status==='closet')&&!clothes.some(i=>i.category==='dress'&&i.status==='closet'))return toast('まずトップスかワンピースを登録してください');
- showModal(`<h3 class="font-bold text-base text-center mb-1">✨ コーデ提案</h3><p class="text-[10px] opacity-60 text-center mb-4">手持ち服の色・カテゴリ・説明文から相性を判定します。無料・オフラインでも使えるルール方式です。</p><div class="space-y-3"><div><label class="text-xs font-bold">なりたい雰囲気</label><select id="advisor-style" class="w-full mt-1 p-2.5 rounded-xl bg-black/40 border border-white/10 text-xs"><option>きれいめ</option><option>カジュアル</option><option>モード</option><option>大人っぽい</option></select></div><div><label class="text-xs font-bold">主役にしたいアイテム</label><select id="advisor-focus" class="w-full mt-1 p-2.5 rounded-xl bg-black/40 border border-white/10 text-xs"><option>指定なし</option><option>トップス</option><option>ボトムス</option><option>アウター</option></select></div><div class="text-[10px] opacity-60">洗濯中・洗濯待ちの服は候補から除外します。天気は取得できた場合に気温・雨を参考にします。</div><button onclick="runOutfitAdvisor()" class="w-full py-3 rounded-xl theme-accent-bg text-black text-xs font-bold">コーデを提案する</button></div>`);
+ showModal(`<div class="flex items-center justify-between gap-3 mb-1"><h3 class="font-bold text-base">✨ コーデ提案</h3><button type="button" onclick="closeModal()" class="advisor-close-button rounded-lg px-3 py-1.5 text-xs font-bold" aria-label="コーデ提案を閉じる">キャンセル ✕</button></div><p class="text-[10px] opacity-60 text-center mb-4">手持ち服の色・カテゴリ・説明文から相性を判定します。無料・オフラインでも使えるルール方式です。</p><div class="space-y-3"><div><label class="text-xs font-bold">なりたい雰囲気</label><select id="advisor-style" class="w-full mt-1 p-2.5 rounded-xl bg-black/40 border border-white/10 text-xs"><option>きれいめ</option><option>カジュアル</option><option>モード</option><option>大人っぽい</option></select></div><div><label class="text-xs font-bold">主役にしたいアイテム</label><select id="advisor-focus" class="w-full mt-1 p-2.5 rounded-xl bg-black/40 border border-white/10 text-xs"><option>指定なし</option><option>トップス</option><option>ボトムス</option><option>アウター</option></select></div><div class="text-[10px] opacity-60">洗濯中・洗濯待ちの服は候補から除外します。天気は取得できた場合に気温・雨を参考にします。</div><button onclick="runOutfitAdvisor()" class="w-full py-3 rounded-xl theme-accent-bg text-black text-xs font-bold">コーデを提案する</button></div>`);
 }
 async function runOutfitAdvisor(){
  const style=document.getElementById('advisor-style')?.value||'きれいめ',focus=document.getElementById('advisor-focus')?.value||'指定なし';
