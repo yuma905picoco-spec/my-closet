@@ -760,6 +760,193 @@ button:active{transform:scale(.975);filter:saturate(1.18) brightness(1.04)}
 :root[data-family="famicom"] .day-selection-screen .choice-card .aspect-square{position:relative;border-radius:0!important}
 :root[data-family="famicom"] .day-selection-screen .choice-card img{border-radius:0!important}
 
+
+
+/* ver.1.41: consistent high-contrast form dialogs across ALL theme families.
+   Targets clothing registration, saved-outfit editing, and new-trip dialogs only. */
+#modal:has(#reg-cat),
+#modal:has(#fav-name),
+#modal:has(#trip-title){
+  color:#F8F7FC!important;
+  background:#24212B!important;
+  background-image:none!important;
+  border:1px solid #BEB8CA!important;
+  box-shadow:0 18px 52px rgba(0,0,0,.62)!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+#modal:has(#reg-cat) h3,
+#modal:has(#reg-cat) h4,
+#modal:has(#reg-cat) label,
+#modal:has(#reg-cat) p,
+#modal:has(#reg-cat) span,
+#modal:has(#reg-cat) small,
+#modal:has(#reg-cat) #file-name,
+#modal:has(#reg-cat) .text-xs,
+#modal:has(#reg-cat) .text-sm,
+#modal:has(#reg-cat) .text-\[9px\],
+#modal:has(#reg-cat) .text-\[10px\],
+#modal:has(#reg-cat) .text-\[11px\],
+#modal:has(#fav-name) h3,
+#modal:has(#fav-name) h4,
+#modal:has(#fav-name) label,
+#modal:has(#fav-name) p,
+#modal:has(#fav-name) span,
+#modal:has(#fav-name) small,
+#modal:has(#fav-name) .text-xs,
+#modal:has(#fav-name) .text-sm,
+#modal:has(#fav-name) .text-\[9px\],
+#modal:has(#fav-name) .text-\[10px\],
+#modal:has(#fav-name) .text-\[11px\],
+#modal:has(#trip-title) h3,
+#modal:has(#trip-title) h4,
+#modal:has(#trip-title) label,
+#modal:has(#trip-title) p,
+#modal:has(#trip-title) span,
+#modal:has(#trip-title) small,
+#modal:has(#trip-title) .text-xs,
+#modal:has(#trip-title) .text-sm,
+#modal:has(#trip-title) .text-\[9px\],
+#modal:has(#trip-title) .text-\[10px\],
+#modal:has(#trip-title) .text-\[11px\]{
+  color:#F8F7FC!important;
+  -webkit-text-fill-color:#F8F7FC!important;
+  opacity:1!important;
+  text-shadow:none!important;
+}
+#modal:has(#reg-cat) input:not([type=checkbox]):not([type=file]),
+#modal:has(#reg-cat) textarea,
+#modal:has(#reg-cat) select,
+#modal:has(#fav-name) input:not([type=checkbox]):not([type=file]),
+#modal:has(#fav-name) textarea,
+#modal:has(#fav-name) select,
+#modal:has(#trip-title) input:not([type=checkbox]):not([type=file]),
+#modal:has(#trip-title) textarea,
+#modal:has(#trip-title) select{
+  background:#393541!important;
+  color:#FFFFFF!important;
+  -webkit-text-fill-color:#FFFFFF!important;
+  border:1px solid #BEB8CA!important;
+  opacity:1!important;
+  box-shadow:none!important;
+}
+#modal:has(#reg-cat) input::placeholder,
+#modal:has(#reg-cat) textarea::placeholder,
+#modal:has(#fav-name) input::placeholder,
+#modal:has(#fav-name) textarea::placeholder,
+#modal:has(#trip-title) input::placeholder,
+#modal:has(#trip-title) textarea::placeholder{
+  color:#D7D2E0!important;
+  -webkit-text-fill-color:#D7D2E0!important;
+  opacity:1!important;
+}
+#modal:has(#reg-cat) input[type=file],
+#modal:has(#fav-name) input[type=file]{color:#F8F7FC!important}
+#modal:has(#reg-cat) input[type=file]::file-selector-button,
+#modal:has(#fav-name) input[type=file]::file-selector-button{
+  background:#514B5B!important;color:#FFFFFF!important;border:1px solid #BEB8CA!important;padding:6px 10px;border-radius:6px
+}
+#modal:has(#reg-cat) .bg-white\/10,
+#modal:has(#fav-name) .bg-white\/10,
+#modal:has(#trip-title) .bg-white\/10,
+#modal:has(#reg-cat) .bg-black\/20,
+#modal:has(#fav-name) .bg-black\/20,
+#modal:has(#trip-title) .bg-black\/20{
+  background:#393541!important;color:#F8F7FC!important;border-color:#777181!important;opacity:1!important
+}
+#modal:has(#reg-cat) .theme-accent-bg,
+#modal:has(#fav-name) .theme-accent-bg,
+#modal:has(#trip-title) .theme-accent-bg{
+  background:#326C63!important;color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important;
+  border:1px solid #E6F2EC!important;opacity:1!important;text-shadow:none!important
+}
+#modal:has(#reg-cat) button:not(.theme-accent-bg),
+#modal:has(#fav-name) button:not(.theme-accent-bg),
+#modal:has(#trip-title) button:not(.theme-accent-bg){
+  color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important;opacity:1!important;text-shadow:none!important
+}
+#modal:has(#reg-cat) option,
+#modal:has(#fav-name) option,
+#modal:has(#trip-title) option{background:#393541!important;color:#FFFFFF!important}
+#modal:has(#reg-cat) input[type=checkbox],
+#modal:has(#fav-name) input[type=checkbox]{accent-color:#B8C96D}
+
+
+/* ver.1.42: Favorite outfit editor uses a dedicated opaque high-contrast surface in every theme. */
+#modal:has(#fav-name){
+  background:#211F27!important;
+  color:#F8F5EA!important;
+  border:2px solid #CFC9B9!important;
+  box-shadow:0 12px 0 rgba(0,0,0,.32),0 24px 70px rgba(0,0,0,.58)!important;
+  backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+  text-shadow:none!important;
+}
+#modal:has(#fav-name) *:not(img):not(svg):not(path):not(input[type="checkbox"]){
+  color:#F8F5EA!important;
+  -webkit-text-fill-color:currentColor;
+  text-shadow:none!important;
+  opacity:1!important;
+}
+#modal:has(#fav-name) h3,
+#modal:has(#fav-name) label,
+#modal:has(#fav-name) p,
+#modal:has(#fav-name) .text-\[9px\],
+#modal:has(#fav-name) .text-\[10px\],
+#modal:has(#fav-name) .text-\[11px\],
+#modal:has(#fav-name) .text-xs,
+#modal:has(#fav-name) .text-sm{color:#F8F5EA!important;opacity:1!important}
+#modal:has(#fav-name) input:not([type="checkbox"]),
+#modal:has(#fav-name) textarea,
+#modal:has(#fav-name) select{
+  background:#37343F!important;color:#FFFFFF!important;
+  -webkit-text-fill-color:#FFFFFF!important;
+  border:1px solid #BDB7C7!important;caret-color:#FFFFFF!important;
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.2)!important;
+}
+#modal:has(#fav-name) input::placeholder,
+#modal:has(#fav-name) textarea::placeholder{color:#D5D0DC!important;-webkit-text-fill-color:#D5D0DC!important;opacity:1!important}
+#modal:has(#fav-name) .fav-item-check{accent-color:#B8CF69!important}
+#modal:has(#fav-name) label:has(.fav-item-check){
+  background:#302D37!important;border:1px solid #AAA4B5!important;
+  border-radius:4px!important;box-shadow:none!important;
+}
+#modal:has(#fav-name) label:has(.fav-item-check:checked){
+  background:#3E4B31!important;border:2px solid #C1D77A!important;
+  box-shadow:inset 0 0 0 1px #C1D77A!important;
+}
+#modal:has(#fav-name) label .aspect-\[4\/5\]{background:#1B1A20!important;border-radius:2px!important}
+#modal:has(#fav-name) .bg-white\/10{background:#494551!important;color:#FFFFFF!important}
+#modal:has(#fav-name) .theme-accent-bg{background:#B8CF69!important;color:#1C2414!important;-webkit-text-fill-color:#1C2414!important;border:1px solid #E7F0C7!important}
+#modal:has(#fav-name) button{border-color:#8F8999!important}
+#modal:has(#fav-name) button:focus-visible,
+#modal:has(#fav-name) input:focus-visible,
+#modal:has(#fav-name) textarea:focus-visible{outline:3px solid #D4E98A!important;outline-offset:2px!important}
+
+
+/* ver.1.43: High-contrast text and opaque surface for saved outfit detail view,
+   limited to the detail screen (not the saved-outfit list or editor). */
+#modal:has(.favorite-detail-view){
+  color:#FFFFFF!important;
+  background:#24212B!important;
+  background-image:none!important;
+  border:1px solid #D8D3E0!important;
+  box-shadow:0 18px 52px rgba(0,0,0,.62)!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+  text-shadow:none!important;
+}
+#modal .favorite-detail-view,
+#modal .favorite-detail-view *:not(img):not(svg):not(path){
+  color:#FFFFFF!important;
+  -webkit-text-fill-color:#FFFFFF!important;
+  text-shadow:none!important;
+  opacity:1!important;
+}
+#modal .favorite-detail-view .bg-black\/20{background:#393541!important}
+#modal .favorite-detail-view .bg-white\/10{background:#494551!important;border:1px solid #817A8B!important}
+#modal .favorite-detail-view .bg-red-500\/20{background:#713A43!important;border:1px solid #DCA8AF!important}
+#modal .favorite-detail-view button:focus-visible{outline:3px solid #D4E98A!important;outline-offset:2px!important}
+
 </style>
 <script>
 // 保存済みテーマを「最初の描画前」に適用。読み込み中だけデフォルト色になる問題を防止。
@@ -773,7 +960,7 @@ button:active{transform:scale(.975);filter:saturate(1.18) brightness(1.04)}
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="My Closet">
 </head>
-<body class="min-h-screen pb-24 pt-16"><div class="app-version">ver.1.40</div>
+<body class="min-h-screen pb-24 pt-16"><div class="app-version">ver.1.44</div>
 <header class="fixed top-0 left-0 right-0 z-40 px-4 py-3 flex justify-between items-center backdrop-blur-md border-b border-white/10" style="background:var(--bg-primary)">
 <div class="flex items-center gap-2"><i class="fa-solid fa-shirt text-xl theme-accent-text"></i><h1 id="app-title" class="font-bold text-lg">My Closet</h1></div>
 <div class="header-actions flex gap-2"><button type="button" onclick="openFavorites()" aria-label="保存したコーデ" title="保存したコーデ" class="header-action-fav w-9 h-9 rounded-full theme-card-bg text-rose-400"><i class="fa-solid fa-heart"></i></button><button type="button" onclick="openTheme()" aria-label="テーマ" title="テーマ" class="header-action-theme px-3 py-1.5 rounded-full theme-card-bg text-xs"><i class="fa-solid fa-palette theme-accent-text mr-1"></i>テーマ</button></div>
@@ -1533,8 +1720,8 @@ async function openFavorites(){
 async function favoriteDetail(id){
  const s=(await all('saved_outfits')).find(x=>x.id===id);if(!s)return;const clothes=await all('clothes');
  const ids=Object.values(s.items||{}).flatMap(selArray);
- showModal(`<div class="saved-outfits-toolbar flex items-center justify-between gap-2 mb-3"><button onclick="openFavorites()" class="text-xs opacity-70">← 一覧</button><div class="flex gap-2 items-center"><button onclick="editFavorite('${id}')" class="text-xs px-3 py-2 rounded-lg bg-white/10">✏️ 編集</button><button onclick="deleteSaved('${id}')" class="text-xs px-2 rounded-lg bg-red-500/20 text-red-200">削除</button><button type="button" class="saved-outfits-close" onclick="closeModal()" aria-label="閉じる" title="閉じる"><i class="fa-solid fa-xmark"></i></button></div></div>
- <div class="rounded-xl overflow-hidden bg-black/20 mb-3">${s.thumbnail?`<img src="${s.thumbnail}" class="w-full max-h-64 object-contain">`:`<div class="h-32 flex items-center justify-center text-xs opacity-50">サムネイル未設定</div>`}</div><h3 class="font-bold text-lg">${esc(s.name||'お気に入りのコーデ')}</h3><p class="text-xs opacity-70 mt-2 whitespace-pre-wrap">${esc(s.comment||'コメントはありません')}</p><h4 class="font-bold text-xs mt-5 mb-2">コーデのアイテム</h4><div class="grid grid-cols-3 gap-2">${ids.map(x=>{const i=clothes.find(c=>c.id===x);return `<div class="min-w-0"><div class="aspect-[4/5] rounded-lg overflow-hidden bg-black/20">${i?.image?`<img src="${i.image}" class="w-full h-full object-cover">`:`<div class="w-full h-full flex items-center justify-center opacity-40">👕</div>`}</div><div class="text-[10px] mt-1 truncate">${esc(i?.name||'削除された服')}</div></div>`}).join('')}</div>`)
+ showModal(`<div class="favorite-detail-view"><div class="saved-outfits-toolbar flex items-center justify-between gap-2 mb-3"><button onclick="openFavorites()" class="text-xs opacity-70">← 一覧</button><div class="flex gap-2 items-center"><button onclick="editFavorite('${id}')" class="text-xs px-3 py-2 rounded-lg bg-white/10">✏️ 編集</button><button onclick="deleteSaved('${id}')" class="text-xs px-2 rounded-lg bg-red-500/20 text-red-200">削除</button><button type="button" class="saved-outfits-close" onclick="closeModal()" aria-label="閉じる" title="閉じる"><i class="fa-solid fa-xmark"></i></button></div></div>
+ <div class="rounded-xl overflow-hidden bg-black/20 mb-3">${s.thumbnail?`<img src="${s.thumbnail}" class="w-full max-h-64 object-contain">`:`<div class="h-32 flex items-center justify-center text-xs opacity-50">サムネイル未設定</div>`}</div><h3 class="font-bold text-lg">${esc(s.name||'お気に入りのコーデ')}</h3><p class="text-xs opacity-70 mt-2 whitespace-pre-wrap">${esc(s.comment||'コメントはありません')}</p><h4 class="font-bold text-xs mt-5 mb-2">コーデのアイテム</h4><div class="grid grid-cols-3 gap-2">${ids.map(x=>{const i=clothes.find(c=>c.id===x);return `<div class="min-w-0"><div class="aspect-[4/5] rounded-lg overflow-hidden bg-black/20">${i?.image?`<img src="${i.image}" class="w-full h-full object-cover">`:`<div class="w-full h-full flex items-center justify-center opacity-40">👕</div>`}</div><div class="text-[10px] mt-1 truncate">${esc(i?.name||'削除された服')}</div></div>`}).join('')}</div></div>`)
 }
 async function editFavorite(id){
  const s=(await all('saved_outfits')).find(x=>x.id===id);if(!s)return;const clothes=await all('clothes');const normalized=normalizeSelection(s.items||{});
@@ -1548,7 +1735,7 @@ async function renderTravel(){const trips=await all('travels');document.getEleme
 function createTravelModal(){showModal(`<h3 class="font-bold text-base text-center mb-4">新規旅行</h3><div class="space-y-3"><input id="trip-title" class="w-full p-2.5 rounded-xl bg-black/40 border border-white/10 text-xs" placeholder="旅行名（空欄でもOK）"><div><label class="text-xs opacity-60">開始日</label><input id="trip-start" type="date" class="w-full p-2.5 rounded-xl bg-black/40 border border-white/10 text-xs"></div><div><label class="text-xs opacity-60">終了日</label><input id="trip-end" type="date" class="w-full p-2.5 rounded-xl bg-black/40 border border-white/10 text-xs"></div><div class="flex gap-2"><button onclick="closeModal()" class="flex-1 py-2.5 bg-white/10 rounded-xl text-xs">キャンセル</button><button onclick="createTrip()" class="flex-1 py-2.5 theme-accent-bg text-black rounded-xl text-xs font-bold">作成</button></div></div>`)}
 async function createTrip(){const title=document.getElementById('trip-title').value.trim(),start=document.getElementById('trip-start').value,end=document.getElementById('trip-end').value;if(!start||!end)return toast('開始日と終了日を入力してください');if(end<start)return toast('終了日は開始日以降にしてください');await put('travels',{id:uid(),title:title||'旅行プラン',start,end,daily:{},endPromptShown:false});closeModal();await render();toast('旅行を登録しました！')}
 function dates(start,end){const a=[];let d=new Date(start+'T12:00:00'),e=new Date(end+'T12:00:00');while(d<=e){a.push(d.toISOString().slice(0,10));d.setDate(d.getDate()+1)}return a}
-async function travelOutfits(id){const t=(await all('travels')).find(x=>x.id===id),clothes=await all('clothes');if(!t)return;showModal(`<h3 class="font-bold text-base text-center mb-4">${esc(t.title)} のコーデ</h3>${dates(t.start,t.end).map((d,n)=>`<div class="p-3 rounded-xl bg-black/20 mb-3"><div class="text-xs font-bold theme-accent-text">Day ${n+1}（${d}）</div><div class="text-[10px] opacity-60 mt-1">${(t.daily[d]||[]).map(x=>esc(clothes.find(c=>c.id===x)?.name||'')).join(' / ')||'未選択'}</div><button onclick="selectTravelDay('${id}','${d}')" class="w-full mt-2 py-2 bg-white/10 rounded-lg text-xs">＋ 服を選ぶ</button></div>`).join('')}<button onclick="closeModal()" class="w-full py-2.5 theme-accent-bg text-black rounded-xl text-xs font-bold">完了</button>`)}
+async function travelOutfits(id){const t=(await all('travels')).find(x=>x.id===id),clothes=await all('clothes');if(!t)return;showModal(`<h3 class="font-bold text-base text-center mb-4">${esc(t.title)} のコーデ</h3>${dates(t.start,t.end).map((d,n)=>{const selected=(t.daily[d]||[]).map(x=>clothes.find(c=>String(c.id)===String(x))).filter(Boolean);return `<div class="p-3 rounded-xl bg-black/20 mb-3"><div class="text-xs font-bold theme-accent-text">Day ${n+1}（${d}）</div>${selected.length?`<div class="grid grid-cols-3 gap-2 mt-3">${selected.map(i=>`<div class="min-w-0 rounded-lg overflow-hidden bg-black/20"><div class="aspect-square bg-black/20">${i.image?`<img src="${i.image}" alt="${esc(i.name)}" class="w-full h-full object-cover">`:`<div class="w-full h-full flex items-center justify-center text-xl opacity-40"><i class="fa-solid fa-shirt"></i></div>`}</div><div class="p-1.5"><div class="text-[10px] font-bold truncate">${esc(i.name)}</div><div class="text-[9px] opacity-60 truncate">${esc(catName(i.category))}</div></div></div>`).join('')}</div>`:'<div class="text-[10px] opacity-60 mt-2">まだ服が選択されていません</div>'}<button onclick="selectTravelDay('${id}','${d}')" class="w-full mt-3 py-2 bg-white/10 rounded-lg text-xs">＋ 服を選ぶ・変更する</button></div>`}).join('')}<button onclick="closeModal()" class="w-full py-2.5 theme-accent-bg text-black rounded-xl text-xs font-bold">完了</button>`)}
 async function selectTravelDay(id,day){const t=(await all('travels')).find(x=>x.id===id),clothes=await all('clothes'),sel=t?.daily?.[day]||[];const groups=CATS.map(cat=>{const items=orderedClothes(clothes,cat.id);if(!items.length)return '';return `<div class="mb-4"><div class="text-[11px] font-bold opacity-70 mb-2">${cat.name}</div><div class="hscroll">${items.map(i=>`<label class="relative block rounded-xl bg-black/20 border border-white/10 overflow-hidden cursor-pointer"><input class="tripbox absolute top-2 right-2 z-10 w-5 h-5 accent-emerald-500" type="checkbox" value="${i.id}" ${sel.includes(i.id)?'checked':''}><div class="aspect-[4/5] bg-black/20">${i.image?`<img src="${i.image}" class="w-full h-full object-cover">`:'<div class="w-full h-full flex items-center justify-center opacity-30"><i class="fa-solid fa-shirt text-3xl"></i></div>'}</div><div class="p-2"><div class="text-[11px] font-bold truncate">${esc(i.name)}</div></div></label>`).join('')}</div></div>`}).join('');showModal(`<h3 class="font-bold text-sm text-center mb-1">${day} の服を選ぶ</h3><p class="text-[10px] opacity-50 text-center mb-4">横にスワイプして服を選べます</p><div class="max-h-[65vh] overflow-y-auto">${groups||'<div class="text-xs opacity-40 text-center py-8">登録された服がありません</div>'}</div><button onclick="saveTravelDay('${id}','${day}')" class="w-full mt-4 py-2.5 theme-accent-bg text-black rounded-xl text-xs font-bold">保存する</button>`)}
 async function saveTravelDay(id,day){const t=(await all('travels')).find(x=>x.id===id);if(!t)return;t.daily[day]=[...document.querySelectorAll('.tripbox:checked')].map(x=>x.value);await put('travels',t);await travelOutfits(id)}
 async function packing(id){const t=(await all('travels')).find(x=>x.id===id),clothes=await all('clothes'),ids=new Set(Object.values(t.daily||{}).flat()),items=clothes.filter(i=>ids.has(i.id));showModal(`<h3 class="font-bold text-base text-center mb-1">🎒 持ち物リスト</h3><p class="text-[10px] opacity-50 text-center mb-4">${esc(t.title)}</p>${items.length?items.map(i=>`<div class="p-2.5 bg-black/20 rounded-xl mb-2 flex gap-2"><span>✓</span><span class="text-xs flex-1">${esc(i.name)}</span><span class="text-[10px] opacity-50">${catName(i.category)}</span></div>`).join(''):'<div class="text-xs opacity-40 text-center py-6">コーデが設定されていません</div>'}<button onclick="closeModal()" class="w-full mt-3 py-2.5 bg-white/10 rounded-xl text-xs">閉じる</button>`)}

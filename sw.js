@@ -1,4 +1,4 @@
-const CACHE_NAME = 'my-closet-v1.40-registration-contrast';
+const CACHE_NAME = 'my-closet-v1.44-travel-outfit-thumbnails';
 const APP_SHELL = [
   './',
   './index.html',
