@@ -1,4 +1,4 @@
-const CACHE_NAME = 'my-closet-v1.44-travel-outfit-thumbnails';
+const CACHE_NAME = 'my-closet-v1.45-outfit-advisor-coverage';
 const APP_SHELL = [
   './',
   './index.html',

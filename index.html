@@ -960,7 +960,7 @@ button:active{transform:scale(.975);filter:saturate(1.18) brightness(1.04)}
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="My Closet">
 </head>
-<body class="min-h-screen pb-24 pt-16"><div class="app-version">ver.1.44</div>
+<body class="min-h-screen pb-24 pt-16"><div class="app-version">ver.1.45</div>
 <header class="fixed top-0 left-0 right-0 z-40 px-4 py-3 flex justify-between items-center backdrop-blur-md border-b border-white/10" style="background:var(--bg-primary)">
 <div class="flex items-center gap-2"><i class="fa-solid fa-shirt text-xl theme-accent-text"></i><h1 id="app-title" class="font-bold text-lg">My Closet</h1></div>
 <div class="header-actions flex gap-2"><button type="button" onclick="openFavorites()" aria-label="保存したコーデ" title="保存したコーデ" class="header-action-fav w-9 h-9 rounded-full theme-card-bg text-rose-400"><i class="fa-solid fa-heart"></i></button><button type="button" onclick="openTheme()" aria-label="テーマ" title="テーマ" class="header-action-theme px-3 py-1.5 rounded-full theme-card-bg text-xs"><i class="fa-solid fa-palette theme-accent-text mr-1"></i>テーマ</button></div>
@@ -1801,29 +1801,65 @@ function outfitStyleScore(items,style){
  return (map[style]||[]).reduce((n,w)=>n+(allText.includes(w)?1:0),0);
 }
 function buildOutfitSuggestions(clothes,style,focus,weather){
+ // Use every item currently in the closet. Sorting newest-first makes recently
+ // registered items enter the candidate pool early instead of being hidden by
+ // the old 2,500-combination cutoff.
  const available=clothes.filter(i=>i.status==='closet');
- const cat=id=>available.filter(i=>i.category===id);
- let combos=[];
+ const cat=id=>available.filter(i=>i.category===id).sort((a,b)=>(Number(b.order)||0)-(Number(a.order)||0));
  const tops=cat('tops'),bottoms=cat('bottoms'),dresses=cat('dress');
- for(const t of tops)for(const b of bottoms)combos.push([t,b]);
- for(const d of dresses)combos.push([d]);
- // Keep the search bounded for large wardrobes while retaining variety.
- combos=combos.slice(0,2500).map(items=>{
-  const outer=cat('outer').filter(x=>!focus||focus==='指定なし'||(focus==='アウター'&&x.category==='outer')).sort((a,b)=>outfitStyleScore([b],style)-outfitStyleScore([a],style))[0];
-  const shoes=cat('shoes')[0];
-  const result=[...items];
-  if(outer && (weather?.min<18 || itemHas(outer,['薄手','軽い','春','秋','冬','暖か'])))result.push(outer);
-  if(shoes)result.push(shoes);
-  const base=items.reduce((n,x,i)=>n+(i?outfitColorScore(items[0],x):0),0);
-  let score=base+outfitStyleScore(result,style)*1.6;
-  const text=result.map(outfitWords).join(' ');
-  if(weather){if(weather.max>=27&&/厚手|冬|ウール|ダウン/.test(text))score-=3;if(weather.min<=12&&/薄手|夏|リネン|半袖/.test(text))score-=2;if(weather.rain>=50&&result.some(x=>itemHas(x,['スエード','雨に弱い','濡れやすい'])))score-=2;}
-  if(focus==='トップス'&&!items.some(x=>x.category==='tops'))score-=5;
-  if(focus==='ボトムス'&&!items.some(x=>x.category==='bottoms'))score-=5;
-  if(focus==='アウター'&&!result.some(x=>x.category==='outer'))score-=5;
-  return {items:result,score};
+ const outers=cat('outer'),shoes=cat('shoes'),socks=cat('socks'),accessories=cat('acc');
+ let bases=[];
+ for(const t of tops)for(const b of bottoms)bases.push([t,b]);
+ for(const d of dresses)bases.push([d]);
+ if(focus==='トップス')bases=bases.filter(items=>items.some(x=>x.category==='tops'));
+ if(focus==='ボトムス')bases=bases.filter(items=>items.some(x=>x.category==='bottoms'));
+ if(focus==='アウター'&&outers.length){
+   // Keep the base outfit valid, then require an outer layer in the variants below.
+ }
+ if(!bases.length)return [];
+ const combos=[];
+ const add=(baseItems,variantIndex)=>{
+   const result=[...baseItems];
+   const choose=(list,offset)=>list.length?list[(variantIndex+offset)%list.length]:null;
+   const outer=choose(outers,0),shoe=choose(shoes,1),sock=choose(socks,2),acc=choose(accessories,3);
+   // Rotate optional categories across variants so every registered outer,
+   // shoe, sock and accessory can appear in the suggestion set.
+   if(outer&&(weather?.min<18||itemHas(outer,['薄手','軽い','春','秋','冬','暖か'])||focus==='アウター'))result.push(outer);
+   if(shoe)result.push(shoe);
+   if(sock)result.push(sock);
+   if(acc)result.push(acc);
+   if(focus==='アウター'&&!result.some(x=>x.category==='outer'))return;
+   const base=baseItems.reduce((n,x,i)=>n+(i?outfitColorScore(baseItems[0],x):0),0);
+   let score=base+outfitStyleScore(result,style)*1.6;
+   const text=result.map(outfitWords).join(' ');
+   if(weather){if(weather.max>=27&&/厚手|冬|ウール|ダウン/.test(text))score-=3;if(weather.min<=12&&/薄手|夏|リネン|半袖/.test(text))score-=2;if(weather.rain>=50&&result.some(x=>itemHas(x,['スエード','雨に弱い','濡れやすい'])))score-=2;}
+   // Gentle recency preference: newly added pieces are not buried by older ties.
+   score+=result.reduce((n,x)=>n+Math.min(30,Math.max(0,Number(x.order)||0))*0.25,0);
+   combos.push({items:result,score});
+ };
+ // A few rotating combinations per base. The rotation covers all optional
+ // pieces without an explosive Cartesian product for large wardrobes.
+ bases.forEach((items,index)=>{
+   const rotations=Math.max(1,Math.max(outers.length,shoes.length,socks.length,accessories.length,1));
+   for(let r=0;r<rotations;r++)add(items,index+r);
  });
- const seen=new Set();return combos.sort((a,b)=>b.score-a.score).filter(c=>{const k=c.items.map(i=>i.id).join('|');if(seen.has(k))return false;seen.add(k);return true}).slice(0,5);
+ // Deduplicate and greedily select varied looks, avoiding five near-identical
+ // outfits built around the same recently-used pieces.
+ const unique=new Map();
+ for(const c of combos){const key=c.items.map(i=>String(i.id)).sort().join('|');if(!unique.has(key)||unique.get(key).score<c.score)unique.set(key,c);}
+ const pool=[...unique.values()].sort((a,b)=>b.score-a.score);
+ const chosen=[],used=new Map();
+ while(chosen.length<5&&pool.length){
+   let bestIndex=0,bestValue=-Infinity;
+   pool.forEach((c,index)=>{
+     const repeat=c.items.reduce((n,i)=>n+(used.get(String(i.id))||0),0);
+     const value=c.score-repeat*2.2;
+     if(value>bestValue){bestValue=value;bestIndex=index;}
+   });
+   const [best]=pool.splice(bestIndex,1);chosen.push(best);
+   best.items.forEach(i=>used.set(String(i.id),(used.get(String(i.id))||0)+1));
+ }
+ return chosen;
 }
 async function openOutfitAdvisor(){
  const clothes=await all('clothes');
