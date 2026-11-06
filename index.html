@@ -947,6 +947,10 @@ button:active{transform:scale(.975);filter:saturate(1.18) brightness(1.04)}
 #modal .favorite-detail-view .bg-red-500\/20{background:#713A43!important;border:1px solid #DCA8AF!important}
 #modal .favorite-detail-view button:focus-visible{outline:3px solid #D4E98A!important;outline-offset:2px!important}
 
+
+.season-drop-box{position:fixed;z-index:10000;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 22px);transform:translate(-50%,18px) scale(.92);opacity:0;pointer-events:none;display:flex;align-items:center;gap:9px;padding:10px 16px;border:1px solid color-mix(in srgb,var(--accent-color) 45%,white 25%);border-radius:16px;background:color-mix(in srgb,var(--bg-secondary) 92%,transparent);color:var(--text-main);box-shadow:0 8px 28px rgba(0,0,0,.2);font-size:10px;font-weight:800;letter-spacing:.08em;transition:opacity .16s,transform .16s}
+.season-drop-box{opacity:1;transform:translate(-50%,0) scale(1)}.season-box-icon{width:42px;height:38px}.season-box-icon svg{width:100%;height:100%;overflow:visible}.season-box-body,.season-box-front,.season-box-side,.season-box-lid,.season-box-flap{fill:none;stroke:var(--accent-color);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}.season-box-front,.season-box-side{fill:color-mix(in srgb,var(--accent-color) 8%,transparent)}.season-box-lid,.season-box-flap{transform-box:fill-box;transform-origin:50% 100%;transition:transform .18s ease}.season-box-flap{transform-origin:50% 100%}.season-drop-box.is-open{background:color-mix(in srgb,var(--accent-color) 18%,var(--bg-secondary));border-color:var(--accent-color);transform:translate(-50%,-4px) scale(1.06)}.season-drop-box.is-open .season-box-lid,.season-drop-box.is-open .season-box-flap{transform:translateY(-7px) rotate(-8deg)}
+
 </style>
 <script>
 // 保存済みテーマを「最初の描画前」に適用。読み込み中だけデフォルト色になる問題を防止。
@@ -960,7 +964,7 @@ button:active{transform:scale(.975);filter:saturate(1.18) brightness(1.04)}
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="My Closet">
 </head>
-<body class="min-h-screen pb-24 pt-16"><div class="app-version">ver.1.45</div>
+<body class="min-h-screen pb-24 pt-16"><div class="app-version">ver.1.48</div>
 <header class="fixed top-0 left-0 right-0 z-40 px-4 py-3 flex justify-between items-center backdrop-blur-md border-b border-white/10" style="background:var(--bg-primary)">
 <div class="flex items-center gap-2"><i class="fa-solid fa-shirt text-xl theme-accent-text"></i><h1 id="app-title" class="font-bold text-lg">My Closet</h1></div>
 <div class="header-actions flex gap-2"><button type="button" onclick="openFavorites()" aria-label="保存したコーデ" title="保存したコーデ" class="header-action-fav w-9 h-9 rounded-full theme-card-bg text-rose-400"><i class="fa-solid fa-heart"></i></button><button type="button" onclick="openTheme()" aria-label="テーマ" title="テーマ" class="header-action-theme px-3 py-1.5 rounded-full theme-card-bg text-xs"><i class="fa-solid fa-palette theme-accent-text mr-1"></i>テーマ</button></div>
@@ -1006,6 +1010,8 @@ const emptySel=()=>Object.fromEntries(CATS.map(c=>[c.id,[]]));
 function selArray(v){return Array.isArray(v)?v:(v?[v]:[])}
 function normalizeSelection(obj={}){return Object.fromEntries(CATS.map(c=>[c.id,selArray(obj[c.id])]))}
 const selections={0:emptySel(),1:emptySel(),2:emptySel()};
+// Tracks which calendar date each in-memory selection draft belongs to.
+const selectionDraftDate={0:null,1:null,2:null};
 const CLOTHING_COLORS=[
  {id:'white',name:'白',hex:'#F3F3EE'},{id:'black',name:'黒',hex:'#222222'},{id:'gray',name:'グレー',hex:'#8C9196'},
  {id:'beige',name:'ベージュ',hex:'#CDBB9B'},{id:'brown',name:'ブラウン',hex:'#795548'},{id:'navy',name:'ネイビー',hex:'#263B63'},
@@ -1013,7 +1019,7 @@ const CLOTHING_COLORS=[
  {id:'orange',name:'オレンジ',hex:'#E58A45'},{id:'red',name:'赤',hex:'#C95757'},{id:'pink',name:'ピンク',hex:'#D98CA0'},
  {id:'purple',name:'パープル',hex:'#8A6FAE'},{id:'other',name:'その他',hex:'#B9A7A0'}
 ];
-let closetColorFilter='all'; let closetScrollOffsets={}; let closetColorScrollOffset=0;
+let closetColorFilter='all'; let closetScrollOffsets={}; let closetColorScrollOffset=0; let closetViewMode='active';
 function colorIds(item){
   if(Array.isArray(item?.color)) return item.color;
   if(item?.colors && Array.isArray(item.colors)) return item.colors;
@@ -1143,8 +1149,15 @@ async function openDayOutfitSelection(){
   const clothes=await all('clothes');
   const saved=getHomeSet(dayOffset);
 
-  // 既にセット済みなら、その日のセット内容を最初から選択状態にする。
-  selections[dayOffset]=saved ? normalizeSelection(saved.items) : emptySel();
+  // Load the saved outfit once per calendar date. Keep an in-progress draft
+  // when the user returns to this day's selector instead of resetting it.
+  const currentDate=dateOffset(dayOffset);
+  if(selectionDraftDate[dayOffset]!==currentDate){
+    selections[dayOffset]=saved && saved.date===currentDate
+      ? normalizeSelection(saved.items)
+      : emptySel();
+    selectionDraftDate[dayOffset]=currentDate;
+  }
 
   await renderDaySelection(clothes);
   fetchWeatherForSelection(dayOffset);
@@ -1294,7 +1307,7 @@ function selectionHtml(clothes){
                 }
               </div>
               <div class="text-[10px] font-bold truncate mt-1.5">${esc(i.name)}</div>
-              ${[0,1,2].filter(d=>d!==dayOffset&&Object.values(selections[d]||{}).some(v=>selArray(v).includes(i.id))).map(d=>`<div class="mt-1"><span class="status-pill inline-block rounded-full px-1.5 py-0.5 text-[9px]">${dayLabel(d)}のコーデで選択中</span></div>`).join('')}
+              ${[0,1,2].filter(d=>d!==dayOffset&&Object.values(getSelectionForDay(d)).some(v=>selArray(v).some(id=>String(id)===String(i.id)))).map(d=>`<div class="mt-1"><span class="status-pill inline-block rounded-full px-1.5 py-0.5 text-[9px]">${dayLabel(d)}のコーデで選択中</span></div>`).join('')}
             </button>
           `).join('')}
         </div>
@@ -1332,6 +1345,15 @@ function getHomeSet(offset=dayOffset){
   }catch(e){
     return null;
   }
+}
+
+function getSelectionForDay(offset){
+  const date=dateOffset(offset);
+  // Prefer the in-memory draft for the currently loaded date; otherwise use
+  // the saved outfit so badges are still correct before that day is opened.
+  if(selectionDraftDate[offset]===date) return normalizeSelection(selections[offset]||{});
+  const saved=getHomeSet(offset);
+  return saved && saved.date===date ? normalizeSelection(saved.items||{}) : emptySel();
 }
 
 function saveHomeSet(offset,items){
@@ -1489,6 +1511,7 @@ async function commitWear(){
     }
 
     saveHomeSet(dayOffset,selection);
+    selectionDraftDate[dayOffset]=dateOffset(dayOffset);
 
     // Only today's outfit is reflected in wear history. Future outfits are plans,
     // not confirmed wear records. Re-setting today's outfit replaces today's entry.
@@ -1533,10 +1556,23 @@ function pickColor(groupId,colorId){toggleColor(groupId,colorId)}
 function selectedColors(groupId){return [...document.querySelectorAll('#'+groupId+' .selected-color')].map(x=>x.dataset.color)}
 
 async function registerClothes(){const files=[document.getElementById('camera')?.files[0],document.getElementById('gallery')?.files[0]].filter(Boolean),cat=document.getElementById('reg-cat').value;let name=document.getElementById('reg-name').value.trim();if(!files[0])return toast('服の写真を選択してください');try{const clothes=await all('clothes');if(!name){const n=clothes.filter(x=>x.category===cat).length+1;name=`${catName(cat)} ${String(n).padStart(2,'0')}`}const image=await compress(files[0]);const order=(await all('clothes')).filter(x=>x.category===cat).reduce((m,x)=>Math.max(m,x.order??-1),-1)+1;const colors=selectedColors('reg-color');if(!colors.length)return toast('色を1つ以上選択してください');await put('clothes',{id:uid(),name,category:cat,color:colors,image,description:document.getElementById('reg-description')?.value.trim()||'',status:'closet',order,wearCount:0,lastWorn:null,laundryStartTime:null});closeModal();await switchTab('closet');toast('服を登録しました！')}catch(e){console.error(e);toast('保存できませんでした。写真を変えてもう一度お試しください')}}
-async function renderCloset(){saveClosetScroll();const clothes=await all('clothes');const recent=clothes.filter(x=>!x.lastWorn&&x.status==='closet').concat(clothes.filter(x=>x.lastWorn&&x.status==='closet').sort((a,b)=>String(a.lastWorn).localeCompare(String(b.lastWorn)))).slice(0,6);const grouped=CATS.map(cat=>({cat,items:orderedClothes(clothes,cat.id).filter(i=>hasColor(i,closetColorFilter))}));document.getElementById('app').innerHTML=`<div class="space-y-3 mb-5"><button onclick="registerModal()" class="w-full py-3 rounded-2xl theme-accent-bg text-black font-bold text-sm">＋ 新しい服を登録する</button><div class="theme-card-bg rounded-2xl p-3"><div class="flex items-center justify-between mb-2"><span class="text-xs font-bold">🎨 色で絞り込み</span><button onclick="saveClosetScroll();closetColorFilter='all';renderCloset()" class="text-[10px] opacity-60">すべて</button></div><div id="closet-color-scroller" class="color-filter-scroller flex gap-2 no-scrollbar pb-1">${CLOTHING_COLORS.map(c=>`<button onclick="saveClosetScroll();closetColorFilter='${c.id}';renderCloset()" title="${c.name}" aria-label="${c.name}" class="relative flex-shrink-0 w-8 h-8 rounded-full border-2 ${closetColorFilter===c.id?'theme-accent-border scale-110':'border-white/20 opacity-80'}" style="background:${c.hex}">${closetColorFilter===c.id?'<span class="absolute inset-0 flex items-center justify-center text-[11px] font-bold" style="color:'+(c.id==='white'?'#333':'#fff')+'">✓</span>':''}</button>`).join('')}</div></div></div><div class="theme-card-bg rounded-2xl p-4 mb-6"><div class="flex items-center justify-between mb-3"><h3 class="text-xs font-bold">🕰 最近着ていない服</h3><span class="text-[10px] opacity-50">クローゼット内</span></div>${recent.length?`<div class="flex gap-3 overflow-x-auto no-scrollbar">${recent.map(i=>`<div class="flex-shrink-0 w-24"><div class="h-28 rounded-xl overflow-hidden bg-black/20">${i.image?`<img src="${i.image}" class="w-full h-full object-cover">`:''}</div><div class="text-[10px] font-bold truncate mt-1">${esc(i.name)}</div><div class="text-[9px] opacity-50">${i.lastWorn?'最終 '+i.lastWorn:'未着用'}</div></div>`).join('')}</div>`:'<div class="text-xs opacity-40 text-center py-3">今はありません</div>'}</div><div class="text-[10px] opacity-50 mb-4 text-center">各ジャンルを横にスワイプできます。☷ 並替を長押しして、そのまま移動できます。</div>${grouped.map(({cat,items})=>`<section class="mb-7"><h3 class="text-xs font-bold opacity-70 mb-2"><i class="fa-solid ${cat.icon} theme-accent-text mr-1"></i>${cat.name}<span class="float-right">${items.length}着</span></h3><div class="closet-scroller no-scrollbar" data-drag-category="${cat.id}">${items.length?items.map(i=>`<div class="drag-item theme-card-bg rounded-xl overflow-hidden relative" data-drag-id="${i.id}"><div class="h-28 relative">${i.image?`<img src="${i.image}" class="w-full h-full object-cover pointer-events-none">`:'<div class="h-full flex items-center justify-center text-xs opacity-30">No Image</div>'}<span class="status-pill absolute top-2 left-2 rounded-full px-2 py-1 text-[9px]">${i.status==='in_laundry'?'洗濯中':i.status==='laundry_wait'?'洗濯待ち':'クローゼット'}</span></div><div class="p-2.5"><div class="font-bold text-xs truncate">${esc(i.name)}</div><div class="text-[10px] opacity-50 mt-1">着用 ${i.wearCount||0}回${i.lastWorn?' ・ '+i.lastWorn:''}</div><div class="flex gap-1 mt-2"><span class="drag-handle bg-white/10 rounded py-1.5 px-2 text-[10px]" onpointerdown="startClothesDrag(event,'${i.id}','${cat.id}')">☷ 並替</span><button onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();editClothes('${i.id}')" class="flex-1 bg-white/10 rounded py-1.5 text-[10px]">編集</button><button onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();deleteClothes('${i.id}')" class="bg-red-500/20 text-red-300 rounded px-2"><i class="fa-solid fa-trash text-[10px]"></i></button></div></div></div>`).join(''):'<div class="empty-cat text-center text-xs opacity-30 py-8">該当する服がありません</div>'}</div></section>`).join('')}<div class="theme-card-bg rounded-2xl p-4 mt-8"><h3 class="text-xs font-bold mb-2">💾 データ管理</h3><p class="text-[10px] opacity-50 mb-3">服の写真・コーデ・履歴・旅行データをこの端末からバックアップできます。</p><div class="flex gap-2"><button onclick="exportBackup()" class="flex-1 py-2.5 bg-white/10 rounded-xl text-xs font-bold">書き出す</button><button onclick="importBackupPrompt()" class="flex-1 py-2.5 theme-accent-bg text-black rounded-xl text-xs font-bold">復元する</button></div></div>`;document.querySelectorAll('.closet-scroller').forEach(el=>{el.scrollLeft=closetScrollOffsets[el.dataset.dragCategory]||0;el.addEventListener('scroll',()=>{closetScrollOffsets[el.dataset.dragCategory]=el.scrollLeft},{passive:true})});const colorRail=document.getElementById('closet-color-scroller');if(colorRail){colorRail.scrollLeft=closetColorScrollOffset;colorRail.addEventListener('scroll',()=>{closetColorScrollOffset=colorRail.scrollLeft},{passive:true})}}
+async function renderCloset(){saveClosetScroll();const clothes=await all('clothes');const visibleClothes=clothes.filter(x=>closetViewMode==='offseason'?x.status==='off_season':x.status!=='off_season');const recent=visibleClothes.filter(x=>!x.lastWorn&&x.status==='closet').concat(visibleClothes.filter(x=>x.lastWorn&&x.status==='closet').sort((a,b)=>String(a.lastWorn).localeCompare(String(b.lastWorn)))).slice(0,6);const grouped=CATS.map(cat=>({cat,items:orderedClothes(visibleClothes,cat.id).filter(i=>hasColor(i,closetColorFilter))}));document.getElementById('app').innerHTML=`<div class="space-y-3 mb-5"><div class="grid grid-cols-2 gap-2"><button onclick="closetViewMode='active';closetColorFilter='all';renderCloset()" class="py-2.5 rounded-xl text-xs font-bold ${closetViewMode==='active'?'theme-accent-bg text-black':'theme-card-bg'}">👚 CLOSET</button><button onclick="closetViewMode='offseason';closetColorFilter='all';renderCloset()" class="py-2.5 rounded-xl text-xs font-bold ${closetViewMode==='offseason'?'theme-accent-bg text-black':'theme-card-bg'}">📦 OFF SEASON</button></div><button onclick="registerModal()" class="w-full py-3 rounded-2xl theme-accent-bg text-black font-bold text-sm">＋ 新しい服を登録する</button><div class="theme-card-bg rounded-2xl p-3"><div class="flex items-center justify-between mb-2"><span class="text-xs font-bold">🎨 色で絞り込み</span><button onclick="saveClosetScroll();closetColorFilter='all';renderCloset()" class="text-[10px] opacity-60">すべて</button></div><div id="closet-color-scroller" class="color-filter-scroller flex gap-2 no-scrollbar pb-1">${CLOTHING_COLORS.map(c=>`<button onclick="saveClosetScroll();closetColorFilter='${c.id}';renderCloset()" title="${c.name}" aria-label="${c.name}" class="relative flex-shrink-0 w-8 h-8 rounded-full border-2 ${closetColorFilter===c.id?'theme-accent-border scale-110':'border-white/20 opacity-80'}" style="background:${c.hex}">${closetColorFilter===c.id?'<span class="absolute inset-0 flex items-center justify-center text-[11px] font-bold" style="color:'+(c.id==='white'?'#333':'#fff')+'">✓</span>':''}</button>`).join('')}</div></div></div><div class="theme-card-bg rounded-2xl p-4 mb-6"><div class="flex items-center justify-between mb-3"><h3 class="text-xs font-bold">🕰 最近着ていない服</h3><span class="text-[10px] opacity-50">クローゼット内</span></div>${closetViewMode==='active'?(recent.length?`<div class="flex gap-3 overflow-x-auto no-scrollbar">${recent.map(i=>`<div class="flex-shrink-0 w-24"><div class="h-28 rounded-xl overflow-hidden bg-black/20">${i.image?`<img src="${i.image}" class="w-full h-full object-cover">`:''}</div><div class="text-[10px] font-bold truncate mt-1">${esc(i.name)}</div><div class="text-[9px] opacity-50">${i.lastWorn?'最終 '+i.lastWorn:'未着用'}</div></div>`).join('')}</div>`:'<div class="text-xs opacity-40 text-center py-3">今はありません</div>'):'<div class="hidden"></div>'}</div><div class="text-[10px] opacity-50 mb-4 text-center">各ジャンルを横にスワイプできます。☷ 並替を長押しして、そのまま移動できます。</div>${grouped.map(({cat,items})=>`<section class="mb-7"><h3 class="text-xs font-bold opacity-70 mb-2"><i class="fa-solid ${cat.icon} theme-accent-text mr-1"></i>${cat.name}<span class="float-right">${items.length}着</span></h3><div class="closet-scroller no-scrollbar" data-drag-category="${cat.id}">${items.length?items.map(i=>`<div class="drag-item theme-card-bg rounded-xl overflow-hidden relative" data-drag-id="${i.id}"><div class="h-28 relative">${i.image?`<img src="${i.image}" class="w-full h-full object-cover pointer-events-none">`:'<div class="h-full flex items-center justify-center text-xs opacity-30">No Image</div>'}<span class="status-pill absolute top-2 left-2 rounded-full px-2 py-1 text-[9px]">${i.status==='off_season'?'OFF SEASON':i.status==='in_laundry'?'洗濯中':i.status==='laundry_wait'?'洗濯待ち':'クローゼット'}</span></div><div class="p-2.5"><div class="font-bold text-xs truncate">${esc(i.name)}</div><div class="text-[10px] opacity-50 mt-1">着用 ${i.wearCount||0}回${i.lastWorn?' ・ '+i.lastWorn:''}</div><div class="flex gap-1 mt-2"><span class="drag-handle bg-white/10 rounded py-1.5 px-2 text-[10px]" onpointerdown="startClothesDrag(event,'${i.id}','${cat.id}')">☷ 並替</span><button onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();editClothes('${i.id}')" class="flex-1 bg-white/10 rounded py-1.5 text-[10px]">編集</button><button onpointerdown="event.stopPropagation()" onclick="event.stopPropagation();deleteClothes('${i.id}')" class="bg-red-500/20 text-red-300 rounded px-2"><i class="fa-solid fa-trash text-[10px]"></i></button></div></div></div>`).join(''):'<div class="empty-cat text-center text-xs opacity-30 py-8">該当する服がありません</div>'}</div></section>`).join('')}<div class="theme-card-bg rounded-2xl p-4 mt-8"><h3 class="text-xs font-bold mb-2">💾 データ管理</h3><p class="text-[10px] opacity-50 mb-3">服の写真・コーデ・履歴・旅行データをこの端末からバックアップできます。</p><div class="flex gap-2"><button onclick="exportBackup()" class="flex-1 py-2.5 bg-white/10 rounded-xl text-xs font-bold">書き出す</button><button onclick="importBackupPrompt()" class="flex-1 py-2.5 theme-accent-bg text-black rounded-xl text-xs font-bold">復元する</button></div></div>`;document.querySelectorAll('.closet-scroller').forEach(el=>{el.scrollLeft=closetScrollOffsets[el.dataset.dragCategory]||0;el.addEventListener('scroll',()=>{closetScrollOffsets[el.dataset.dragCategory]=el.scrollLeft},{passive:true})});const colorRail=document.getElementById('closet-color-scroller');if(colorRail){colorRail.scrollLeft=closetColorScrollOffset;colorRail.addEventListener('scroll',()=>{closetColorScrollOffset=colorRail.scrollLeft},{passive:true})}}
+async function toggleOffSeason(id){const clothes=await all('clothes'),item=clothes.find(x=>x.id===id);if(!item)return;item.status=item.status==='off_season'?'closet':'off_season';if(item.status==='off_season')item.laundryStartTime=null;await put('clothes',item);await renderCloset();toast(item.status==='off_season'?'OFF SEASONに保管しました':'クローゼットに戻しました') }
 function saveClosetScroll(){document.querySelectorAll('.closet-scroller').forEach(el=>closetScrollOffsets[el.dataset.dragCategory]=el.scrollLeft);const colorRail=document.getElementById('closet-color-scroller');if(colorRail)closetColorScrollOffset=colorRail.scrollLeft}
 let dragState=null;
 let dragAutoScrollFrame=0;
+function showSeasonDropBox(){
+  const returning=closetViewMode==='offseason';
+  const box=document.createElement('div');box.id='season-drop-box';box.className='season-drop-box';
+  box.innerHTML=`<div class="season-box-icon"><svg viewBox="0 0 64 56" aria-hidden="true"><path class="season-box-body" d="M7 20 L32 29 L57 20 L57 47 L32 55 L7 47 Z"/><path class="season-box-front" d="M7 20 L32 29 L32 55 L7 47 Z"/><path class="season-box-side" d="M32 29 L57 20 L57 47 L32 55 Z"/><path class="season-box-lid" d="M7 18 L32 27 L57 18 L32 9 Z"/><path class="season-box-flap" d="M7 18 L7 11 L32 2 L57 11 L57 18 L32 27 Z"/></svg></div><span>${returning?'CLOSET':'OFF SEASON'}</span>`;
+  document.body.appendChild(box);return box;
+}
+function updateSeasonDropTarget(state){
+  if(!state?.dropBox)return;
+  const r=state.dropBox.getBoundingClientRect(),x=state.lastX,y=state.lastY;
+  const inside=x>=r.left-10&&x<=r.right+10&&y>=r.top-10&&y<=r.bottom+10;
+  state.dropBox.classList.toggle('is-open',inside);state.overSeasonBox=inside;
+}
 function startClothesDrag(e,id,catId){
   if(e.pointerType==='mouse'&&e.button!==0)return;
   if(dragState)return;
@@ -1557,7 +1593,7 @@ function startClothesDrag(e,id,catId){
     startX:e.clientX,startY:e.clientY,lastX:e.clientX,lastY:e.clientY,
     offsetX:e.clientX-rect.left,offsetY:e.clientY-rect.top,
     moved:false,pointerId:e.pointerId,parent:el.parentElement,
-    originalInlineStyle:el.getAttribute('style')||''
+    originalInlineStyle:el.getAttribute('style')||'',dropBox:showSeasonDropBox(),overSeasonBox:false
   };
   dragState=state;
   el.classList.add('dragging');
@@ -1641,15 +1677,18 @@ function onClothesDragMove(e){
   state.lastX=e.clientX;state.lastY=e.clientY;
   if(Math.abs(e.clientX-state.startX)+Math.abs(e.clientY-state.startY)>5)state.moved=true;
   updateDraggedGhost(state);
+  updateSeasonDropTarget(state);
   moveDraggedPlaceholderToPointer(state);
 }
 async function endClothesDrag(){
   const state=dragState;if(!state)return;
+  const dropToSeason=!!(state.moved&&state.overSeasonBox);
   window.removeEventListener('pointermove',onClothesDragMove);
   window.removeEventListener('pointerup',endClothesDrag);
   window.removeEventListener('pointercancel',endClothesDrag);
   window.removeEventListener('blur',endClothesDrag);
   cancelAnimationFrame(dragAutoScrollFrame);dragAutoScrollFrame=0;
+  state.dropBox?.remove();
   state.handle?.classList.remove('drag-handle-active');
   state.scroller?.classList.remove('is-auto-scrolling');
   if(state.scroller)state.scroller.style.scrollSnapType='';
@@ -1659,6 +1698,11 @@ async function endClothesDrag(){
   state.el.removeAttribute('style');
   dragState=null;
   if(state.scroller)closetScrollOffsets[state.catId]=state.scroller.scrollLeft;
+  if(dropToSeason){
+    const clothes=await all('clothes'),item=clothes.find(x=>x.id===state.id);
+    if(item){item.status=closetViewMode==='offseason'?'closet':'off_season';if(item.status==='off_season')item.laundryStartTime=null;await put('clothes',item);await render();toast(item.status==='off_season'?'OFF SEASONに収納しました':'クローゼットに戻しました');}
+    return;
+  }
   if(!state.moved)return;
   const parent=state.el.parentElement;if(!parent)return;
   const ids=[...parent.querySelectorAll('[data-drag-id]')].map(x=>x.dataset.dragId);
@@ -1736,7 +1780,7 @@ function createTravelModal(){showModal(`<h3 class="font-bold text-base text-cent
 async function createTrip(){const title=document.getElementById('trip-title').value.trim(),start=document.getElementById('trip-start').value,end=document.getElementById('trip-end').value;if(!start||!end)return toast('開始日と終了日を入力してください');if(end<start)return toast('終了日は開始日以降にしてください');await put('travels',{id:uid(),title:title||'旅行プラン',start,end,daily:{},endPromptShown:false});closeModal();await render();toast('旅行を登録しました！')}
 function dates(start,end){const a=[];let d=new Date(start+'T12:00:00'),e=new Date(end+'T12:00:00');while(d<=e){a.push(d.toISOString().slice(0,10));d.setDate(d.getDate()+1)}return a}
 async function travelOutfits(id){const t=(await all('travels')).find(x=>x.id===id),clothes=await all('clothes');if(!t)return;showModal(`<h3 class="font-bold text-base text-center mb-4">${esc(t.title)} のコーデ</h3>${dates(t.start,t.end).map((d,n)=>{const selected=(t.daily[d]||[]).map(x=>clothes.find(c=>String(c.id)===String(x))).filter(Boolean);return `<div class="p-3 rounded-xl bg-black/20 mb-3"><div class="text-xs font-bold theme-accent-text">Day ${n+1}（${d}）</div>${selected.length?`<div class="grid grid-cols-3 gap-2 mt-3">${selected.map(i=>`<div class="min-w-0 rounded-lg overflow-hidden bg-black/20"><div class="aspect-square bg-black/20">${i.image?`<img src="${i.image}" alt="${esc(i.name)}" class="w-full h-full object-cover">`:`<div class="w-full h-full flex items-center justify-center text-xl opacity-40"><i class="fa-solid fa-shirt"></i></div>`}</div><div class="p-1.5"><div class="text-[10px] font-bold truncate">${esc(i.name)}</div><div class="text-[9px] opacity-60 truncate">${esc(catName(i.category))}</div></div></div>`).join('')}</div>`:'<div class="text-[10px] opacity-60 mt-2">まだ服が選択されていません</div>'}<button onclick="selectTravelDay('${id}','${d}')" class="w-full mt-3 py-2 bg-white/10 rounded-lg text-xs">＋ 服を選ぶ・変更する</button></div>`}).join('')}<button onclick="closeModal()" class="w-full py-2.5 theme-accent-bg text-black rounded-xl text-xs font-bold">完了</button>`)}
-async function selectTravelDay(id,day){const t=(await all('travels')).find(x=>x.id===id),clothes=await all('clothes'),sel=t?.daily?.[day]||[];const groups=CATS.map(cat=>{const items=orderedClothes(clothes,cat.id);if(!items.length)return '';return `<div class="mb-4"><div class="text-[11px] font-bold opacity-70 mb-2">${cat.name}</div><div class="hscroll">${items.map(i=>`<label class="relative block rounded-xl bg-black/20 border border-white/10 overflow-hidden cursor-pointer"><input class="tripbox absolute top-2 right-2 z-10 w-5 h-5 accent-emerald-500" type="checkbox" value="${i.id}" ${sel.includes(i.id)?'checked':''}><div class="aspect-[4/5] bg-black/20">${i.image?`<img src="${i.image}" class="w-full h-full object-cover">`:'<div class="w-full h-full flex items-center justify-center opacity-30"><i class="fa-solid fa-shirt text-3xl"></i></div>'}</div><div class="p-2"><div class="text-[11px] font-bold truncate">${esc(i.name)}</div></div></label>`).join('')}</div></div>`}).join('');showModal(`<h3 class="font-bold text-sm text-center mb-1">${day} の服を選ぶ</h3><p class="text-[10px] opacity-50 text-center mb-4">横にスワイプして服を選べます</p><div class="max-h-[65vh] overflow-y-auto">${groups||'<div class="text-xs opacity-40 text-center py-8">登録された服がありません</div>'}</div><button onclick="saveTravelDay('${id}','${day}')" class="w-full mt-4 py-2.5 theme-accent-bg text-black rounded-xl text-xs font-bold">保存する</button>`)}
+async function selectTravelDay(id,day){const t=(await all('travels')).find(x=>x.id===id),clothes=await all('clothes'),sel=t?.daily?.[day]||[];const groups=CATS.map(cat=>{const items=orderedClothes(clothes.filter(x=>x.status!=='off_season'),cat.id);if(!items.length)return '';return `<div class="mb-4"><div class="text-[11px] font-bold opacity-70 mb-2">${cat.name}</div><div class="hscroll">${items.map(i=>`<label class="relative block rounded-xl bg-black/20 border border-white/10 overflow-hidden cursor-pointer"><input class="tripbox absolute top-2 right-2 z-10 w-5 h-5 accent-emerald-500" type="checkbox" value="${i.id}" ${sel.includes(i.id)?'checked':''}><div class="aspect-[4/5] bg-black/20">${i.image?`<img src="${i.image}" class="w-full h-full object-cover">`:'<div class="w-full h-full flex items-center justify-center opacity-30"><i class="fa-solid fa-shirt text-3xl"></i></div>'}</div><div class="p-2"><div class="text-[11px] font-bold truncate">${esc(i.name)}</div></div></label>`).join('')}</div></div>`}).join('');showModal(`<h3 class="font-bold text-sm text-center mb-1">${day} の服を選ぶ</h3><p class="text-[10px] opacity-50 text-center mb-4">横にスワイプして服を選べます</p><div class="max-h-[65vh] overflow-y-auto">${groups||'<div class="text-xs opacity-40 text-center py-8">登録された服がありません</div>'}</div><button onclick="saveTravelDay('${id}','${day}')" class="w-full mt-4 py-2.5 theme-accent-bg text-black rounded-xl text-xs font-bold">保存する</button>`)}
 async function saveTravelDay(id,day){const t=(await all('travels')).find(x=>x.id===id);if(!t)return;t.daily[day]=[...document.querySelectorAll('.tripbox:checked')].map(x=>x.value);await put('travels',t);await travelOutfits(id)}
 async function packing(id){const t=(await all('travels')).find(x=>x.id===id),clothes=await all('clothes'),ids=new Set(Object.values(t.daily||{}).flat()),items=clothes.filter(i=>ids.has(i.id));showModal(`<h3 class="font-bold text-base text-center mb-1">🎒 持ち物リスト</h3><p class="text-[10px] opacity-50 text-center mb-4">${esc(t.title)}</p>${items.length?items.map(i=>`<div class="p-2.5 bg-black/20 rounded-xl mb-2 flex gap-2"><span>✓</span><span class="text-xs flex-1">${esc(i.name)}</span><span class="text-[10px] opacity-50">${catName(i.category)}</span></div>`).join(''):'<div class="text-xs opacity-40 text-center py-6">コーデが設定されていません</div>'}<button onclick="closeModal()" class="w-full mt-3 py-2.5 bg-white/10 rounded-xl text-xs">閉じる</button>`)}
 async function finishTrip(id){const t=(await all('travels')).find(x=>x.id===id),clothes=await all('clothes');if(!t)return;const ids=new Set(Object.values(t.daily||{}).flat()),eligible=clothes.filter(i=>ids.has(i.id)&&CATS.find(c=>c.id===i.category)?.laundry);showModal(`<h3 class="font-bold text-base text-center">🧳 旅行終了！</h3><p class="text-xs opacity-60 text-center my-3">旅行中に着用した衣類を洗濯待ちにしますか？</p>${eligible.length?eligible.map(i=>`<label class="flex gap-3 p-2.5 bg-black/20 rounded-xl mb-2"><input checked class="finishbox" type="checkbox" value="${i.id}"><span class="text-xs">${esc(i.name)}</span></label>`).join(''):'<div class="text-xs opacity-40 text-center py-4">洗濯対象の衣類はありません</div>'}<button onclick="finishTripNow('${id}')" class="w-full mt-3 py-2.5 theme-accent-bg text-black rounded-xl text-xs font-bold">選択した服を洗濯待ちにする</button>`)}
