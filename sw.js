@@ -1,10 +1,10 @@
-const CACHE_NAME = 'my-closet-v1.52-hanger-shape';
+const CACHE_NAME = 'my-closet-v1.53-f1-faithful';
 const APP_SHELL = [
   './',
   './index.html',
-  './manifest.webmanifest?v=1.52',
-  './icon-192-v152.svg',
-  './icon-512-v152.svg'
+  './manifest.webmanifest?v=1.53',
+  './icon-192.svg',
+  './icon-512.svg'
 ];
 
 self.addEventListener('install', event => {
@@ -33,7 +33,7 @@ self.addEventListener('fetch', event => {
   if (url.origin !== self.location.origin) return;
 
   const isFreshAsset = url.pathname.endsWith('/manifest.webmanifest') ||
-    /\/icon-(192|512)-v152\.svg$/.test(url.pathname);
+    /\/icon-(192|512)\.svg$/.test(url.pathname);
   if (request.mode === 'navigate' || isFreshAsset) {
     event.respondWith((async () => {
       const cache = await caches.open(CACHE_NAME);

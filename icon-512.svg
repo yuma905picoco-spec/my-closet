@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <circle cx="256" cy="256" r="250" fill="#F7F0E7"/>
+  <path d="M108 438V218a148 148 0 0 1 296 0v220H108Z" fill="#A88F99"/>
+  <path d="M88 438V218a168 168 0 0 1 336 0v220" fill="none" stroke="#CDB9AA" stroke-width="13" stroke-linecap="round"/>
+  <!-- original F-1 four-point sparkle -->
+  <path d="M256 116 C262 131 268 137 283 143 C268 149 262 155 256 170 C250 155 244 149 229 143 C244 137 250 131 256 116Z" fill="#FFF8EF"/>
+  <!-- classic compact hanger hook -->
+  <path d="M256 282 V244 C256 229 238 224 238 207 C238 191 249 181 263 181 C274 181 282 188 282 199" fill="none" stroke="#FFF8EF" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- low, wide hanger body; softened corners and consistent bold stroke -->
+  <path d="M256 282 L151 343 Q137 352 151 361 Q155 364 164 364 H348 Q357 364 361 361 Q375 352 361 343 L256 282Z" fill="none" stroke="#FFF8EF" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
