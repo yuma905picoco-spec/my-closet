@@ -951,20 +951,86 @@ button:active{transform:scale(.975);filter:saturate(1.18) brightness(1.04)}
 .season-drop-box{position:fixed;z-index:10000;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 22px);transform:translate(-50%,18px) scale(.92);opacity:0;pointer-events:none;display:flex;align-items:center;gap:9px;padding:10px 16px;border:1px solid color-mix(in srgb,var(--accent-color) 45%,white 25%);border-radius:16px;background:color-mix(in srgb,var(--bg-secondary) 92%,transparent);color:var(--text-main);box-shadow:0 8px 28px rgba(0,0,0,.2);font-size:10px;font-weight:800;letter-spacing:.08em;transition:opacity .16s,transform .16s}
 .season-drop-box{opacity:1;transform:translate(-50%,0) scale(1)}.season-box-icon{width:42px;height:38px}.season-box-icon svg{width:100%;height:100%;overflow:visible}.season-box-body,.season-box-front,.season-box-side,.season-box-lid,.season-box-flap{fill:none;stroke:var(--accent-color);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}.season-box-front,.season-box-side{fill:color-mix(in srgb,var(--accent-color) 8%,transparent)}.season-box-lid,.season-box-flap{transform-box:fill-box;transform-origin:50% 100%;transition:transform .18s ease}.season-box-flap{transform-origin:50% 100%}.season-drop-box.is-open{background:color-mix(in srgb,var(--accent-color) 18%,var(--bg-secondary));border-color:var(--accent-color);transform:translate(-50%,-4px) scale(1.06)}.season-drop-box.is-open .season-box-lid,.season-drop-box.is-open .season-box-flap{transform:translateY(-7px) rotate(-8deg)}
 
+
+
+/* ver.1.56: keep item cards in the day outfit selector identical regardless of item-name length or day badges. */
+.day-selection-screen .choice-row{align-items:flex-start}
+.day-selection-screen .choice-row .choice-card{
+  box-sizing:border-box!important;
+  flex:0 0 128px!important;
+  width:128px!important;
+  min-width:128px!important;
+  max-width:128px!important;
+  height:178px!important;
+  min-height:178px!important;
+  max-height:178px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:stretch!important;
+  padding:0!important;
+  overflow:hidden!important;
+}
+.day-selection-screen .choice-card .choice-card-photo{
+  box-sizing:border-box!important;
+  flex:0 0 128px!important;
+  width:100%!important;
+  min-width:0!important;
+  height:128px!important;
+  min-height:128px!important;
+  max-height:128px!important;
+}
+.day-selection-screen .choice-card .choice-card-name{
+  box-sizing:border-box!important;
+  display:block!important;
+  flex:0 0 19px!important;
+  width:100%!important;
+  min-width:0!important;
+  height:19px!important;
+  margin:5px 0 0!important;
+  padding:0 5px!important;
+  overflow:hidden!important;
+  white-space:nowrap!important;
+  text-overflow:ellipsis!important;
+  font-size:10px!important;
+  line-height:19px!important;
+  text-align:center!important;
+}
+.day-selection-screen .choice-card .choice-card-other-days{
+  box-sizing:border-box!important;
+  display:flex!important;
+  flex:0 0 21px!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  min-width:0!important;
+  height:21px!important;
+  padding:0 3px!important;
+  overflow:hidden!important;
+}
+.day-selection-screen .choice-card .choice-card-other-days .status-pill{
+  display:block!important;
+  max-width:100%!important;
+  overflow:hidden!important;
+  white-space:nowrap!important;
+  text-overflow:ellipsis!important;
+  font-size:8px!important;
+  line-height:14px!important;
+  padding:0 4px!important;
+}
 </style>
 <script>
 // 保存済みテーマを「最初の描画前」に適用。読み込み中だけデフォルト色になる問題を防止。
 (()=>{const m={'night-secret':['#0D1A2F','#17364F','#09D8C7','#BD0927','#F3F4F6'],'backlight':['#E1D1CA','#AED8D6','#16939E','#FB958C','#50282C'],'glitter':['#201D39','#514575','#E58500','#FFC451','#F3F4F6'],'twilight':['#786181','#B05E76','#FB9C6C','#E97F83','#F3F4F6'],'fresh-sky':['#042C8F','#4891E7','#E8F957','#86D0FD','#FFFFFF'],'pastel-lagoon':['#E7F4EE','#F8FCF9','#59B7A6','#E77B9A','#29413D'],'crystal-shower':['#E8F1F4','#CBDDE3','#007FAF','#7189C4','#183746'],'sunset-citrus':['#0F3B59','#7D929E','#DBA12C','#3E251E','#DBD4CC'],'iridescent-lavender':['#B7A0D4','#F8F4FC','#8D62E8','#F09BD9','#35284A'],'iridescent-ocean':['#8EBAD4','#F1FAFC','#4B8FD8','#83DCD0','#243C54'],'iridescent-peach':['#E8B7C8','#FFF7F1','#E783B7','#F4C36B','#57364D'],'iridescent-mint':['#A5D5C9','#F3FBF8','#54AE9A','#B8A0EA','#294B49'],'iridescent-midnight':['#302747','#51416E','#B59AF7','#ED91D3','#FBF7FF'],'nothing-white':['#F4F4EF','#FFFFFF','#E53935','#B7B7AE','#171717'],'nothing-black':['#111312','#242725','#E53935','#777D76','#F3F3EE'],'famicom-classic':['#6C6B4D','#D8D5AD','#A64B3D','#34382A','#22251B'],'8bit-green':['#263B2B','#526B45','#B8C96D','#D9D2A0','#E5E8C8'],'dot-sunset':['#653D37','#D9B98B','#D56C45','#394D59','#F7E7C5'],'cherry-pixel':['#F2A0A7','#C0E0C8','#D86E83','#F8E9C7','#314B49'],'mint-desktop':['#A8D8C8','#F3EFD6','#477D7C','#E99AA4','#304846'],'pixel-dream':['#C9B5E8','#F8E4E6','#8A7FC0','#8DCBCB','#413650']};const id=localStorage.getItem('my_closet_theme')||'sunset-citrus';const t=m[id]||m['sunset-citrus'];const r=document.documentElement;r.dataset.theme=id;const texture={'sunset-citrus':'metallic','night-secret':'glass','backlight':'matte','glitter':'glass','twilight':'glass','fresh-sky':'metallic','pastel-lagoon':'matte','crystal-shower':'glass','iridescent-lavender':'glass','iridescent-ocean':'glass','iridescent-peach':'matte','iridescent-mint':'matte','iridescent-midnight':'glass'}[id]||'glass';r.dataset.texture=texture;r.dataset.design=({'nothing-white':'mono','nothing-black':'mono','famicom-classic':'pixel','8bit-green':'pixel','dot-sunset':'pixel','cherry-pixel':'pixel-soft','mint-desktop':'pixel-soft','pixel-dream':'pixel-soft','sunset-citrus':'sculptural','glitter':'sculptural','pastel-lagoon':'sculptural','iridescent-mint':'sculptural','backlight':'soft','twilight':'soft','iridescent-peach':'soft'}[id]||'glass');r.dataset.finish=({'sunset-citrus':'chrome','night-secret':'liquid','backlight':'soft','glitter':'crystal','twilight':'frost','fresh-sky':'chrome','pastel-lagoon':'soft','crystal-shower':'ice','iridescent-lavender':'frost','iridescent-ocean':'crystal','iridescent-peach':'soft','iridescent-mint':'soft','iridescent-midnight':'liquid'}[id]||'frost');['--bg-primary','--bg-secondary','--accent-color','--accent-secondary','--text-main'].forEach((k,i)=>r.style.setProperty(k,t[i]));r.style.setProperty('--border-color',t[2]+'33')})();
 </script>
 
-<link rel="manifest" href="./manifest.webmanifest?v=1.52">
+<link rel="manifest" href="./manifest.webmanifest?v=1.56">
 <meta name="theme-color" content="#0D1A2F">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="My Closet">
 </head>
-<body class="min-h-screen pb-24 pt-16"><div class="app-version">ver.1.54</div>
+<body class="min-h-screen pb-24 pt-16"><div class="app-version">ver.1.56</div>
 <header class="fixed top-0 left-0 right-0 z-40 px-4 py-3 flex justify-between items-center backdrop-blur-md border-b border-white/10" style="background:var(--bg-primary)">
 <div class="flex items-center gap-2"><i class="fa-solid fa-shirt text-xl theme-accent-text"></i><h1 id="app-title" class="font-bold text-lg">My Closet</h1></div>
 <div class="header-actions flex gap-2"><button type="button" onclick="openFavorites()" aria-label="保存したコーデ" title="保存したコーデ" class="header-action-fav w-9 h-9 rounded-full theme-card-bg text-rose-400"><i class="fa-solid fa-heart"></i></button><button type="button" onclick="openTheme()" aria-label="テーマ" title="テーマ" class="header-action-theme px-3 py-1.5 rounded-full theme-card-bg text-xs"><i class="fa-solid fa-palette theme-accent-text mr-1"></i>テーマ</button></div>
@@ -1294,22 +1360,24 @@ function selectionHtml(clothes){
           <span class="text-[9px] opacity-50">← スワイプ →</span>
         </div>
         <div class="choice-row" data-scroll-key="category:${cat.id}">
-          ${items.map(i=>`
+          ${items.map(i=>{
+            const selectedOnDays=[0,1,2].filter(d=>d!==dayOffset&&Object.values(getSelectionForDay(d)).some(v=>selArray(v).some(id=>String(id)===String(i.id))));
+            return `
             <button
               type="button"
               onclick="toggleSelect('${cat.id}','${i.id}')"
               class="choice-card ${selected.some(selectedId=>String(selectedId)===String(i.id))?'selected':''}" aria-pressed="${selected.some(selectedId=>String(selectedId)===String(i.id))}"
             >
-              <div class="aspect-square rounded-xl overflow-hidden bg-black/20">
+              <div class="choice-card-photo aspect-square rounded-xl overflow-hidden bg-black/20">
                 ${i.image
                   ? `<img src="${i.image}" alt="${esc(i.name)}" class="w-full h-full object-cover">`
                   : `<div class="h-full flex items-center justify-center text-xs opacity-30">No Image</div>`
                 }
               </div>
-              <div class="text-[10px] font-bold truncate mt-1.5">${esc(i.name)}</div>
-              ${[0,1,2].filter(d=>d!==dayOffset&&Object.values(getSelectionForDay(d)).some(v=>selArray(v).some(id=>String(id)===String(i.id)))).map(d=>`<div class="mt-1"><span class="status-pill inline-block rounded-full px-1.5 py-0.5 text-[9px]">${dayLabel(d)}のコーデで選択中</span></div>`).join('')}
-            </button>
-          `).join('')}
+              <div class="choice-card-name">${esc(i.name)}</div>
+              <div class="choice-card-other-days">${selectedOnDays.length?`<span class="status-pill">${selectedOnDays.map(dayLabel).join('・')}のコーデで選択中</span>`:''}</div>
+            </button>`;
+          }).join('')}
         </div>
       </section>`;
     }).join('')}
@@ -2019,7 +2087,7 @@ window.addEventListener('DOMContentLoaded', updateAppTitle);
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=1.52').catch(err => {
+    navigator.serviceWorker.register('./sw.js?v=1.56').catch(err => {
       console.warn('My Closet service worker registration failed:', err);
     });
   });

@@ -1,8 +1,8 @@
-const CACHE_NAME = 'my-closet-v1.54-hanger-stem';
+const CACHE_NAME = 'my-closet-v1.56-fixed-selection-cards';
 const APP_SHELL = [
   './',
   './index.html',
-  './manifest.webmanifest?v=1.54',
+  './manifest.webmanifest?v=1.56',
   './icon-192.svg',
   './icon-512.svg'
 ];
